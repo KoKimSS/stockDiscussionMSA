@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/poster")
+@RequestMapping("/api/activity")
 @RequiredArgsConstructor
 public class PosterController {
 

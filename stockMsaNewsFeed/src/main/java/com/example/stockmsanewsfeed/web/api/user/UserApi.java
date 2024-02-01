@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "user", url = "http://localhost:8081/api/user")
 public interface UserApi {
-
     @PostMapping(path = "/find-by-id")
     GetUserResponseDto getUserById(@RequestBody GetUserRequestDto dto);
 

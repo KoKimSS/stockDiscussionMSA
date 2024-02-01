@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/reply")
+@RequestMapping("/api/activity")
 @RequiredArgsConstructor
 public class ReplyController {
 

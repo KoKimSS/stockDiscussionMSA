@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/likes")
+@RequestMapping("/api/activity")
 @RequiredArgsConstructor
 public class LikesController {
 

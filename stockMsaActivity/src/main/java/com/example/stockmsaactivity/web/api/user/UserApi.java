@@ -14,6 +14,6 @@ public interface UserApi {
     @PostMapping(path = "/find-by-id")
     GetUserResponseDto getUserById(@RequestBody GetUserRequestDto dto);
 
-    @PostMapping("/")
+    @PostMapping("/get-my-follower")
     GetMyFollowersResponseDto getMyFollower(GetMyFollowersRequestDto dto);
 }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ActivityApi {
-
     public PosterDto getPoster(GetPosterRequestDto dto){
         return null;
     }
