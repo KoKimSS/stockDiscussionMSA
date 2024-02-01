@@ -1,0 +1,4 @@
+# .gitignore
+
+# Ignore env.properties file
+env.properties
