@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: user
+  profiles:
+    include:
+      - database
+    active: main
+  config:
+    import: optional:configserver:http://admin:1234@localhost:9000
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail.username}
+    password: ${mail.password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout : 5000 # Socket Read Timeout 시간(ms) (기본값 : 무한대)
+          starttls :
+            enable : true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      timeout: 10
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone : http://admin:1234@localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+server:
+  port: ${server.port}

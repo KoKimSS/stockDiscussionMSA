@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: newsFeed
+  profiles:
+    include:
+      - database
+    active: main
+  config:
+    import: optional:configserver:http://admin:1234@localhost:9000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone : http://admin:1234@localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+server:
+  port: ${server.port}
