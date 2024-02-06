@@ -2,3 +2,4 @@
 
 # Ignore env.properties file
 env.properties
+.env

@@ -1,0 +1,10 @@
+[[start-follow]]
+=== 팔로우 하기
+
+==== HTTP Request
+include::{snippets}/start-follow/http-request.adoc[]
+include::{snippets}/start-follow/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/start-follow/http-response.adoc[]
+include::{snippets}/start-follow/response-fields.adoc[]

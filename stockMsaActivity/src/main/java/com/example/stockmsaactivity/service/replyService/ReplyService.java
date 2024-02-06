@@ -12,8 +12,5 @@ import org.springframework.http.ResponseEntity;
 public interface ReplyService {
     ResponseEntity<? super CreateReplyResponseDto> createReply(CreateReplyRequestDto dto);
     ResponseEntity<? super GetReplyResponseDto> getReply(GetReplyRequestDto dto);
-
     ResponseEntity<? super GetRepliesByPosterIdResponseDto> getRepliesByPoster(GetRepliesByPosterIdRequestDto dto);
-
-
 }

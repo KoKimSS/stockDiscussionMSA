@@ -1,0 +1,10 @@
+[[email-certification]]
+=== 이메일 인증 번호 생성
+
+==== HTTP Request
+include::{snippets}/email-certification/http-request.adoc[]
+include::{snippets}/email-certification/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/email-certification/http-response.adoc[]
+include::{snippets}/email-certification/response-fields.adoc[]

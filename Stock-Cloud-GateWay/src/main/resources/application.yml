@@ -14,12 +14,16 @@ spring:
   cloud:
     gateway:
         routes:
-          - id: ms1
-#            uri: http://localhost:8081
-            uri: lb://MS
+          - id: user
+            uri: http://localhost:8081
+#            uri: lb://MS
             predicates:
-              - Path=/api/home/**
-#          - id: ms2
-#            uri: http://localhost:8082
-#            predicates:
-#              - Path=/api/user/**
+              - Path=/api/user/**
+          - id: activity
+            uri: http://localhost:8082
+            predicates:
+              - Path=/api/activity/**
+          - id: newsFeed
+            uri: http://localhost:8083
+            predicates:
+              - Path=/api/newsFeed/**

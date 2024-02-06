@@ -25,7 +25,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserJpaRepository userJpaRepository;
-
     @Override
     @Transactional
     public ResponseEntity<? super UpdatePasswordResponseDto> updatePassword(UpdatePasswordRequestDto dto) {
@@ -53,11 +52,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResponseEntity<? super UpdateProfileResponseDto> updateProfile(UpdateProfileRequestDto dto) {
         Long requestUserId = dto.getUserId();
-
-        Long loginId = JwtUtil.findUserFromAuth().getId();
-        if (loginId != requestUserId) {
-            return UpdateProfileResponseDto.validationFail();
-        }
 
         try {
             Optional<User> userById = userJpaRepository.findById(requestUserId);

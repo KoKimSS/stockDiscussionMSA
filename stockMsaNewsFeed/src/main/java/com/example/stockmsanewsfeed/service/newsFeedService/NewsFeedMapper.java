@@ -28,10 +28,14 @@ public class NewsFeedMapper {
 
         UserDto userDto = userApi.getUserById(GetUserRequestDto.builder().userId(userId).build()).getUserDto();
         UserDto activityUserDto = userApi.getUserById(GetUserRequestDto.builder().userId(activityUserId).build()).getUserDto();
-        UserDto relatedUserDto = userApi.getUserById(GetUserRequestDto.builder().userId(relatedUserId).build()).getUserDto();
-
-        PosterDto posterDto = activityApi.getPoster(GetPosterRequestDto.builder().posterId(relatedPosterId).build());
-
+        UserDto relatedUserDto = null;
+        if(relatedUserId!=null) {
+            relatedUserDto = userApi.getUserById(GetUserRequestDto.builder().userId(relatedUserId).build()).getUserDto();
+        }
+        PosterDto posterDto=null;
+        if(relatedPosterId!=null) {
+            posterDto = activityApi.getPoster(GetPosterRequestDto.builder().posterId(relatedPosterId).build());
+        }
         NewsFeedDto dto = NewsFeedDto.builder()
                 .userId(userId)
                 .userName(userDto.getName())
@@ -45,5 +49,4 @@ public class NewsFeedMapper {
         System.out.println(dto.getMessage());
         return dto;
     }
-
 }

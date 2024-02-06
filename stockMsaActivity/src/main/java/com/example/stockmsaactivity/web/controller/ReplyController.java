@@ -11,7 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import static com.example.stockmsaactivity.config.jwt.JwtProperties.HEADER_STRING;
+import static com.example.stockmsaactivity.config.jwt.JwtUtil.getTokenFromHeader;
+import static com.example.stockmsaactivity.config.jwt.JwtUtil.getUserIdFromToken;
 
 @RestController
 @RequestMapping("/api/activity")
@@ -22,39 +27,28 @@ public class ReplyController {
 
     @PostMapping("/create-reply")
     ResponseEntity<?super CreateReplyResponseDto> createReply(
-//            @AuthenticationPrincipal PrincipalDetails principalDetails,
-            @Valid @RequestBody CreateReplyRequestDto requestBody
+            @Valid @RequestBody CreateReplyRequestDto requestBody,
+            HttpServletRequest request
     ){
-//        Long loginId = principalDetails.getUser().getId();
-//        Long userId = requestBody.getUserId();
-//        if(loginId!= userId) return ApiResponseDto.certificationFail();
-
+        String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
+        Long loginId = getUserIdFromToken(jwtToken);
+        Long userId = requestBody.getUserId();
         ResponseEntity<? super CreateReplyResponseDto> response = replyService.createReply(requestBody);
         return response;
     }
 
     @PostMapping("/get-reply")
     ResponseEntity<?super GetReplyResponseDto> getReply(
-//            @AuthenticationPrincipal PrincipalDetails principalDetails,
             @Valid @RequestBody GetReplyRequestDto requestBody
     ){
-//        Long loginId = principalDetails.getUser().getId();
-//        Long userId = requestBody.getUserId();
-//        if(loginId!= userId) return ApiResponseDto.certificationFail();
-
         ResponseEntity<? super GetReplyResponseDto> response = replyService.getReply(requestBody);
         return response;
     }
 
     @PostMapping("/get-replies-by-poster")
     ResponseEntity<?super GetRepliesByPosterIdResponseDto> getRepliesByPosterId(
-//            @AuthenticationPrincipal PrincipalDetails principalDetails,
             @Valid @RequestBody GetRepliesByPosterIdRequestDto requestBody
     ){
-//        Long loginId = principalDetails.getUser().getId();
-//        Long userId = requestBody.getUserId();
-//        if(loginId!= userId) return ApiResponseDto.certificationFail();
-
         ResponseEntity<? super GetRepliesByPosterIdResponseDto> response = replyService.getRepliesByPoster(requestBody);
         return response;
     }

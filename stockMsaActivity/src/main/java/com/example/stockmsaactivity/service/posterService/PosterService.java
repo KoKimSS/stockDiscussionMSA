@@ -16,5 +16,4 @@ public interface PosterService {
     ResponseEntity<? super GetMyPosterResponseDto> getMyPoster(GetMyPosterRequestDto dto);
     ResponseEntity<? super GetPosterResponseDto> getPoster(GetPosterRequestDto dto);
     ResponseEntity<? super GetPostersByIdListResponseDto> getPosterByIdList(GetPostersByIdListRequestDto dto);
-
 }

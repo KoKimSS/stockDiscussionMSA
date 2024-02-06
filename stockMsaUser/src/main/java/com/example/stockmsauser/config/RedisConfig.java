@@ -45,6 +45,7 @@ public class RedisConfig{
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         redisTemplate.afterPropertiesSet();
+        System.out.println("레디스 템플릿 등록");
         return redisTemplate;
     }
 }

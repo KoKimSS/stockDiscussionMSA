@@ -33,7 +33,6 @@ public class LikesServiceImpl implements LikesService{
     private final LikesJpaRepository likesJpaRepository;
     private final PosterJpaRepository posterJpaRepository;
     private final ReplyJpaRepository replyJpaRepository;
-    private final UserApi userApi;
     private final NewsFeedApi newsFeedApi;
     private final RedisTemplate<String, String> redisTemplate; // Inject RedisTemplate
 

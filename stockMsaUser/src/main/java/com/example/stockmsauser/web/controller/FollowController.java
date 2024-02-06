@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import static com.example.stockmsauser.config.jwt.JwtProperties.HEADER_STRING;
+import static com.example.stockmsauser.config.jwt.JwtUtil.getTokenFromHeader;
+import static com.example.stockmsauser.config.jwt.JwtUtil.getUserIdFromToken;
 
 @RestController
 @RequestMapping("/api/user")
@@ -26,9 +31,10 @@ public class FollowController {
     @PostMapping("/start-follow")
     ResponseEntity<? super StartFollowResponseDto> startFollow(
             @RequestBody @Valid StartFollowRequestDto requestBody,
-            @AuthenticationPrincipal PrincipalDetails principalDetails
+            HttpServletRequest request
     ) {
-        Long loginId = principalDetails.getUser().getId();
+        String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
+        Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getFollowerId();
         if (loginId != userId) return StartFollowResponseDto.certificationFail();
 
@@ -38,8 +44,11 @@ public class FollowController {
 
     @PostMapping("/get-my-follower")
     ResponseEntity<? super GetMyFollowersResponseDto> getMyFollower(
-            @RequestBody @Valid GetMyFollowersRequestDto requestBody
+            @RequestBody @Valid GetMyFollowersRequestDto requestBody,
+            HttpServletRequest request
     ){
+        String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
+        Long loginId = getUserIdFromToken(jwtToken);
         ResponseEntity<? super GetMyFollowersResponseDto> response = followService.getMyFollower(requestBody);
         return response;
     }

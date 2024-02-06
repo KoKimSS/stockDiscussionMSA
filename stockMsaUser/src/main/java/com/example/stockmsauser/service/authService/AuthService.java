@@ -12,6 +12,8 @@ import com.example.stockmsauser.web.dto.response.auth.EmailCheckResponseDto;
 import com.example.stockmsauser.web.dto.response.auth.SignUpResponseDto;
 import org.springframework.http.ResponseEntity;
 
+import javax.transaction.Transactional;
+
 public interface AuthService {
     ResponseEntity<? super EmailCheckResponseDto> emailCheck(EmailCheckRequestDto dto);
 
@@ -22,4 +24,7 @@ public interface AuthService {
     ResponseEntity<? super SignUpResponseDto> singUp(SignUpRequestDto dto);
 
     ResponseEntity<? super ResponseDto> logOut(String token);
+
+    @Transactional
+    void addJwtTokenToBlackListRedis(String token, long expirationMillis);
 }

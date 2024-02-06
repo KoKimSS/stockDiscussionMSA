@@ -1,6 +1,7 @@
 package com.example.stockmsanewsfeed.web.api.dto.response.user;
 
 import com.example.stockmsanewsfeed.web.api.dto.response.ApiResponseDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,4 +11,11 @@ public class GetUserResponseDto extends ApiResponseDto {
     String code;
     String message;
     UserDto userDto;
+
+    @Builder
+    private GetUserResponseDto(String code, String message, UserDto userDto) {
+        this.code = code;
+        this.message = message;
+        this.userDto = userDto;
+    }
 }

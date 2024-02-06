@@ -1,0 +1,10 @@
+[[create-reply]]
+=== 댓글 달기
+
+==== HTTP Request
+include::{snippets}/create-reply/http-request.adoc[]
+include::{snippets}/create-reply/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/create-reply/http-response.adoc[]
+include::{snippets}/create-reply/response-fields.adoc[]

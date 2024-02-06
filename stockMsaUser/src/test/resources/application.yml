@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: user
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MySQL
+    username: SA
+    password:
+  config:
+    import: "optional:configserver:"
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail.username}
+    password: ${mail.password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout : 5000 # Socket Read Timeout 시간(ms) (기본값 : 무한대)
+          starttls :
+            enable : true
+  cloud:
+    discovery:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  redis:
+    host: localhost
+    port: 16379
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+server:
+  port: 8080

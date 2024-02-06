@@ -1,0 +1,10 @@
+[[create-likes]]
+=== 좋아요 기능
+
+==== HTTP Request
+include::{snippets}/create-likes/http-request.adoc[]
+include::{snippets}/create-likes/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/create-likes/http-response.adoc[]
+include::{snippets}/create-likes/response-fields.adoc[]

@@ -13,7 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import static com.example.stockmsauser.config.jwt.JwtProperties.HEADER_STRING;
+import static com.example.stockmsauser.config.jwt.JwtUtil.getTokenFromHeader;
+import static com.example.stockmsauser.config.jwt.JwtUtil.getUserIdFromToken;
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,11 +28,13 @@ public class UserController {
 
     @PostMapping("/update-password")
     ResponseEntity<? super UpdatePasswordResponseDto> updatePassword(
-            @AuthenticationPrincipal PrincipalDetails principalDetails,
-            @RequestBody@Valid UpdatePasswordRequestDto requestBody
-    ) {
-        Long loginId = principalDetails.getUser().getId();
+            @RequestBody@Valid UpdatePasswordRequestDto requestBody,
+            HttpServletRequest request
+    ){
+        String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
+        Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getUserId();
+        System.out.println(loginId+" "+userId);
         if (loginId != userId) return UpdatePasswordResponseDto.certificationFail();
 
         ResponseEntity<? super UpdatePasswordResponseDto> response = userService.updatePassword(requestBody);
@@ -36,8 +43,13 @@ public class UserController {
 
     @PostMapping("/update-profile")
     ResponseEntity<? super UpdateProfileResponseDto> updateProfile(
-            @RequestBody@Valid UpdateProfileRequestDto requestBody
-    ) {
+            @RequestBody@Valid UpdateProfileRequestDto requestBody,
+            HttpServletRequest request
+    ){
+        String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
+        Long loginId = getUserIdFromToken(jwtToken);
+        Long userId = requestBody.getUserId();
+
         ResponseEntity<? super UpdateProfileResponseDto> response = userService.updateProfile(requestBody);
         return response;
     }
@@ -45,9 +57,8 @@ public class UserController {
     @PostMapping("/find-by-id")
     ResponseEntity<? super GetUserResponseDto> findById(
             @RequestBody@Valid GetUserRequestDto requestBody
-    ) {
+    ){
         ResponseEntity<? super GetUserResponseDto> response = userService.findById(requestBody);
         return response;
     }
-
 }

@@ -29,3 +29,20 @@ eureka:
 
 server:
   port: ${server.port}
+
+resilience4j:
+  circuit breaker:
+    configs:
+      default:
+        failureRateThreshold: 10
+        slowCallRateThreshold: 10
+        slowCallDurationThreshold: 3000
+        permittedNumberOfCallsInHalfOpenState: 3
+        maxWaitDurationInHalfOpenState: 3000
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 10000
+    instances:
+      customCircuitBreaker:
+        baseConfig: default

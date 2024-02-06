@@ -91,6 +91,8 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             GetMyFollowersRequestDto getMyFollowersRequestDto = GetMyFollowersRequestDto.builder().userId(userId).build();
 
             List<FollowerDto> followerList = userApi.getMyFollower(getMyFollowersRequestDto).getFollowerList();
+            followerList.forEach(followerDto -> System.out.println(followerDto.getFollowerId()+" "+followerDto.getFollowerName()));
+
             List<NewsFeed> newsFeedList = createFollowersNewsFeedList(userId, followersNewsFeedType, followerList, relatedPosterId, relatedUserId);
 
             //내가 한 활동의 관련된 사람 뉴스피드 추가 ( POST 인 경우 관련유저 없음)
@@ -121,8 +123,8 @@ public class NewsFeedServiceImpl implements NewsFeedService {
                 .map(followerDto -> {
                     return NewsFeed.builder()
                             .newsFeedType(newsFeedType)
-                            .userId(userId)
-                            .activityUserId(followerDto.getFollowerId())
+                            .userId(followerDto.getFollowerId())
+                            .activityUserId(userId)
                             .relatedPosterId(posterId)
                             .relatedUserId(relatedUserId)
                             .build();

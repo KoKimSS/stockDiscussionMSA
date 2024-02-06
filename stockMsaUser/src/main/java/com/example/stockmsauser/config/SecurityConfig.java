@@ -22,7 +22,7 @@ public class SecurityConfig {
     private static final String[] userFilter = {};
     private static final String[] managerFilter = {"/manager/**"};
     private static final String[] adminFilter = {"/admin/**"};
-    private final String loginURL = "/api/auth/log-in";
+    private final String loginURL = "/api/user/log-in";
     private final UserJpaRepository userJpaRepository;
     private final JwtBlackListJpaRepository jwtBlackListJpaRepository;
     private final CorsConfig corsConfig;

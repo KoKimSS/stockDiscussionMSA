@@ -1,0 +1,10 @@
+[[check-certification]]
+=== 인증번호 확인
+
+==== HTTP Request
+include::{snippets}/check-certification/http-request.adoc[]
+include::{snippets}/check-certification/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/check-certification/http-response.adoc[]
+include::{snippets}/check-certification/response-fields.adoc[]

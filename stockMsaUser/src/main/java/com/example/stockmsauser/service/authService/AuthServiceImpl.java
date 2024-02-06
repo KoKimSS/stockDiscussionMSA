@@ -3,6 +3,7 @@ package com.example.stockmsauser.service.authService;
 
 import com.example.stockmsauser.common.ResponseCode;
 import com.example.stockmsauser.common.ResponseMessage;
+import com.example.stockmsauser.config.jwt.JwtUtil;
 import com.example.stockmsauser.domain.certification.Certification;
 import com.example.stockmsauser.domain.jwtBlackList.JwtBlackList;
 import com.example.stockmsauser.domain.user.User;
@@ -20,14 +21,18 @@ import com.example.stockmsauser.web.dto.response.auth.EmailCertificationResponse
 import com.example.stockmsauser.web.dto.response.auth.EmailCheckResponseDto;
 import com.example.stockmsauser.web.dto.response.auth.SignUpResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +42,9 @@ public class AuthServiceImpl implements AuthService{
     private final EmailProvider emailProvider;
     private final CertificationJpaRepository certificationJpaRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JwtBlackListJpaRepository jwtBlackListJpaRepository;
+    private final RedisTemplate<String, String> redisTemplate;
     public static final int TimeValid = 2;
+    public static final String REDIS_BLACKLIST_KEY = "jwt-blacklist:";
     @Override
     public ResponseEntity<? super EmailCheckResponseDto> emailCheck(EmailCheckRequestDto dto) {
         try {
@@ -141,16 +147,21 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public ResponseEntity<? super ResponseDto> logOut(String token) {
-        boolean existsByToken = jwtBlackListJpaRepository.existsByToken(token);
 
-        if (existsByToken) {
-            return ResponseDto.certificationFail();
+        Date expirationDate = JwtUtil.getExpirationDateFromToken(token);
+        if (expirationDate != null) {
+            long expirationMillis = Math.max(0, expirationDate.getTime() - System.currentTimeMillis());
+            addJwtTokenToBlackListRedis(token, expirationMillis);
         }
-
-        JwtBlackList jwtBlackList = JwtBlackList.builder().token(token).build();
-        jwtBlackListJpaRepository.save(jwtBlackList);
-
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS));
+    }
+
+    @Transactional
+    @Override
+    public void addJwtTokenToBlackListRedis(String token, long expirationMillis) {
+        String key = REDIS_BLACKLIST_KEY + token;
+        System.out.println("Redis 호출");
+        redisTemplate.opsForValue().set(key, "blacklisted", expirationMillis, TimeUnit.MILLISECONDS);
     }
 
     private static boolean isDtoMatchCertification(String email, String certificationNumber, Certification certification) {

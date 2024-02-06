@@ -1,0 +1,10 @@
+[[email-check]]
+=== 이메일 확인
+
+==== HTTP Request
+include::{snippets}/email-check/http-request.adoc[]
+include::{snippets}/email-check/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/email-check/http-response.adoc[]
+include::{snippets}/email-check/response-fields.adoc[]

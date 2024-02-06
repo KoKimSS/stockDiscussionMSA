@@ -29,10 +29,17 @@ dependencies {
     //spring-cloud
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    //springboot
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 
     //lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    //jwt
+    implementation 'com.auth0:java-jwt:4.4.0'
 
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
