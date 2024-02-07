@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  logging:
+    level:
+      org.hibernate.SQL: debug
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 994499
+    driver-class-name: com.mysql.cj.jdbc.Driver
