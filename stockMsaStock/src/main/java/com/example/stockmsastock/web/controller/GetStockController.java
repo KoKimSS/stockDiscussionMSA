@@ -1,17 +1,21 @@
 package com.example.stockmsastock.web.controller;
 
 import com.example.stockmsastock.domain.stock.Stock;
+import com.example.stockmsastock.repository.StockRepository;
+import com.example.stockmsastock.repository.StockRepositoryCustom;
 import com.example.stockmsastock.service.StockInfoService;
+import com.example.stockmsastock.web.dto.request.GetStockBySortRequestDto;
 import com.example.stockmsastock.web.dto.request.GetStockInfoRequestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
 
@@ -25,6 +29,19 @@ public class GetStockController {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final StockInfoService stockInfoService;
+    private final StockRepository stockRepository;
+
+
+
+    @PostMapping("/stocks")
+    public ResponseEntity<Page<Stock>> getAllStocksOrderedBy(@RequestBody GetStockBySortRequestDto stockRequest, Pageable pageable) {
+        Page<Stock> stocks = stockRepository.findAllOrderedBy(
+                stockRequest.getSortBy(),
+                stockRequest.getSortOrder(),
+                pageable
+        );
+        return ResponseEntity.ok().body(stocks);
+    }
 
     @GetMapping("/get-stock-infos1")
     ResponseEntity getStockInfos1() throws JsonProcessingException, MalformedURLException {

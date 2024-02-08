@@ -112,10 +112,6 @@ public class StockInfoService {
         //전날의 정보는 모두 지운다.
         stockJpaRepository.deleteAllInBatch();
 
-//        Flux<Stock> stockFlux = fetchStockDataPerPage(KOSDAQ_URL2, 2);
-//        List<Stock> stocks = stockFlux.collectList().block();
-//        System.out.println(stocks);
-
         Flux<Stock> kosdaqStocks = fetchStockData2(KOSDAQ_URL2);
         Flux<Stock> kospiStocks = fetchStockData2(KOSPI_URL2);
         Flux<Stock> mergedFlux = Flux.merge(

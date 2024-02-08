@@ -14,9 +14,8 @@ public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String itemCode; //종목 코드
-    private String stockName; //종목 코드
+    private String stockName; //종목 이름
     private String category; // 시장 구분 (KOSPI/KOSDAQ/KONEX 등)
 
     @Builder
