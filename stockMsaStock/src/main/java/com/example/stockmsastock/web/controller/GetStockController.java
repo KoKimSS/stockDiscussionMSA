@@ -3,6 +3,7 @@ package com.example.stockmsastock.web.controller;
 import com.example.stockmsastock.domain.stock.Stock;
 import com.example.stockmsastock.repository.StockRepository;
 import com.example.stockmsastock.repository.StockRepositoryCustom;
+import com.example.stockmsastock.service.StockCandleService;
 import com.example.stockmsastock.service.StockInfoService;
 import com.example.stockmsastock.web.dto.request.GetStockBySortRequestDto;
 import com.example.stockmsastock.web.dto.request.GetStockInfoRequestDto;
@@ -30,8 +31,12 @@ public class GetStockController {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final StockInfoService stockInfoService;
     private final StockRepository stockRepository;
-
-
+    private final StockCandleService stockCandleService;
+    @GetMapping("/get-stock-candle")
+    ResponseEntity getStockCandle() throws JsonProcessingException, MalformedURLException {
+        List<Stock> stocks = stockInfoService.getStockInfo();
+        return ResponseEntity.status(HttpStatus.OK).body(stocks);
+    }
 
     @PostMapping("/stocks")
     public ResponseEntity<Page<Stock>> getAllStocksOrderedBy(@RequestBody GetStockBySortRequestDto stockRequest, Pageable pageable) {

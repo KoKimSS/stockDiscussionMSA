@@ -5,20 +5,20 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        transaction:
+          jta.platform : org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform
   datasource:
     url: jdbc:mysql://localhost:3307/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
     username: root
     password: 994499
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  batch:
+    job:
+      enabled: true
   logging:
     level:
       org.hibernate.SQL: debug
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
 
 logging:
   level:
