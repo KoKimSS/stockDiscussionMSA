@@ -5,15 +5,21 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    show-sql: true
   datasource:
-    url: jdbc:mysql://localhost:3307/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
+    url: jdbc:mysql://localhost:3307/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true&profileSQL=true
     username: root
     password: 994499
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 50 #최대 pool 크기
+      minimum-idle: 20 #최소 pool 크기
+      idle-timeout: 600000 #연결위한 최대 유후 시간
+      max-lifetime: 1800000 #반납된 커넥션의 최대 수명
 
-  logging:
-    level:
-      org.hibernate.SQL: debug
+#  logging:
+#    level:
+#      org.hibernate.SQL: debug
 
   data:
     redis:
@@ -24,5 +30,6 @@ logging:
   level:
     org:
       springframework:
-        jdbc:
-          core: DEBUG
+#        jdbc:
+#          core: DEBUG
+    root: DEBUG

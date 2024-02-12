@@ -18,10 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +32,7 @@ public class StockCandleService {
                 .map(Stock::getItemCode).toList();
 
         // 쓰레드 풀 생성
-        ExecutorService executor = Executors.newFixedThreadPool(10); // 여기서는 최대 10개의 스레드로 설정
+        ExecutorService executor = Executors.newFixedThreadPool(20); // 여기서는 최대 10개의 스레드로 설정
 
         // Future 리스트 생성
         List<Future<List<StockCandle>>> futures = new ArrayList<>();
@@ -47,10 +44,20 @@ public class StockCandleService {
             futures.add(future);
         }
 
-        // 모든 Future에서 결과를 얻어서 데이터베이스에 추가
-        for(Future<List<StockCandle>> future : futures){
-            List<StockCandle> stockCandles = future.get(); // 결과 가져오기 (블록킹)
-            stockCandleJdbcRepository.batchInsertStocks(stockCandles);
+
+        // 각 Future가 완료될 때마다 결과를 데이터베이스에 즉시 삽입
+        for (Future<List<StockCandle>> future : futures) {
+            executor.submit(() -> {
+                try {
+                    List<StockCandle> stockCandles = future.get(); // 결과 가져오기 (블록킹)
+                    System.out.println("스톡사이즈 = " + stockCandles.size());
+                    stockCandleJdbcRepository.batchInsertStocks(stockCandles); // 데이터베이스에 추가
+                    long costTime = ApplicationStartup.startTime - System.currentTimeMillis();
+                    System.out.println("수행시간"+costTime);
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace(); // 예외 처리
+                }
+            });
         }
     }
 
