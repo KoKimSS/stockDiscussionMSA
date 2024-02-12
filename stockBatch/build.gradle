@@ -35,8 +35,7 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     //json
-    implementation 'org.json:json'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 
     //test
     testCompileOnly 'org.projectlombok:lombok'

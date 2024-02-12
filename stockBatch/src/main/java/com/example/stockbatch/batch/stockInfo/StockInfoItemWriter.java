@@ -1,5 +1,6 @@
 package com.example.stockbatch.batch.stockInfo;
 
+import com.example.stockbatch.domain.Stock;
 import com.example.stockbatch.domain.StockCandle;
 import com.example.stockbatch.repository.StockJdbcRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +17,16 @@ import java.util.List;
 @StepScope
 @Slf4j
 @RequiredArgsConstructor
-public class StockInfoItemWriter implements ItemWriter<List<StockCandle>> {
+public class StockInfoItemWriter implements ItemWriter<List<Stock>> {
 
     private final StockJdbcRepository stockJdbcRepository;
 
     @Override
-    public void write(Chunk<? extends List<StockCandle>> chunk) throws Exception {
+    public void write(Chunk<? extends List<Stock>> chunk) throws Exception {
         log.info("라이터 수행");
-        List<? extends List<StockCandle>> items = chunk.getItems();
-        List<StockCandle> list = new ArrayList<>();
-        items.forEach(i->list.addAll(i));
-        log.info("리스트 사이즈={}",list.size());
-        stockJdbcRepository.batchInsertStockCandles(list);
+        chunk.getItems().forEach(stocks -> {
+            log.info("스톡 사이즈 {}",stocks.size());
+            stockJdbcRepository.batchInsertStocks(stocks);
+        });
     }
 }

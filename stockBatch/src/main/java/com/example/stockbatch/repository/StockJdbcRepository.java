@@ -46,7 +46,8 @@ public class StockJdbcRepository {
 
     public void batchInsertStocks(List<Stock> stocks) {
         String sql = "INSERT INTO stock "
-                + "(stock_name, item_code, category) VALUES (?, ?, ?)";
+                + "(stock_name, item_code, category, accumulated_trading_volume, accumulated_trading_value, fluctuations_ratio) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql,
                 new BatchPreparedStatementSetter() {
@@ -56,6 +57,9 @@ public class StockJdbcRepository {
                         ps.setString(1, stock.getStockName());
                         ps.setString(2, stock.getItemCode());
                         ps.setString(3, stock.getCategory());
+                        ps.setLong(4, stock.getAccumulatedTradingVolume());
+                        ps.setLong(5, stock.getAccumulatedTradingValue());
+                        ps.setDouble(6, stock.getFluctuationsRatio());
                     }
 
                     @Override

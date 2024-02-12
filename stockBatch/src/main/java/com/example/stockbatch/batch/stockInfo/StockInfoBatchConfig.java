@@ -1,10 +1,7 @@
 package com.example.stockbatch.batch.stockInfo;
 
 
-import com.example.stockbatch.batch.stockCandle.StockCandleItemProcessor;
-import com.example.stockbatch.batch.stockCandle.StockCandleItemWriter;
 import com.example.stockbatch.domain.Stock;
-import com.example.stockbatch.domain.StockCandle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -27,25 +24,21 @@ public class StockInfoBatchConfig {
     private final JobRepository jobRepository;
     private final PlatformTransactionManager platformTransactionManager;
     private final StockInfoItemReader stockInfoItemReader;
-    private final StockCandleItemWriter stockItemWriter;
-    private final StockCandleItemProcessor stockItemProcessor;
+    private final StockInfoItemWriter stockItemWriter;
 
     @Bean
-    public Job stockLastInfoJob() {
-        return new JobBuilder("stockLastInfo", jobRepository)
-                .incrementer(new RunIdIncrementer())
-                .start(stockLastInfoStep())
+    public Job stockInfoJob() {
+        return new JobBuilder("stockInfoJob", jobRepository)
+                .start(stockInfoStep())
                 .build();
     }
 
     @Bean
-    public Step stockLastInfoStep() {
-        return new StepBuilder("stockCandleStep", jobRepository)
-                .<Stock, List<StockCandle>>chunk(1000,platformTransactionManager)
+    public Step stockInfoStep() {
+        return new StepBuilder("stockInfoStep", jobRepository)
+                .<List<Stock>, List<Stock>>chunk(1,platformTransactionManager)
                 .reader(stockInfoItemReader)
-                .processor(stockItemProcessor)
                 .writer(stockItemWriter)
-                .taskExecutor(new SimpleAsyncTaskExecutor())
                 .build();
     }
 }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,115 +26,44 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class StockInfoService {
-    private static final String KOSDAQ_URL = "https://m.stock.naver.com/api/stocks/marketValue/KOSDAQ?page={page}&pageSize={pageSize}";
-    private static final String KOSPI_URL = "https://m.stock.naver.com/api/stocks/marketValue/KOSPI?page={page}&pageSize={pageSize}";
-    private final ObjectMapper objectMapper;
+    private static final String KOSDAQ_URL = "https://m.stock.naver.com/api/stocks/marketValue/KOSDAQ";
+    private static final String KOSPI_URL = "https://m.stock.naver.com/api/stocks/marketValue/KOSPI";
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final StockJpaRepository stockJpaRepository;
     private final StockJdbcRepository stockJdbcRepository;
     private final int maxPageSize = 100;
 
 
-    public List<Stock> getStockInfo() throws IOException {
-        long startTime = System.currentTimeMillis();
-        //전날의 정보는 모두 지운다.
-        stockJpaRepository.deleteAllInBatch();
-
-        List<Stock> kosdaqStocks = getStocksByCategory(KOSDAQ_URL);
-        stockJpaRepository.saveAll(kosdaqStocks);
-        List<Stock> kospiStocks = getStocksByCategory(KOSPI_URL);
-        stockJpaRepository.saveAll(kospiStocks);
-
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        System.out.println("실행 시간: " + duration + "밀리초");
-        return kosdaqStocks;
-    }
-
-    public List<Stock> getStockInfo2() throws JsonProcessingException, MalformedURLException {
-        long startTime = System.currentTimeMillis();
+    public List<Stock> getStockInfo() throws JsonProcessingException, MalformedURLException {
         //전날의 정보는 모두 지운다.
         stockJpaRepository.deleteAllInBatch();
 
         CompletableFuture<List<Stock>> kosdaqFuture = CompletableFuture.supplyAsync(() -> {
-            long kosdaqStartTime = System.currentTimeMillis();
             List<Stock> kosdaqStocks = null;
             try {
                 kosdaqStocks = fetchStockData(KOSDAQ_URL);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            long kosdaqEndTime = System.currentTimeMillis();
-            System.out.println("코스닥 작업 시작 시간: " + kosdaqStartTime + ", 종료 시간: " + kosdaqEndTime);
             return kosdaqStocks;
         });
 
         CompletableFuture<List<Stock>> kospiFuture = CompletableFuture.supplyAsync(() -> {
-            long kospiStartTime = System.currentTimeMillis();
             List<Stock> kospiStocks = null;
             try {
                 kospiStocks = fetchStockData(KOSPI_URL);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            long kospiEndTime = System.currentTimeMillis();
-            System.out.println("코스피 작업 시작 시간: " + kospiStartTime + ", 종료 시간: " + kospiEndTime);
             return kospiStocks;
         });
 
         List<Stock> kosdaqStocks = kosdaqFuture.join();
         List<Stock> kospiStocks = kospiFuture.join();
         kosdaqStocks.addAll(kospiStocks);
-        System.out.println("addAll");
-        stockJdbcRepository.batchInsertStocks(kosdaqStocks);
-
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        System.out.println("실행 시간: " + duration + "밀리초");
         return kosdaqStocks;
     }
 
-
-    private List<Stock> getStocksByCategory(String urlString) throws IOException {
-        List<Stock> stocks = new ArrayList<>();
-        int totalCount = getTotalCount(urlString);
-        HttpURLConnection connection = null;
-        BufferedReader reader = null;
-
-        try {
-            for (int i = 1; i <= totalCount / 100 + 1; i++) {
-                URL url = new URL(urlString + "?page=" + i + "&pageSize=" + maxPageSize);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-
-                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder responseBody = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    responseBody.append(line);
-                }
-
-                JsonNode rootNode = objectMapper.readTree(responseBody.toString());
-                JsonNode stocksNode = rootNode.get("stocks");
-                for (JsonNode stockNode : stocksNode) {
-                    Stock stock = Stock.builder()
-                            .stockName(stockNode.get("stockName").asText())
-                            .itemCode(stockNode.get("itemCode").asText())
-                            .category("KOSDAQ")
-                            .build();
-                    stocks.add(stock);
-                }
-            }
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-
-        return stocks;
-    }
 
     private List<Stock> fetchStockData(String urlString) throws IOException {
         int totalCount = getTotalCount(urlString);
@@ -150,11 +80,28 @@ public class StockInfoService {
                     HttpURLConnection connection = null;
                     BufferedReader reader = null;
 
-                    URL url = new URL(urlString + "?page=" + page + "&pageSize=" + maxPageSize);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
+                    URL url = null;
+                    try {
+                        url = new URL(urlString + "?page=" + page + "&pageSize=" + maxPageSize);
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        connection = (HttpURLConnection) url.openConnection();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        connection.setRequestMethod("GET");
+                    } catch (ProtocolException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    try {
+                        reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     StringBuilder responseBody = new StringBuilder();
                     String line;
                     while (true) {
@@ -166,13 +113,22 @@ public class StockInfoService {
                         responseBody.append(line);
                     }
 
-                    JsonNode rootNode = objectMapper.readTree(responseBody.toString());
+                    JsonNode rootNode = null;
+                    try {
+                        rootNode = objectMapper.readTree(responseBody.toString());
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
                     JsonNode stocksNode = rootNode.get("stocks");
+                    String categoryType = rootNode.get("stockListCategoryType").asText();
                     for (JsonNode stockNode : stocksNode) {
                         Stock stock = Stock.builder()
                                 .stockName(stockNode.get("stockName").asText())
                                 .itemCode(stockNode.get("itemCode").asText())
-                                .category("KOSDAQ")
+                                .category(categoryType)
+                                .accumulatedTradingValue(Long.parseLong(stockNode.get("accumulatedTradingValue").asText().replace(",", "")))
+                                .accumulatedTradingVolume(Long.parseLong(stockNode.get("accumulatedTradingVolume").asText().replace(",", "")))
+                                .fluctuationsRatio(stockNode.get("fluctuationsRatio").asDouble())
                                 .build();
                         stocks.add(stock);
                     }
