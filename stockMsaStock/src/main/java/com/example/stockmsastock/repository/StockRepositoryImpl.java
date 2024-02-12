@@ -3,6 +3,7 @@ package com.example.stockmsastock.repository;
 import com.example.stockmsastock.domain.stock.Stock;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -21,19 +22,31 @@ public class StockRepositoryImpl implements StockRepositoryCustom {
     public Page<Stock> findAllOrderedBy(String sortBy, String sortOrder, Pageable pageable) {
         BooleanExpression expression = stock.isNotNull();
 
-        OrderSpecifier<String> orderSpecifier;
-        if ("name".equalsIgnoreCase(sortBy)) {
-            orderSpecifier = getOrderSpecifier(stock.stockName, sortOrder);
-        } else {
-            orderSpecifier = getOrderSpecifier(stock.itemCode, sortOrder);
-        }
+        OrderSpecifier<Comparable<?>> orderSpecifier = getOrderSpecifier(sortBy, sortOrder);
 
         return applyPagination(pageable, expression, orderSpecifier);
     }
 
-    private OrderSpecifier<String> getOrderSpecifier(com.querydsl.core.types.Path<String> field, String sortOrder) {
+    private OrderSpecifier<Comparable<?>> getOrderSpecifier(String sortBy, String sortOrder) {
         Order order = "desc".equalsIgnoreCase(sortOrder) ? Order.DESC : Order.ASC;
-        return new OrderSpecifier<>(order, field);
+        Path<?> field = getPath(sortBy);
+        return new OrderSpecifier<>(order, (Path<Comparable<?>>) field);
+    }
+
+    private static Path<?> getPath(String sortBy) {
+        Path<?> field = null;
+        if ("name".equalsIgnoreCase(sortBy)) {
+            field = stock.stockName;
+        } else if ("code".equalsIgnoreCase(sortBy)) {
+            field = stock.itemCode;
+        } else if ("fluctuationsRatio".equalsIgnoreCase(sortBy)) {
+            field = stock.fluctuationsRatio;
+        } else if ("accumulatedTradingVolume".equalsIgnoreCase(sortBy)) {
+            field = stock.accumulatedTradingVolume;
+        } else if ("accumulatedTradingValue".equalsIgnoreCase(sortBy)) {
+            field = stock.accumulatedTradingValue;
+        }
+        return field;
     }
 
     private Page<Stock> applyPagination(Pageable pageable, BooleanExpression expression, OrderSpecifier<?>... orders) {
