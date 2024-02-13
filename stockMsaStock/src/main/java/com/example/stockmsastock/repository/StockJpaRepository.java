@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface StockJpaRepository extends JpaRepository<Stock,Long> {
-    public List<Stock> findAllByStockNameContaining(String name);
+    List<Stock> findAllByStockNameContaining(String name);
+
+    Stock findByItemCode(String itemCode);
 }

@@ -1,13 +1,7 @@
 package com.example.stockmsaactivity.service.posterService;
 
-import com.example.stockmsaactivity.web.dto.request.poster.CreatePosterRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.GetMyPosterRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.GetPosterRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.GetPostersByIdListRequestDto;
-import com.example.stockmsaactivity.web.dto.response.poster.CreatePosterResponseDto;
-import com.example.stockmsaactivity.web.dto.response.poster.GetMyPosterResponseDto;
-import com.example.stockmsaactivity.web.dto.response.poster.GetPosterResponseDto;
-import com.example.stockmsaactivity.web.dto.response.poster.GetPostersByIdListResponseDto;
+import com.example.stockmsaactivity.web.dto.request.poster.*;
+import com.example.stockmsaactivity.web.dto.response.poster.*;
 import org.springframework.http.ResponseEntity;
 
 public interface PosterService {
@@ -16,4 +10,6 @@ public interface PosterService {
     ResponseEntity<? super GetMyPosterResponseDto> getMyPoster(GetMyPosterRequestDto dto);
     ResponseEntity<? super GetPosterResponseDto> getPoster(GetPosterRequestDto dto);
     ResponseEntity<? super GetPostersByIdListResponseDto> getPosterByIdList(GetPostersByIdListRequestDto dto);
+
+    ResponseEntity<? super GetPostersByStockCodeResponseDto> getPosterByStockCode(GetPostersByStockCodeRequest dto);
 }

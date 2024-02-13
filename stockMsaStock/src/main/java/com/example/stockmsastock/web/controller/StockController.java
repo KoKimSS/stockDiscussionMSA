@@ -4,6 +4,7 @@ import com.example.stockmsastock.domain.stock.Stock;
 import com.example.stockmsastock.domain.stock.StockPrice;
 import com.example.stockmsastock.service.StockPriceInfoService;
 import com.example.stockmsastock.service.StockService;
+import com.example.stockmsastock.web.dto.request.FindByItemCodeRequestDto;
 import com.example.stockmsastock.web.dto.request.FindByNameRequestDto;
 import com.example.stockmsastock.web.dto.request.GetPriceByCodeDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/api/stock/")
 public class StockController {
 
     private final StockService stockService;
@@ -34,6 +36,15 @@ public class StockController {
     ){
         List<Stock> stocks = stockService.findByName(requestDto);
         return ResponseEntity.status(HttpStatus.OK).body(stocks);
+    }
+
+    @PostMapping
+    @RequestMapping("find-by-itemCode")
+    ResponseEntity<Stock> findByItemCode(
+            @RequestBody FindByItemCodeRequestDto requestDto
+    ){
+        Stock stock = stockService.findByItemCode(requestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(stock);
     }
 
     @PostMapping

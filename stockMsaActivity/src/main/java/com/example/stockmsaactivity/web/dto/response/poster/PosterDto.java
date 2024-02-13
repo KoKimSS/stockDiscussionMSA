@@ -13,13 +13,15 @@ public class PosterDto {
     private String contents;
     private Long ownerId;
     private int likeCount;
+    private String stockCode;
 
     @Builder
-    private PosterDto(Long posterId, String title, String contents, Long ownerId, int likeCount) {
+    private PosterDto(Long posterId, String title, String contents, Long ownerId, int likeCount, String stockCode) {
         this.posterId = posterId;
         this.title = title;
         this.contents = contents;
         this.ownerId = ownerId;
         this.likeCount = likeCount;
+        this.stockCode = stockCode;
     }
 }

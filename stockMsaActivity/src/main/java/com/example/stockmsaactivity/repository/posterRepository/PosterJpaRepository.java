@@ -1,6 +1,8 @@
 package com.example.stockmsaactivity.repository.posterRepository;
 
 import com.example.stockmsaactivity.domain.poster.Poster;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +22,6 @@ public interface PosterJpaRepository extends JpaRepository<Poster,Long> {
     List<Poster> findAllByUserId(Long userId);
 
     List<Poster> findAllByIdIn(List<Long> id);
+
+    Page<Poster> findPosterByStockCode(String stockCode, Pageable pageable);
 }

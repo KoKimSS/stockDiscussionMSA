@@ -19,10 +19,10 @@ public class Poster extends BaseTimeEntity {
     @GeneratedValue
     @Column(name = "poster_id")
     private Long id;
-
     private String title;
     private String contents;
     private Long userId;
+    private String stockCode;
     private int likeCount;
 
     @OneToMany(mappedBy = "poster", cascade = CascadeType.ALL)

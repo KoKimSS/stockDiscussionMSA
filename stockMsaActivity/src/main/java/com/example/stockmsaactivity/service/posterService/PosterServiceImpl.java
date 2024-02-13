@@ -6,13 +6,13 @@ import com.example.stockmsaactivity.repository.posterRepository.PosterJpaReposit
 import com.example.stockmsaactivity.web.api.dto.CreateNewsFeedRequestDto;
 import com.example.stockmsaactivity.web.api.newsFeed.NewsFeedApi;
 import com.example.stockmsaactivity.web.api.user.UserApi;
-import com.example.stockmsaactivity.web.dto.request.poster.CreatePosterRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.GetMyPosterRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.GetPosterRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.GetPostersByIdListRequestDto;
+import com.example.stockmsaactivity.web.dto.request.poster.*;
 import com.example.stockmsaactivity.web.dto.response.ResponseDto;
 import com.example.stockmsaactivity.web.dto.response.poster.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -104,5 +104,27 @@ public class PosterServiceImpl implements PosterService {
             ResponseDto.databaseError();
         }
         return GetPostersByIdListResponseDto.success(posterDtoList);
+    }
+
+    @Override
+    public ResponseEntity<? super GetPostersByStockCodeResponseDto> getPosterByStockCode(GetPostersByStockCodeRequest dto) {
+        Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
+        Page<Poster> posterByStockCode = null;
+        try {
+            posterByStockCode = posterJpaRepository.findPosterByStockCode(dto.getStockCode(), pageable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ResponseDto.databaseError();
+        }
+        Page<PosterDto> posterDtoByStockCode = posterByStockCode.map(poster -> PosterDto.builder()
+                .stockCode(poster.getStockCode())
+                .posterId(poster.getId())
+                .title(poster.getTitle())
+                .contents(poster.getContents())
+                .likeCount(poster.getLikeCount())
+                .ownerId(poster.getUserId()).build()
+        );
+
+        return GetPostersByStockCodeResponseDto.success(posterDtoByStockCode);
     }
 }

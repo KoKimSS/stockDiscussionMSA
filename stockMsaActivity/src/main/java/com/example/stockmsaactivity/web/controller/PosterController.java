@@ -1,15 +1,9 @@
 package com.example.stockmsaactivity.web.controller;
 
 import com.example.stockmsaactivity.service.posterService.PosterService;
-import com.example.stockmsaactivity.web.dto.request.poster.GetPostersByIdListRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.CreatePosterRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.GetMyPosterRequestDto;
-import com.example.stockmsaactivity.web.dto.request.poster.GetPosterRequestDto;
+import com.example.stockmsaactivity.web.dto.request.poster.*;
 import com.example.stockmsaactivity.web.dto.response.ResponseDto;
-import com.example.stockmsaactivity.web.dto.response.poster.CreatePosterResponseDto;
-import com.example.stockmsaactivity.web.dto.response.poster.GetMyPosterResponseDto;
-import com.example.stockmsaactivity.web.dto.response.poster.GetPosterResponseDto;
-import com.example.stockmsaactivity.web.dto.response.poster.GetPostersByIdListResponseDto;
+import com.example.stockmsaactivity.web.dto.response.poster.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +61,14 @@ public class PosterController {
             @RequestBody GetPostersByIdListRequestDto requestBody
     ) {
         ResponseEntity<? super GetPostersByIdListResponseDto> response = posterService.getPosterByIdList(requestBody);
+        return response;
+    }
+
+    @PostMapping("/get-posters-by-id-stockCode")
+    ResponseEntity<?super GetPostersByStockCodeResponseDto> getPostersByIdList(
+            @RequestBody GetPostersByStockCodeRequest requestBody
+    ) {
+        ResponseEntity<? super GetPostersByStockCodeResponseDto> response = posterService.getPosterByStockCode(requestBody);
         return response;
     }
 }
