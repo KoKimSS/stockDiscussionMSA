@@ -6,8 +6,11 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
@@ -34,7 +37,7 @@ public class StockJdbcRepository {
                         ps.setInt(4, stockCandle.getClose());
                         ps.setInt(5, stockCandle.getVolume());
                         ps.setString(6, stockCandle.getCode());
-                        ps.setString(7, stockCandle.getDate());
+                        ps.setDate(7, Date.valueOf(stockCandle.getDate()));
                     }
 
                     @Override

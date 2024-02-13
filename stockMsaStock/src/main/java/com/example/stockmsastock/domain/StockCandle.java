@@ -1,13 +1,12 @@
 package com.example.stockmsastock.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -16,8 +15,9 @@ public class StockCandle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 10)
     private String code;
-    private String date;
+    private LocalDate date;
     private int open;
     private int low;
     private int high;
@@ -25,7 +25,8 @@ public class StockCandle {
     private int volume;
 
     @Builder
-    private StockCandle(String code, String date, int open, int low, int high, int close, int volume) {
+    private StockCandle(Long id, String code, LocalDate date, int open, int low, int high, int close, int volume) {
+        this.id = id;
         this.code = code;
         this.date = date;
         this.open = open;
