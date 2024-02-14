@@ -8,7 +8,8 @@ spring:
         format_sql: true
 
   datasource:
-    url: jdbc:mysql://my-dockertest-rds.cz8muk2o6squ.ap-northeast-2.rds.amazonaws.com:3306/stock_stock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
+#    url: jdbc:mysql://my-dockertest-rds.cz8muk2o6squ.ap-northeast-2.rds.amazonaws.com:3306/stock_stock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
+    url: jdbc:mysql://mysql-container:3306/stock_stock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
     username: seungsu8848
     password: 994499jun
     driver-class-name: com.mysql.cj.jdbc.Driver
