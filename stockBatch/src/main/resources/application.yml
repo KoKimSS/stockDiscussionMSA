@@ -8,9 +8,9 @@ spring:
         format_sql: true
 
   datasource:
-    url: jdbc:mysql://localhost:3307/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true&profileSQL=true
-    username: root
-    password: 994499
+    url: jdbc:mysql://my-dockertest-rds.cz8muk2o6squ.ap-northeast-2.rds.amazonaws.com:3306/stock_stock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true&profileSQL=true
+    username: seungsu8848
+    password: 994499jun
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   batch:
