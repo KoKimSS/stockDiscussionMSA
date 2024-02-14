@@ -7,7 +7,7 @@ spring:
         format_sql: true
 
   datasource:
-    url: jdbc:mysql://172.17.0.3:3306/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true&profileSQL=true
+    url: jdbc:mysql://mysql-container:3306/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true&profileSQL=true
     username: root
     password: 994499
     driver-class-name: com.mysql.cj.jdbc.Driver
