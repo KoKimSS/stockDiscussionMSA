@@ -9,7 +9,7 @@ spring:
 
   datasource:
 #    url: jdbc:mysql://my-dockertest-rds.cz8muk2o6squ.ap-northeast-2.rds.amazonaws.com:3306/stock_stock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
-    url: jdbc:mysql://172.17.0.3:3306/stock_stock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
+    url: jdbc:mysql://172.17.0.3:3306/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
     username: root
     password: 994499
     driver-class-name: com.mysql.cj.jdbc.Driver
