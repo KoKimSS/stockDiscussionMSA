@@ -9,11 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @SpringBootApplication
 @Slf4j
 public class StockBatchApplication {
-    @Value("${spring.datasource.url}")
-    private static String message;
-    public static void main(String[] args) {
-        log.info("url은 {}",message);
 
+    public static void main(String[] args) {
         SpringApplication.run(StockBatchApplication.class, args);
     }
 }
