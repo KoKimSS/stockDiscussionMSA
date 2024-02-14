@@ -12,6 +12,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,15 +54,19 @@ public class StockCandleService {
                     int close = Integer.parseInt(data[4]);
                     int volume = Integer.parseInt(data[5]);
 
-                    stockCandles.add(StockCandle.builder()
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                    LocalDate localDate = LocalDate.parse(date, formatter);
+                    StockCandle stockCandle = StockCandle.builder()
                             .code(symbol)
-                            .date(date)
+                            .date(localDate)
                             .open(open)
                             .high(high)
                             .low(low)
                             .close(close)
                             .volume(volume)
-                            .build());
+                            .build();
+
+                    stockCandles.add(stockCandle);
                 }
             }
         }
