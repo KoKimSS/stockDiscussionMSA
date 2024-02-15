@@ -19,8 +19,8 @@ import java.util.List;
 
 @Service
 public class StockCandleService {
-    public List<StockCandle> fetchNextStockCandle(String symbol) throws Exception {
-        String urlString = "https://fchart.stock.naver.com/sise.nhn?symbol=" + symbol + "&timeframe=day&count=1000&requestType=0";
+    public List<StockCandle> fetchNextStockCandle(String symbol, int count) throws Exception {
+        String urlString = "https://fchart.stock.naver.com/sise.nhn?symbol=" + symbol + "&timeframe=day&count=" + count + "&requestType=0";
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -56,6 +56,13 @@ public class StockCandleService {
 
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
                     LocalDate localDate = LocalDate.parse(date, formatter);
+
+                    //오늘 날짜를 업데이트 하는 것이기에 아니라면 break; 후 return;
+                    if(!localDate.equals(LocalDate.now())){
+                        System.out.println("날짜 확인"+ localDate+" "+LocalDate.now());
+                        break;
+                    }
+
                     StockCandle stockCandle = StockCandle.builder()
                             .code(symbol)
                             .date(localDate)

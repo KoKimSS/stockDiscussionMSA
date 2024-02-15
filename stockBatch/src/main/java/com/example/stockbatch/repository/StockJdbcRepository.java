@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
@@ -47,6 +45,27 @@ public class StockJdbcRepository {
                 });
     }
 
+    public List<String> getStockCodesWithOverThousand() {
+        String sql = "SELECT code FROM stock_candle GROUP BY code HAVING COUNT(*) >= 1000";
+        return jdbcTemplate.queryForList(sql, String.class);
+    }
+
+    public void cleanupStockData(List<String> stockCodes) {
+        String sql = "DELETE FROM stock_candle WHERE code = ? AND id NOT IN (SELECT id FROM (SELECT id FROM stock_candle WHERE code = ? ORDER BY date DESC LIMIT 999) AS t)";
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+
+                ps.setString(1, stockCodes.get(i));
+                ps.setString(2, stockCodes.get(i));
+            }
+            @Override
+            public int getBatchSize() {
+                return stockCodes.size();
+            }
+        });
+    }
+
     public void batchInsertStocks(List<Stock> stocks) {
         String sql = "INSERT INTO stock "
                 + "(stock_name, item_code, category, accumulated_trading_volume, accumulated_trading_value, fluctuations_ratio) " +
@@ -71,7 +90,6 @@ public class StockJdbcRepository {
                     }
                 });
     }
-
 
 
 }

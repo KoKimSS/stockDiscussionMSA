@@ -1,4 +1,4 @@
-package com.example.stockbatch.batch.stockCandle;
+package com.example.stockbatch.batch.stockCandleUpdate;
 
 import com.example.stockbatch.api.StockCandleService;
 import com.example.stockbatch.domain.Stock;
@@ -13,12 +13,13 @@ import java.util.List;
 @Component
 @StepScope
 @RequiredArgsConstructor
-public class StockCandleItemProcessor implements ItemProcessor<Stock, List<StockCandle>> {
+public class StockCandleUpdateItemProcessor implements ItemProcessor<Stock, List<StockCandle>> {
 
     private final StockCandleService stockCandleService;
 
+
     @Override
     public List<StockCandle> process(Stock stock) throws Exception {
-        return stockCandleService.fetchNextStockCandle(stock.getItemCode(),1000);
+        return stockCandleService.fetchNextStockCandle(stock.getItemCode(),1);
     }
 }

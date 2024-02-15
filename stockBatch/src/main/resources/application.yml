@@ -1,4 +1,23 @@
+spring:
+  profiles:
+    active: dev # 사용할 프로파일 선택
 
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3307/stockStock_dev?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
+    username: your_username
+    password: your_password
+
+---
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://172.17.0.2:3306/stockStock_prod?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
+    username: your_username
+    password: your_password
+---
 spring:
   jpa:
     hibernate:
@@ -6,13 +25,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
-  datasource:
-#    url: jdbc:mysql://my-dockertest-rds.cz8muk2o6squ.ap-northeast-2.rds.amazonaws.com:3306/stock_stock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
-    url: jdbc:mysql://172.17.0.3:3306/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
-    username: root
-    password: 994499
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
   batch:
     job:
