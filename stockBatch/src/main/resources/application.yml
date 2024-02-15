@@ -1,22 +1,23 @@
 spring:
-  profiles:
-    active: dev # 사용할 프로파일 선택
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3307/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
+    username: root
+    password: 994499
 
 ---
 spring:
-  profiles: dev
-  datasource:
-    url: jdbc:mysql://localhost:3307/stockStock_dev?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
-    username: your_username
-    password: your_password
+  config:
+    activate:
+      on-profile: prod
 
----
-spring:
-  profiles: prod
   datasource:
-    url: jdbc:mysql://172.17.0.2:3306/stockStock_prod?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
-    username: your_username
-    password: your_password
+    url: jdbc:mysql://172.17.0.2:3306/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
+    username: root
+    password: 994499
+
 ---
 spring:
   jpa:
