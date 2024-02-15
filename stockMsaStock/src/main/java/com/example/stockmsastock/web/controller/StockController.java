@@ -7,9 +7,13 @@ import com.example.stockmsastock.service.StockService;
 import com.example.stockmsastock.web.dto.request.FindByItemCodeRequestDto;
 import com.example.stockmsastock.web.dto.request.FindByNameRequestDto;
 import com.example.stockmsastock.web.dto.request.GetPriceByCodeDto;
+import com.example.stockmsastock.web.dto.request.GetStockPageOrderByRequestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,5 +58,16 @@ public class StockController {
     ) throws MalformedURLException, JsonProcessingException {
         StockPrice stockPrice = stockPriceInfoService.getStockPrice(requestDto.getItemCode());
         return ResponseEntity.status(HttpStatus.OK).body(stockPrice);
+    }
+
+    @PostMapping
+    @RequestMapping("find-page-orderBy")
+    ResponseEntity<Page<Stock>> getPageOrderBy(
+            @RequestBody GetStockPageOrderByRequestDto requestDto
+    ) {
+        Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getSize());
+        Page<Stock> pageOrderBy = stockService.getPageOrderBy(requestDto.getSortBy(), requestDto.getSortOrder(), pageable);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(pageOrderBy);
     }
 }

@@ -19,7 +19,7 @@ public class StockRepositoryImpl implements StockRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Stock> findAllOrderedBy(String sortBy, String sortOrder, Pageable pageable) {
+    public Page<Stock> getPageOrderBy(String sortBy, String sortOrder, Pageable pageable) {
         BooleanExpression expression = stock.isNotNull();
 
         OrderSpecifier<Comparable<?>> orderSpecifier = getOrderSpecifier(sortBy, sortOrder);
