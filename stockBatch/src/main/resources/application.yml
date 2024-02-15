@@ -14,7 +14,7 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:mysql://172.17.0.1:3306/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
+    url: jdbc:mysql://172.17.0.2:3306/stockStock?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true
     username: root
     password: 994499
 
