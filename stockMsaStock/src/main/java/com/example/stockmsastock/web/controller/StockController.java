@@ -2,7 +2,6 @@ package com.example.stockmsastock.web.controller;
 
 import com.example.stockmsastock.domain.stock.Stock;
 import com.example.stockmsastock.domain.stock.StockPrice;
-import com.example.stockmsastock.service.StockPriceInfoService;
 import com.example.stockmsastock.service.StockService;
 import com.example.stockmsastock.web.dto.request.FindByItemCodeRequestDto;
 import com.example.stockmsastock.web.dto.request.FindByNameRequestDto;
@@ -31,7 +30,6 @@ import java.util.List;
 public class StockController {
 
     private final StockService stockService;
-    private final StockPriceInfoService stockPriceInfoService;
 
     @PostMapping
     @RequestMapping("find-by-name")
@@ -51,14 +49,6 @@ public class StockController {
         return ResponseEntity.status(HttpStatus.OK).body(stock);
     }
 
-    @PostMapping
-    @RequestMapping("get-stock-price")
-    ResponseEntity<StockPrice> getByCode(
-            @RequestBody GetPriceByCodeDto requestDto
-    ) throws MalformedURLException, JsonProcessingException {
-        StockPrice stockPrice = stockPriceInfoService.getStockPrice(requestDto.getItemCode());
-        return ResponseEntity.status(HttpStatus.OK).body(stockPrice);
-    }
 
     @PostMapping
     @RequestMapping("find-page-orderBy")
