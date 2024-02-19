@@ -23,6 +23,16 @@ public class StockCandle {
     private int high;
     private int close;
     private int volume;
+    @Column(precision=8, scale=2)
+    private Double bollingerBands;
+    @Column(precision=8, scale=2)
+    private Double macd;
+    @Column(precision=8, scale=2)
+    private Double movingAverage_12;
+    @Column(precision=8, scale=2)
+    private Double movingAverage_20;
+    @Column(precision=8, scale=2)
+    private Double movingAverage_26;
 
     @Builder
     private StockCandle(Long id, String code, LocalDate date, int open, int low, int high, int close, int volume) {

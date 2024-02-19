@@ -19,6 +19,8 @@ public class StockCandleItemProcessor implements ItemProcessor<Stock, List<Stock
 
     @Override
     public List<StockCandle> process(Stock stock) throws Exception {
-        return stockCandleService.fetchNextStockCandle(stock.getItemCode(),1000);
+        List<StockCandle> stockCandles = stockCandleService.fetchNextStockCandle(stock.getItemCode(), 1000);
+        CalculateIndicators.calculateIndicators(stockCandles);
+        return stockCandles;
     }
 }

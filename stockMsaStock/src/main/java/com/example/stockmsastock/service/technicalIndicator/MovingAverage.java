@@ -8,8 +8,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovingAverage implements TechnicalIndicator{
     private final int period;
-
-
     @Override
     public List<Integer> calculate(List<Integer> priceData) {
         // 이동평균선 계산 로직을 여기에 구현합니다.
