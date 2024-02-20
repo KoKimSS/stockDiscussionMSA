@@ -9,7 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import static com.example.stockmsanewsfeed.common.ValidationMessage.*;
+import static com.example.stockmsanewsfeed.common.error.ValidationMessage.*;
 
 
 @Data

@@ -22,15 +22,15 @@ public class CircuitBreakerTestController {
     static int test3Count = 0;
     static int test3FallbackCount = 0;
 
-    @Scheduled(fixedRate = 500) // 0.5초에 한 번씩 실행
-    String startCircuit1() {
-        test1Count++;
-        String string = userApi.test1Circuit();
-        System.out.println("Test1 Result: " + string);
-        System.out.println("test1Count = " + test1Count);
-        System.out.println("test1FallbackCount = " + test1FallbackCount);
-        return string;
-    }
+//    @Scheduled(fixedRate = 500) // 0.5초에 한 번씩 실행
+//    String startCircuit1() {
+//        test1Count++;
+//        String string = userApi.test1Circuit();
+//        System.out.println("Test1 Result: " + string);
+//        System.out.println("test1Count = " + test1Count);
+//        System.out.println("test1FallbackCount = " + test1FallbackCount);
+//        return string;
+//    }
 //    @Scheduled(fixedRate = 1000) // 1초에 한 번씩 실행
     String startCircuit2() {
         test2Count++;

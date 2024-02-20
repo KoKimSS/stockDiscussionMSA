@@ -1,16 +1,14 @@
 package com.example.stockmsanewsfeed.service.newsFeedService;
 
-import com.example.stockmsanewsfeed.common.ResponseCode;
-import com.example.stockmsanewsfeed.common.ResponseMessage;
+import com.example.stockmsanewsfeed.common.error.ResponseCode;
+import com.example.stockmsanewsfeed.common.error.ResponseMessage;
 import com.example.stockmsanewsfeed.domain.newsFeed.ActivityType;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeed;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
 import com.example.stockmsanewsfeed.repository.newsFeedRepository.NewsFeedJpaRepository;
 import com.example.stockmsanewsfeed.web.api.activity.ActivityApi;
-import com.example.stockmsanewsfeed.web.api.dto.request.activity.GetPosterRequestDto;
 import com.example.stockmsanewsfeed.web.api.dto.request.user.GetMyFollowersRequestDto;
 import com.example.stockmsanewsfeed.web.api.dto.request.user.GetUserRequestDto;
-import com.example.stockmsanewsfeed.web.api.dto.response.PosterDto;
 import com.example.stockmsanewsfeed.web.api.dto.response.user.FollowerDto;
 import com.example.stockmsanewsfeed.web.api.dto.response.user.GetMyFollowersResponseDto;
 import com.example.stockmsanewsfeed.web.api.dto.response.user.GetUserResponseDto;
@@ -23,7 +21,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

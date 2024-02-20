@@ -18,10 +18,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Service
 @RequiredArgsConstructor
@@ -34,34 +31,43 @@ public class StockInfoService {
     private final int maxPageSize = 100;
 
 
-    public List<Stock> getStockInfo() throws JsonProcessingException, MalformedURLException {
+    public List<Stock> getStockInfo() throws IOException, ExecutionException, InterruptedException {
         //전날의 정보는 모두 지운다.
         stockJpaRepository.deleteAllInBatch();
 
-        CompletableFuture<List<Stock>> kosdaqFuture = CompletableFuture.supplyAsync(() -> {
-            List<Stock> kosdaqStocks = null;
-            try {
-                kosdaqStocks = fetchStockData(KOSDAQ_URL);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return kosdaqStocks;
-        });
+//        CompletableFuture<List<Stock>> kosdaqFuture = CompletableFuture.supplyAsync(() -> {
+//            List<Stock> kosdaqStocks = null;
+//            try {
+//                kosdaqStocks = fetchStockData(KOSDAQ_URL);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            return kosdaqStocks;
+//        });
+//
+//        CompletableFuture<List<Stock>> kospiFuture = CompletableFuture.supplyAsync(() -> {
+//            List<Stock> kospiStocks = null;
+//            try {
+//                kospiStocks = fetchStockData(KOSPI_URL);
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            return kospiStocks;
+//        });
 
-        CompletableFuture<List<Stock>> kospiFuture = CompletableFuture.supplyAsync(() -> {
-            List<Stock> kospiStocks = null;
-            try {
-                kospiStocks = fetchStockData(KOSPI_URL);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return kospiStocks;
-        });
+        List<Stock> stocks = fetchStockData2(KOSPI_URL);
+        List<Stock> stocks2 = fetchStockData2(KOSDAQ_URL);
+        stocks.addAll(stocks2);
 
-        List<Stock> kosdaqStocks = kosdaqFuture.join();
-        List<Stock> kospiStocks = kospiFuture.join();
-        kosdaqStocks.addAll(kospiStocks);
-        return kosdaqStocks;
+
+//        List<Stock> kosdaqStocks = kosdaqFuture.get();
+//        List<Stock> kospiStocks = kospiFuture.get();
+//        System.out.println(kosdaqStocks.size());
+//        System.out.println(kospiStocks.size());
+//        kosdaqStocks.addAll(kospiStocks);
+//        System.out.println("전체 사이즈 "+kosdaqStocks.size());
+        System.out.println("전체 사이즈 "+stocks.size());
+        return stocks;
     }
 
 
@@ -121,6 +127,7 @@ public class StockInfoService {
                     }
                     JsonNode stocksNode = rootNode.get("stocks");
                     String categoryType = rootNode.get("stockListCategoryType").asText();
+
                     for (JsonNode stockNode : stocksNode) {
                         Stock stock = Stock.builder()
                                 .stockName(stockNode.get("stockName").asText())
@@ -132,6 +139,7 @@ public class StockInfoService {
                                 .build();
                         stocks.add(stock);
                     }
+                    System.out.println(page+" 페이지"+ stocks.size());
 
                     if (reader != null) {
                         try {
@@ -156,6 +164,91 @@ public class StockInfoService {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+        }
+
+        return stocks;
+    }
+
+    private List<Stock> fetchStockData2(String urlString) throws IOException {
+        int totalCount = getTotalCount(urlString);
+        System.out.println(totalCount);
+
+        List<Stock> stocks = new ArrayList<>();
+        int totalPages = (totalCount / maxPageSize) + 1;
+
+        ExecutorService executor = Executors.newFixedThreadPool(totalPages);
+
+        CountDownLatch latch = new CountDownLatch(totalPages); // 각 쓰레드의 완료를 기다리기 위한 CountDownLatch
+
+        for (int i = 1; i <= totalPages; i++) {
+            int page = i;
+            executor.submit(() -> {
+                HttpURLConnection connection = null;
+                BufferedReader reader = null;
+
+                try {
+                    // 작업 수행
+                    URL url = new URL(urlString + "?page=" + page + "&pageSize=" + maxPageSize);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                    StringBuilder responseBody = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        responseBody.append(line);
+                    }
+
+                    JsonNode rootNode = objectMapper.readTree(responseBody.toString());
+                    JsonNode stocksNode = rootNode.get("stocks");
+                    System.out.println("한페이지 사이즈 "+stocksNode.size());
+                    String categoryType = rootNode.get("stockListCategoryType").asText();
+
+                    for (JsonNode stockNode : stocksNode) {
+                        String tradingValueText = stockNode.get("accumulatedTradingValue").asText();
+                        String tradingVolumeText = stockNode.get("accumulatedTradingVolume").asText();
+                        String tradingValueString = tradingValueText.equals("-") ? "0" : tradingValueText.replace(",", "");
+                        String tradingVolumeString = tradingVolumeText.equals("-") ? "0" : tradingVolumeText.replace(",", "");
+                        long accumulatedTradingValue = Long.parseLong(tradingValueString);
+                        long accumulatedTradingVolume = Long.parseLong(tradingVolumeString);
+                        Stock stock = Stock.builder()
+                                .stockName(stockNode.get("stockName").asText())
+                                .itemCode(stockNode.get("itemCode").asText())
+                                .category(categoryType)
+                                .accumulatedTradingValue(accumulatedTradingValue)
+                                .accumulatedTradingVolume(accumulatedTradingVolume)
+                                .fluctuationsRatio(stockNode.get("fluctuationsRatio").asDouble())
+                                .build();
+                        stocks.add(stock);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    // 쓰레드 완료 시 CountDownLatch 감소
+                    latch.countDown();
+
+                    // 리소스 정리
+                    try {
+                        if (reader != null) {
+                            reader.close();
+                        }
+                        if (connection != null) {
+                            connection.disconnect();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+
+        try {
+            latch.await(); // 모든 쓰레드가 완료될 때까지 대기
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            executor.shutdown(); // 작업이 완료되면 ExecutorService 종료
         }
 
         return stocks;

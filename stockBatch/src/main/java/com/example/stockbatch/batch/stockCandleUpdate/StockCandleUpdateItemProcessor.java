@@ -14,12 +14,9 @@ import java.util.List;
 @StepScope
 @RequiredArgsConstructor
 public class StockCandleUpdateItemProcessor implements ItemProcessor<Stock, List<StockCandle>> {
-
     private final StockCandleService stockCandleService;
-
-
     @Override
     public List<StockCandle> process(Stock stock) throws Exception {
-        return stockCandleService.fetchNextStockCandle(stock.getItemCode(),1);
+        return stockCandleService.fetchNextStockCandleForUpdate(stock.getItemCode(),1);
     }
 }

@@ -46,5 +46,4 @@ public class StockCandleBatchConfig {
                 .taskExecutor(new SimpleAsyncTaskExecutor())
                 .build();
     }
-
 }

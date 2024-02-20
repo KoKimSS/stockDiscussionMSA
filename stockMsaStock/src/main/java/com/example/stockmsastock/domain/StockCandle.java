@@ -11,6 +11,9 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(indexes = {
+        @Index(columnList = "code"),
+})
 public class StockCandle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,16 +26,16 @@ public class StockCandle {
     private int high;
     private int close;
     private int volume;
-    @Column(precision=8, scale=2)
-    private Double bollingerBands;
-    @Column(precision=8, scale=2)
-    private Double macd;
-    @Column(precision=8, scale=2)
-    private Double movingAverage_12;
-    @Column(precision=8, scale=2)
-    private Double movingAverage_20;
-    @Column(precision=8, scale=2)
-    private Double movingAverage_26;
+    @Column(precision=10)
+    private double bollingerBands;
+    @Column(precision=10)
+    private double macd;
+    @Column(precision=10)
+    private double movingAverage_12;
+    @Column(precision=10)
+    private double movingAverage_20;
+    @Column(precision=10)
+    private double movingAverage_26;
 
     @Builder
     private StockCandle(Long id, String code, LocalDate date, int open, int low, int high, int close, int volume) {

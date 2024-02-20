@@ -1,7 +1,7 @@
 package com.example.stockmsanewsfeed.web.dto.response;
 
-import com.example.stockmsanewsfeed.common.ResponseCode;
-import com.example.stockmsanewsfeed.common.ResponseMessage;
+import com.example.stockmsanewsfeed.common.error.ResponseCode;
+import com.example.stockmsanewsfeed.common.error.ResponseMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

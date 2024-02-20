@@ -1,4 +1,4 @@
-package com.example.stockmsanewsfeed.common;
+package com.example.stockmsanewsfeed.common.error;
 
 public interface ResponseMessage {
     String SUCCESS = "Success.";

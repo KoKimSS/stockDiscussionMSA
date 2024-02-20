@@ -1,8 +1,8 @@
 package com.example.stockmsanewsfeed.web.controller;
 
-import com.example.stockmsanewsfeed.common.ResponseCode;
-import com.example.stockmsanewsfeed.common.ResponseMessage;
-import com.example.stockmsanewsfeed.common.ValidationMessage;
+import com.example.stockmsanewsfeed.common.error.ResponseCode;
+import com.example.stockmsanewsfeed.common.error.ResponseMessage;
+import com.example.stockmsanewsfeed.common.error.ValidationMessage;
 import com.example.stockmsanewsfeed.config.jwt.JwtUtil;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
 import com.example.stockmsanewsfeed.restDocs.AbstractRestDocsTests;
@@ -29,8 +29,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.example.stockmsanewsfeed.common.ResponseCode.VALIDATION_FAIL;
-import static com.example.stockmsanewsfeed.common.ResponseMessage.SUCCESS;
+import static com.example.stockmsanewsfeed.common.error.ResponseCode.VALIDATION_FAIL;
+import static com.example.stockmsanewsfeed.common.error.ResponseMessage.SUCCESS;
 import static com.example.stockmsanewsfeed.config.jwt.JwtProperties.HEADER_STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;

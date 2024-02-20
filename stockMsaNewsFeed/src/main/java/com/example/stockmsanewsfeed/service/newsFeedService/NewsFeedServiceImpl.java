@@ -88,8 +88,8 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             if (isValidRequestDto(activityType, relatedUserId,relatedPosterId)) {
                 return CreateNewsFeedResponseDto.validationFail();
             }
-            GetMyFollowersRequestDto getMyFollowersRequestDto = GetMyFollowersRequestDto.builder().userId(userId).build();
 
+            GetMyFollowersRequestDto getMyFollowersRequestDto = GetMyFollowersRequestDto.builder().userId(userId).build();
             List<FollowerDto> followerList = userApi.getMyFollower(getMyFollowersRequestDto).getFollowerList();
             followerList.forEach(followerDto -> System.out.println(followerDto.getFollowerId()+" "+followerDto.getFollowerName()));
 

@@ -1,4 +1,4 @@
-package com.example.stockmsanewsfeed.common;
+package com.example.stockmsanewsfeed.common.error;
 
 public interface ValidationMessage {
     String NOT_EMAIL = "이메일 형식에 맞지 않습니다.";

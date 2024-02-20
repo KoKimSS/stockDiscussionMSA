@@ -22,7 +22,8 @@ public class StockJdbcRepository {
 
     public void batchInsertStockCandles(List<StockCandle> stockCandles) {
         String sql = "INSERT INTO stock_candle "
-                + "(open, low, high, close, volume, code, date ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                + "(open, low, high, close, volume, code, date, bollinger_bands, macd, moving_average_12, moving_average_20, moving_average_26 )" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.batchUpdate(sql,
                 new BatchPreparedStatementSetter() {
@@ -36,6 +37,11 @@ public class StockJdbcRepository {
                         ps.setInt(5, stockCandle.getVolume());
                         ps.setString(6, stockCandle.getCode());
                         ps.setDate(7, Date.valueOf(stockCandle.getDate()));
+                        ps.setDouble(8, stockCandle.getBollingerBands());
+                        ps.setDouble(9, stockCandle.getMacd());
+                        ps.setDouble(10, stockCandle.getMovingAverage_12());
+                        ps.setDouble(11, stockCandle.getMovingAverage_20());
+                        ps.setDouble(12, stockCandle.getMovingAverage_26());
                     }
 
                     @Override

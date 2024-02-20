@@ -1,6 +1,7 @@
 package com.example.stockbatch.batch.stockCandle;
 
 import com.example.stockbatch.domain.Stock;
+import com.example.stockbatch.repository.StockCandleJpaRepository;
 import com.example.stockbatch.repository.StockJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.StepExecution;
@@ -19,6 +20,7 @@ import java.util.List;
 public class StockCandleItemReader implements ItemReader<Stock> {
 
     private final StockJpaRepository stockJpaRepository;
+    private final StockCandleJpaRepository stockCandleJpaRepository;
     private Iterator<Stock> stockIterator;
 
     @BeforeStep
