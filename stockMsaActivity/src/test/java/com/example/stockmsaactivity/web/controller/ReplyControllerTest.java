@@ -5,7 +5,6 @@ import com.example.stockmsaactivity.common.jwt.JwtUtil;
 import com.example.stockmsaactivity.restdocs.AbstractRestDocsTests;
 import com.example.stockmsaactivity.service.replyService.ReplyService;
 import com.example.stockmsaactivity.web.dto.request.reply.CreateReplyRequestDto;
-import com.example.stockmsaactivity.web.dto.response.reply.CreateReplyResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

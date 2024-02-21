@@ -2,19 +2,20 @@ package com.example.stockmsaactivity.web.dto.response;
 
 import com.example.stockmsaactivity.common.error.ResponseCode;
 import com.example.stockmsaactivity.common.error.ResponseMessage;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Getter
+@Setter
+@RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor
-public class ResponseDto {
-    private String code;
-    private String message;
+public class ResponseDto<D> {
+    private final String code;
+    private final String message;
+    private final D data;
 
-    public ResponseDto() {
-        this.code = ResponseCode.SUCCESS;
-        this.message = ResponseMessage.SUCCESS;
+    public static <D> ResponseDto<D> ofSuccess(D data) {
+        return new ResponseDto<>(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, data);
     }
 }

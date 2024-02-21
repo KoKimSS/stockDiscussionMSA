@@ -3,14 +3,17 @@ package com.example.stockmsaactivity.web.controller.internal;
 import com.example.stockmsaactivity.service.posterService.PosterService;
 import com.example.stockmsaactivity.web.dto.request.poster.GetPosterRequestDto;
 import com.example.stockmsaactivity.web.dto.request.poster.GetPostersByIdListRequestDto;
-import com.example.stockmsaactivity.web.dto.response.poster.GetPosterResponseDto;
-import com.example.stockmsaactivity.web.dto.response.poster.GetPostersByIdListResponseDto;
+import com.example.stockmsaactivity.web.dto.response.ResponseDto;
+import com.example.stockmsaactivity.web.dto.response.poster.PosterDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/internal/activity")
@@ -20,18 +23,20 @@ public class InternalPosterController {
     private final PosterService posterService;
 
     @PostMapping("/get-poster-by-id")
-    ResponseEntity<? super GetPosterResponseDto> getPosterById(
-            @RequestBody GetPosterRequestDto body
+    ResponseEntity getPosterById(
+            @RequestBody GetPosterRequestDto requestBody
     ) {
-        ResponseEntity<? super GetPosterResponseDto> response = posterService.getPoster(body);
-        return response;
+        PosterDto poster = posterService.getPoster(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(poster));
     }
 
     @PostMapping("/get-posters-by-id-list")
-    ResponseEntity<? super GetPostersByIdListResponseDto> getPostersByIdList(
-            @RequestBody GetPostersByIdListRequestDto body
+    ResponseEntity getPostersByIdList(
+            @RequestBody GetPostersByIdListRequestDto requestBody
     ) {
-        ResponseEntity<? super GetPostersByIdListResponseDto> response = posterService.getPosterByIdList(body);
-        return response;
+        List<PosterDto> posterByIdList = posterService.getPosterByIdList(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(posterByIdList));
     }
 }

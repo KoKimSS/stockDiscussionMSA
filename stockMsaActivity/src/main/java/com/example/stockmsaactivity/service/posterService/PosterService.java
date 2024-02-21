@@ -2,14 +2,16 @@ package com.example.stockmsaactivity.service.posterService;
 
 import com.example.stockmsaactivity.web.dto.request.poster.*;
 import com.example.stockmsaactivity.web.dto.response.poster.*;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface PosterService {
 
-    ResponseEntity<? super CreatePosterResponseDto> createPoster(CreatePosterRequestDto dto);
-    ResponseEntity<? super GetMyPosterResponseDto> getMyPoster(GetMyPosterRequestDto dto);
-    ResponseEntity<? super GetPosterResponseDto> getPoster(GetPosterRequestDto dto);
-    ResponseEntity<? super GetPostersByIdListResponseDto> getPosterByIdList(GetPostersByIdListRequestDto dto);
+    Long createPoster(CreatePosterRequestDto dto);
+    List<PosterDto> getMyPoster(GetMyPosterRequestDto dto);
+    PosterDto getPoster(GetPosterRequestDto dto);
+    List<PosterDto> getPosterByIdList(GetPostersByIdListRequestDto dto);
 
-    ResponseEntity<? super GetPostersByStockCodeResponseDto> getPosterByStockCode(GetPostersByStockCodeRequest dto);
+    Page<PosterDto> getPosterByStockCode(GetPostersByStockCodeRequest dto);
 }

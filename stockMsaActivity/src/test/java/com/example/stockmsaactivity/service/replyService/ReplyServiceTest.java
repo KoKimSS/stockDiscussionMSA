@@ -5,7 +5,6 @@ import com.example.stockmsaactivity.common.error.ResponseMessage;
 import com.example.stockmsaactivity.domain.poster.Poster;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
 import com.example.stockmsaactivity.web.dto.request.reply.CreateReplyRequestDto;
-import com.example.stockmsaactivity.web.dto.response.reply.CreateReplyResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

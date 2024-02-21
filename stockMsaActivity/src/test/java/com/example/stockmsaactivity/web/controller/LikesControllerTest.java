@@ -72,7 +72,7 @@ class LikesControllerTest extends AbstractRestDocsTests {
                 .replyId(1234L)
                 .build();
 
-        BDDMockito.doReturn(CreateLikesResponseDto.success())
+        BDDMockito.doReturn(CreateLikesResponseDto.builder().likeId(1L).build())
                 .when(likesService)
                 .createLikes(any(CreateLikesRequestDto.class));
 
@@ -86,6 +86,7 @@ class LikesControllerTest extends AbstractRestDocsTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
+                .andExpect(jsonPath("$.likeId").value(1))
                 .andDo(document("create-likes",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),

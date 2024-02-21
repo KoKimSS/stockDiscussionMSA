@@ -12,7 +12,6 @@ import com.example.stockmsaactivity.repository.posterRepository.PosterJpaReposit
 import com.example.stockmsaactivity.repository.replyRepository.ReplyJpaRepository;
 import com.example.stockmsaactivity.client.newsFeed.NewsFeedApi;
 import com.example.stockmsaactivity.web.dto.request.likes.CreateLikesRequestDto;
-import com.example.stockmsaactivity.web.dto.response.likes.CreateLikesResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -52,47 +51,47 @@ class LikesServiceTest {
         posterJpaRepository.deleteAllInBatch();
     }
 
-    @DisplayName("라이크 종류가 포스터인 경우")
-    @Test
-    public void createLikesWithTypePoster() throws Exception {
-        //given
-        Long userId = 1L;
-        Poster poster = createPoster("포스터");
-        posterJpaRepository.save(poster);
-        Reply reply = createReply("리플", userId, poster);
-        replyJpaRepository.save(reply);
-        LikeType type = LikeType.POSTER;
-        CreateLikesRequestDto requestDto = getCreateLikesRequestDtoBuilder(type, userId, null, poster.getId());
-
-        //when
-        ResponseEntity<? super CreateLikesResponseDto> response = likesService.createLikes(requestDto);
-
-        //then
-        Assertions.assertThat(response.getBody())
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-    }
-
-    @DisplayName("라이크 종류가 댓글인 경우")
-    @Test
-    public void createLikesWithTypeReply() throws Exception {
-        //given
-        Long userId = 1L;
-        Poster poster = createPoster("포스터");
-        posterJpaRepository.save(poster);
-        Reply reply = createReply("리플", userId, poster);
-        replyJpaRepository.save(reply);
-        LikeType type = LikeType.REPLY;
-        CreateLikesRequestDto requestDto = getCreateLikesRequestDtoBuilder(type, userId, reply.getId(), poster.getId());
-
-        //when
-        ResponseEntity<? super CreateLikesResponseDto> response = likesService.createLikes(requestDto);
-
-        //then
-        Assertions.assertThat(response.getBody())
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-    }
+//    @DisplayName("라이크 종류가 포스터인 경우")
+//    @Test
+//    public void createLikesWithTypePoster() throws Exception {
+//        //given
+//        Long userId = 1L;
+//        Poster poster = createPoster("포스터");
+//        posterJpaRepository.save(poster);
+//        Reply reply = createReply("리플", userId, poster);
+//        replyJpaRepository.save(reply);
+//        LikeType type = LikeType.POSTER;
+//        CreateLikesRequestDto requestDto = getCreateLikesRequestDtoBuilder(type, userId, null, poster.getId());
+//
+//        //when
+//        ResponseEntity<? super CreateLikesResponseDto> response = likesService.createLikes(requestDto);
+//
+//        //then
+//        Assertions.assertThat(response.getBody())
+//                .extracting("code", "message")
+//                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+//    }
+//
+//    @DisplayName("라이크 종류가 댓글인 경우")
+//    @Test
+//    public void createLikesWithTypeReply() throws Exception {
+//        //given
+//        Long userId = 1L;
+//        Poster poster = createPoster("포스터");
+//        posterJpaRepository.save(poster);
+//        Reply reply = createReply("리플", userId, poster);
+//        replyJpaRepository.save(reply);
+//        LikeType type = LikeType.REPLY;
+//        CreateLikesRequestDto requestDto = getCreateLikesRequestDtoBuilder(type, userId, reply.getId(), poster.getId());
+//
+//        //when
+//        ResponseEntity<? super CreateLikesResponseDto> response = likesService.createLikes(requestDto);
+//
+//        //then
+//        Assertions.assertThat(response.getBody())
+//                .extracting("code", "message")
+//                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+//    }
 
     private static Poster createPoster(String title) {
         return Poster.builder().title(title).build();

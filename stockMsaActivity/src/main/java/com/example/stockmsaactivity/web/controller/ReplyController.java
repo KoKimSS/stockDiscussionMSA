@@ -5,15 +5,17 @@ import com.example.stockmsaactivity.service.replyService.ReplyService;
 import com.example.stockmsaactivity.web.dto.request.reply.CreateReplyRequestDto;
 import com.example.stockmsaactivity.web.dto.request.reply.GetRepliesByPosterIdRequestDto;
 import com.example.stockmsaactivity.web.dto.request.reply.GetReplyRequestDto;
-import com.example.stockmsaactivity.web.dto.response.reply.CreateReplyResponseDto;
-import com.example.stockmsaactivity.web.dto.response.reply.GetRepliesByPosterIdResponseDto;
-import com.example.stockmsaactivity.web.dto.response.reply.GetReplyResponseDto;
+import com.example.stockmsaactivity.web.dto.response.ResponseDto;
+import com.example.stockmsaactivity.web.dto.response.reply.ReplyDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import java.util.List;
 
 import static com.example.stockmsaactivity.common.jwt.JwtProperties.HEADER_STRING;
 import static com.example.stockmsaactivity.common.jwt.JwtUtil.getTokenFromHeader;
@@ -27,7 +29,7 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping("/create-reply")
-    ResponseEntity<?super CreateReplyResponseDto> createReply(
+    ResponseEntity createReply(
             @Valid @RequestBody CreateReplyRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -36,24 +38,29 @@ public class ReplyController {
         Long userId = requestBody.getUserId();
         if(loginId!=userId) throw new CertificationFailException("인증 실패");
 
-        ResponseEntity<? super CreateReplyResponseDto> response = replyService.createReply(requestBody);
-        return response;
+        Long replyId = replyService.createReply(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(replyId));
     }
 
     @PostMapping("/get-reply")
-    ResponseEntity<?super GetReplyResponseDto> getReply(
+    ResponseEntity getReply(
             @Valid @RequestBody GetReplyRequestDto requestBody
     ){
-        ResponseEntity<? super GetReplyResponseDto> response = replyService.getReply(requestBody);
-        return response;
+        ReplyDto replyDto = replyService.getReply(requestBody);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(replyDto));
     }
 
     @PostMapping("/get-replies-by-poster")
-    ResponseEntity<?super GetRepliesByPosterIdResponseDto> getRepliesByPosterId(
+    ResponseEntity getRepliesByPosterId(
             @Valid @RequestBody GetRepliesByPosterIdRequestDto requestBody
     ){
-        ResponseEntity<? super GetRepliesByPosterIdResponseDto> response = replyService.getRepliesByPoster(requestBody);
-        return response;
+        List<ReplyDto> replyDtoList = replyService.getRepliesByPoster(requestBody);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(replyDtoList));
     }
 
 

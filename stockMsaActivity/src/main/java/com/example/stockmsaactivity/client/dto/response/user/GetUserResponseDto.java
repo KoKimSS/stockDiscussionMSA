@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class GetUserResponseDto extends ResponseDto {
-    String code;
-    String message;
-    UserDto userDto;
+    public GetUserResponseDto(String code, String message, Object data) {
+        super(code, message, data);
+    }
 }

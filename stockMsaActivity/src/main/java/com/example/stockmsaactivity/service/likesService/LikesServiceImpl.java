@@ -14,20 +14,19 @@ import com.example.stockmsaactivity.repository.likeRepository.LikesJpaRepository
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
 import com.example.stockmsaactivity.repository.replyRepository.ReplyJpaRepository;
 import com.example.stockmsaactivity.web.dto.request.likes.CreateLikesRequestDto;
-import com.example.stockmsaactivity.web.dto.response.likes.CreateLikesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Iterator;
 import java.util.Set;
 
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class LikesServiceImpl implements LikesService {
     private final LikesJpaRepository likesJpaRepository;
@@ -38,7 +37,8 @@ public class LikesServiceImpl implements LikesService {
 
 
     @Override
-    public ResponseEntity<? super CreateLikesResponseDto> createLikes(CreateLikesRequestDto dto) {
+    @Transactional
+    public Long createLikes(CreateLikesRequestDto dto) {
 
         LikeType likeType = dto.getLikeType();
         Long posterId = dto.getPosterId(); //@NotBlank 이다
@@ -63,7 +63,7 @@ public class LikesServiceImpl implements LikesService {
         }
 
         Likes newLikes = likesBuilder.build();
-        likesJpaRepository.save(newLikes);
+        Likes save = likesJpaRepository.save(newLikes);
 
         //뉴스피드 생성 서비스 호출 !
         CreateNewsFeedRequestDto createNewsFeedRequestDto = CreateNewsFeedRequestDto.builder()
@@ -75,7 +75,7 @@ public class LikesServiceImpl implements LikesService {
             throw new InternalServerErrorException("internal server error");
         }
 
-        return CreateLikesResponseDto.success();
+        return save.getId();
     }
 
     @Transactional

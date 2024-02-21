@@ -13,29 +13,30 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PosterServiceImpl implements PosterService {
 
     private final PosterJpaRepository posterJpaRepository;
     private final NewsFeedApi newsFeedApi;
 
     @Override
-    public ResponseEntity<? super CreatePosterResponseDto> createPoster(CreatePosterRequestDto dto) {
-
+    @Transactional
+    public Long createPoster(CreatePosterRequestDto dto) {
         Long userId = dto.getUserId();
         Poster poster = Poster.builder().title(dto.getTitle())
                 .contents(dto.getContents())
                 .userId(userId)
                 .build();
 
-        posterJpaRepository.save(poster);
+        Poster save = posterJpaRepository.save(poster);
 
         //나를 팔로우 하는 사람들의 뉴스피드 업데이트
         //뉴스피드 생성 서비스 호출 !
@@ -49,11 +50,12 @@ public class PosterServiceImpl implements PosterService {
             throw new InternalServerErrorException("internal server error");
         }
 
-        return CreatePosterResponseDto.success();
+        return save.getId();
     }
 
     @Override
-    public ResponseEntity<? super GetMyPosterResponseDto> getMyPoster(GetMyPosterRequestDto dto) {
+    @Transactional
+    public List<PosterDto> getMyPoster(GetMyPosterRequestDto dto) {
         List<Poster> byOwnerId = posterJpaRepository.findAllByUserId(dto.getUserId());
 
         List<PosterDto> posterDtoList = byOwnerId.stream().map(
@@ -64,12 +66,12 @@ public class PosterServiceImpl implements PosterService {
                         .likeCount(p.getLikeCount()).build()
         ).collect(Collectors.toList());
 
-        return GetMyPosterResponseDto.success(posterDtoList);
+        return posterDtoList;
     }
 
     @Override
-    public ResponseEntity<? super GetPosterResponseDto> getPoster(GetPosterRequestDto dto) {
-
+    @Transactional
+    public PosterDto getPoster(GetPosterRequestDto dto) {
         Poster poster = posterJpaRepository.findById(dto.getPosterId())
                 .orElseThrow(() -> new DatabaseErrorException("db 에러"));
 
@@ -78,12 +80,12 @@ public class PosterServiceImpl implements PosterService {
                 .ownerId(poster.getUserId())
                 .contents(poster.getContents())
                 .posterId(poster.getId()).build();
-
-        return GetPosterResponseDto.success(posterDto);
+        return posterDto;
     }
 
     @Override
-    public ResponseEntity<? super GetPostersByIdListResponseDto> getPosterByIdList(GetPostersByIdListRequestDto dto) {
+    @Transactional
+    public List<PosterDto> getPosterByIdList(GetPostersByIdListRequestDto dto) {
         List<Poster> byOwnerId = posterJpaRepository.findAllByIdIn(dto.getPosterIdList());
 
         List<PosterDto> posterDtoList = byOwnerId.stream().map(
@@ -93,11 +95,12 @@ public class PosterServiceImpl implements PosterService {
                         .ownerId(p.getUserId())
                         .likeCount(p.getLikeCount()).build()
         ).collect(Collectors.toList());
-        return GetPostersByIdListResponseDto.success(posterDtoList);
+        return posterDtoList;
     }
 
     @Override
-    public ResponseEntity<? super GetPostersByStockCodeResponseDto> getPosterByStockCode(GetPostersByStockCodeRequest dto) {
+    @Transactional
+    public Page<PosterDto> getPosterByStockCode(GetPostersByStockCodeRequest dto) {
         Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
         Page<Poster> posterByStockCode = posterJpaRepository.findPosterByStockCode(dto.getStockCode(), pageable);
         Page<PosterDto> posterDtoByStockCode = posterByStockCode.map(poster -> PosterDto.builder()
@@ -109,6 +112,6 @@ public class PosterServiceImpl implements PosterService {
                 .ownerId(poster.getUserId()).build()
         );
 
-        return GetPostersByStockCodeResponseDto.success(posterDtoByStockCode);
+        return posterDtoByStockCode;
     }
 }

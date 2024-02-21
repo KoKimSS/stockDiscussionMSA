@@ -6,6 +6,7 @@ import com.example.stockmsaactivity.web.dto.request.likes.CreateLikesRequestDto;
 import com.example.stockmsaactivity.web.dto.response.ResponseDto;
 import com.example.stockmsaactivity.web.dto.response.likes.CreateLikesResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ public class LikesController {
     private final LikesService likesService;
 
     @PostMapping("/create-likes")
-    ResponseEntity<? super CreateLikesResponseDto> createLikes(
+    ResponseEntity createLikes(
             @Valid @RequestBody CreateLikesRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -36,8 +37,10 @@ public class LikesController {
         Long userId = requestBody.getUserId();
         if(loginId!=userId) throw new CertificationFailException("인증 실패");
 
-        ResponseEntity<? super CreateLikesResponseDto> response = likesService.createLikes(requestBody);
-        return response;
+        Long likeId = likesService.createLikes(requestBody);
+        ResponseDto<Long> responseBody = ResponseDto.ofSuccess(likeId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(responseBody);
     }
 
 }
