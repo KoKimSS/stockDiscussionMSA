@@ -5,6 +5,8 @@ import com.example.stockmsanewsfeed.client.dto.request.user.GetMyFollowersReques
 import com.example.stockmsanewsfeed.client.dto.response.user.FollowerDto;
 import com.example.stockmsanewsfeed.client.user.UserApi;
 import com.example.stockmsanewsfeed.common.error.exception.DatabaseErrorException;
+import com.example.stockmsanewsfeed.common.error.exception.InternalServerErrorException;
+import com.example.stockmsanewsfeed.common.error.exception.ValidationFailException;
 import com.example.stockmsanewsfeed.domain.newsFeed.ActivityType;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeed;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
@@ -90,38 +92,44 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     @Override
     public ResponseEntity<? super CreateNewsFeedResponseDto> createNewsFeed(
             CreateNewsFeedRequestDto dto) {
+        //나를 팔로우 하는 사람들의 뉴스피드 리스트 생성
+        ActivityType activityType = dto.getActivityType();
+        NewsFeedType followersNewsFeedType = followersTypeBy(activityType);
+        Long userId = dto.getUserId();
+        Long relatedUserId = dto.getRelatedUserId();
+        Long relatedPosterId = dto.getRelatedPosterId();
+
+        if (isValidRequestDto(activityType, relatedUserId, relatedPosterId)) {
+            throw new ValidationFailException("newsFeed request valid fail");
+        }
+
+        GetMyFollowersRequestDto getMyFollowersRequestDto = GetMyFollowersRequestDto.builder().userId(userId).build();
+        List<FollowerDto> followerList;
         try {
-            //나를 팔로우 하는 사람들의 뉴스피드 리스트 생성
-            ActivityType activityType = dto.getActivityType();
-            NewsFeedType followersNewsFeedType = followersTypeBy(activityType);
-            Long userId = dto.getUserId();
-            Long relatedUserId = dto.getRelatedUserId();
-            Long relatedPosterId = dto.getRelatedPosterId();
+            followerList = userApi.getMyFollower(getMyFollowersRequestDto).getFollowerList();
+        } catch (Exception e) {
+            throw new InternalServerErrorException("internal api error");
+        }
 
-            if (isValidRequestDto(activityType, relatedUserId, relatedPosterId)) {
-                return CreateNewsFeedResponseDto.validationFail();
-            }
+        followerList.forEach(followerDto -> System.out.println(followerDto.getFollowerId() + " " + followerDto.getFollowerName()));
+        List<NewsFeed> newsFeedList = createFollowersNewsFeedList(userId, followersNewsFeedType, followerList, relatedPosterId, relatedUserId);
 
-            GetMyFollowersRequestDto getMyFollowersRequestDto = GetMyFollowersRequestDto.builder().userId(userId).build();
-            List<FollowerDto> followerList = userApi.getMyFollower(getMyFollowersRequestDto).getFollowerList();
-            followerList.forEach(followerDto -> System.out.println(followerDto.getFollowerId() + " " + followerDto.getFollowerName()));
+        //내가 한 활동의 관련된 사람 뉴스피드 추가 ( POST 인 경우 관련유저 없음)
+        if (activityType != ActivityType.POST) {
+            NewsFeed newsFeed = NewsFeed.builder()
+                    .newsFeedType(ownerTypeBy(activityType))
+                    .userId(relatedUserId)
+                    .activityUserId(userId)
+                    .relatedPosterId(relatedPosterId)
+                    .build();
+            newsFeedList.add(newsFeed);
+        }
 
-            List<NewsFeed> newsFeedList = createFollowersNewsFeedList(userId, followersNewsFeedType, followerList, relatedPosterId, relatedUserId);
-
-            //내가 한 활동의 관련된 사람 뉴스피드 추가 ( POST 인 경우 관련유저 없음)
-            if (activityType != ActivityType.POST) {
-                NewsFeed newsFeed = NewsFeed.builder()
-                        .newsFeedType(ownerTypeBy(activityType))
-                        .userId(relatedUserId)
-                        .activityUserId(userId)
-                        .relatedPosterId(relatedPosterId)
-                        .build();
-                newsFeedList.add(newsFeed);
-            }
+        try {
             newsFeedJpaRepository.saveAll(newsFeedList);
         } catch (Exception exception) {
             exception.printStackTrace();
-            CreateNewsFeedResponseDto.databaseError();
+            throw new DatabaseErrorException("뉴스피드 생성 db 에러");
         }
         return CreateNewsFeedResponseDto.success();
     }

@@ -50,7 +50,6 @@ public class CommonExceptionHandler {
         List<String> errorMessages = bindingResult.getFieldErrors().stream()
                 .map(fieldError -> fieldError.getDefaultMessage()) // 필드 이름을 제외하고 에러 메시지만 가져오도록 수정
                 .collect(Collectors.toList());
-
         return String.join(", ", errorMessages);
     }
 }
