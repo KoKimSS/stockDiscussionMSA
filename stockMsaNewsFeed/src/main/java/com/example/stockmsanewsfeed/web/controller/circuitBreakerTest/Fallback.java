@@ -1,14 +1,13 @@
-package com.example.stockmsanewsfeed.web.controller;
+package com.example.stockmsanewsfeed.web.controller.circuitBreakerTest;
 
-import com.example.stockmsanewsfeed.web.api.dto.request.user.GetMyFollowersRequestDto;
-import com.example.stockmsanewsfeed.web.api.dto.request.user.GetUserRequestDto;
-import com.example.stockmsanewsfeed.web.api.dto.response.user.GetMyFollowersResponseDto;
-import com.example.stockmsanewsfeed.web.api.dto.response.user.GetUserResponseDto;
-import com.example.stockmsanewsfeed.web.api.user.UserApi;
-import org.springframework.cloud.openfeign.FallbackFactory;
+import com.example.stockmsanewsfeed.client.dto.request.user.GetMyFollowersRequestDto;
+import com.example.stockmsanewsfeed.client.dto.request.user.GetUserRequestDto;
+import com.example.stockmsanewsfeed.client.dto.response.user.GetMyFollowersResponseDto;
+import com.example.stockmsanewsfeed.client.dto.response.user.GetUserResponseDto;
+import com.example.stockmsanewsfeed.client.user.UserApi;
 import org.springframework.stereotype.Component;
 
-import static com.example.stockmsanewsfeed.web.controller.CircuitBreakerTestController.*;
+import static com.example.stockmsanewsfeed.web.controller.circuitBreakerTest.CircuitBreakerTestController.*;
 
 @Component
 public class Fallback  implements UserApi {

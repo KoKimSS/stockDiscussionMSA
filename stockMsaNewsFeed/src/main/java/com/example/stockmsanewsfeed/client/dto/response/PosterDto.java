@@ -1,4 +1,4 @@
-package com.example.stockmsanewsfeed.web.api.dto.response;
+package com.example.stockmsanewsfeed.client.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

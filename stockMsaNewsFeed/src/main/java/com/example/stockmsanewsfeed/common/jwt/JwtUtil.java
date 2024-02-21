@@ -1,4 +1,4 @@
-package com.example.stockmsanewsfeed.config.jwt;
+package com.example.stockmsanewsfeed.common.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

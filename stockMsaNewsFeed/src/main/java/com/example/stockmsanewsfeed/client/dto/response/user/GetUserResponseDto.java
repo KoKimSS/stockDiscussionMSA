@@ -1,6 +1,6 @@
-package com.example.stockmsanewsfeed.web.api.dto.response.user;
+package com.example.stockmsanewsfeed.client.dto.response.user;
 
-import com.example.stockmsanewsfeed.web.api.dto.response.ApiResponseDto;
+import com.example.stockmsanewsfeed.client.dto.response.ApiResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

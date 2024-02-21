@@ -3,7 +3,7 @@ package com.example.stockmsanewsfeed.web.controller;
 import com.example.stockmsanewsfeed.common.error.ResponseCode;
 import com.example.stockmsanewsfeed.common.error.ResponseMessage;
 import com.example.stockmsanewsfeed.common.error.ValidationMessage;
-import com.example.stockmsanewsfeed.config.jwt.JwtUtil;
+import com.example.stockmsanewsfeed.common.jwt.JwtUtil;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
 import com.example.stockmsanewsfeed.restDocs.AbstractRestDocsTests;
 import com.example.stockmsanewsfeed.service.newsFeedService.NewsFeedService;
@@ -31,7 +31,7 @@ import java.util.List;
 
 import static com.example.stockmsanewsfeed.common.error.ResponseCode.VALIDATION_FAIL;
 import static com.example.stockmsanewsfeed.common.error.ResponseMessage.SUCCESS;
-import static com.example.stockmsanewsfeed.config.jwt.JwtProperties.HEADER_STRING;
+import static com.example.stockmsanewsfeed.common.jwt.JwtProperties.HEADER_STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mockStatic;

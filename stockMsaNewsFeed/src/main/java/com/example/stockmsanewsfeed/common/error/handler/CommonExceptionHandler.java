@@ -1,6 +1,7 @@
 package com.example.stockmsanewsfeed.common.error.handler;
 
 import com.example.stockmsanewsfeed.common.error.ResponseCode;
+import com.example.stockmsanewsfeed.common.error.ResponseMessage;
 import com.example.stockmsanewsfeed.common.error.exception.CertificationFailException;
 import com.example.stockmsanewsfeed.common.error.exception.DatabaseErrorException;
 import com.example.stockmsanewsfeed.common.error.exception.ValidationFailException;
@@ -29,19 +30,19 @@ public class CommonExceptionHandler {
 
     @ExceptionHandler(DatabaseErrorException.class)
     public ResponseEntity<ResponseDto> databaseFailExceptionHandler(DatabaseErrorException exception) {
-        ResponseDto responseDto = new ResponseDto(ResponseCode.DATABASE_ERROR, exception.getMessage());
+        ResponseDto responseDto = new ResponseDto(exception.getResponseCode(), exception.getResponseMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDto);
     }
 
     @ExceptionHandler(ValidationFailException.class)
     public ResponseEntity<ResponseDto> validationFailExceptionHandler(ValidationFailException exception) {
-        ResponseDto responseDto = new ResponseDto(ResponseCode.VALIDATION_FAIL, exception.getMessage());
+        ResponseDto responseDto = new ResponseDto(exception.getResponseCode(), exception.getResponseMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
     }
 
     @ExceptionHandler(CertificationFailException.class)
     public ResponseEntity<ResponseDto> certificationFailExceptionHandler(CertificationFailException exception) {
-        ResponseDto responseDto = new ResponseDto(ResponseCode.CERTIFICATION_FAIL, exception.getMessage());
+        ResponseDto responseDto = new ResponseDto(exception.getResponseCode(), exception.getResponseMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDto);
     }
 

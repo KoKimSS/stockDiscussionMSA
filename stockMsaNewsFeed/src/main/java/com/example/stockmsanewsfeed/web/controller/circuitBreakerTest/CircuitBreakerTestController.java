@@ -1,15 +1,8 @@
-package com.example.stockmsanewsfeed.web.controller;
+package com.example.stockmsanewsfeed.web.controller.circuitBreakerTest;
 
-import com.example.stockmsanewsfeed.web.api.user.UserApi;
+import com.example.stockmsanewsfeed.client.user.UserApi;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 @RequiredArgsConstructor

@@ -4,9 +4,8 @@ import com.example.stockmsanewsfeed.common.error.ErrorCode;
 import com.example.stockmsanewsfeed.common.error.ResponseCode;
 import com.example.stockmsanewsfeed.common.error.ResponseMessage;
 
-public class DatabaseErrorException extends CommonException {
-    public DatabaseErrorException(String message) {
-        super(ResponseCode.DATABASE_ERROR, ResponseMessage.DATABASE_ERROR, message);
+public class InternalServerErrorException extends CommonException{
+    public InternalServerErrorException(String message) {
+        super(ResponseCode.INTERNAL_ERROR, ResponseMessage.INTERNAL_ERROR,message);
     }
 }
-

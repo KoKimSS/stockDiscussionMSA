@@ -1,4 +1,4 @@
-package com.example.stockmsanewsfeed.web.controller;
+package com.example.stockmsanewsfeed.web.controller.circuitBreakerTest;
 
 import lombok.Builder;
 import lombok.Getter;

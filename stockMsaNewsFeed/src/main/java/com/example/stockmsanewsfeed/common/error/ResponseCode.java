@@ -5,4 +5,5 @@ public interface ResponseCode {
     String VALIDATION_FAIL = "VF";
     String CERTIFICATION_FAIL = "CF";
     String DATABASE_ERROR = "DBE";
+    String INTERNAL_ERROR = "IE";
 }

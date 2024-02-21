@@ -1,7 +1,7 @@
-package com.example.stockmsanewsfeed.web.api.activity;
+package com.example.stockmsanewsfeed.client.activity;
 
-import com.example.stockmsanewsfeed.web.api.dto.request.activity.GetPosterRequestDto;
-import com.example.stockmsanewsfeed.web.api.dto.response.PosterDto;
+import com.example.stockmsanewsfeed.client.dto.request.activity.GetPosterRequestDto;
+import com.example.stockmsanewsfeed.client.dto.response.PosterDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

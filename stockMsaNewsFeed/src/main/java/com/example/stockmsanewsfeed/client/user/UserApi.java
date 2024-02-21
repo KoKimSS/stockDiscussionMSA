@@ -1,15 +1,14 @@
-package com.example.stockmsanewsfeed.web.api.user;
+package com.example.stockmsanewsfeed.client.user;
 
-import com.example.stockmsanewsfeed.web.api.dto.request.user.GetMyFollowersRequestDto;
-import com.example.stockmsanewsfeed.web.api.dto.request.user.GetUserRequestDto;
-import com.example.stockmsanewsfeed.web.api.dto.response.user.GetMyFollowersResponseDto;
-import com.example.stockmsanewsfeed.web.api.dto.response.user.GetUserResponseDto;
-import com.example.stockmsanewsfeed.web.controller.Fallback;
+import com.example.stockmsanewsfeed.client.dto.request.user.GetMyFollowersRequestDto;
+import com.example.stockmsanewsfeed.client.dto.request.user.GetUserRequestDto;
+import com.example.stockmsanewsfeed.client.dto.response.user.GetMyFollowersResponseDto;
+import com.example.stockmsanewsfeed.client.dto.response.user.GetUserResponseDto;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.stockmsanewsfeed.web.controller.CircuitBreakerTestController.test1FallbackCount;
+import static com.example.stockmsanewsfeed.web.controller.circuitBreakerTest.CircuitBreakerTestController.test1FallbackCount;
 
 @FeignClient(name = "user", url = "http://localhost:8081/api/internal/user")
 public interface UserApi {

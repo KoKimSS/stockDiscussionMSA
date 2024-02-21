@@ -1,11 +1,11 @@
 package com.example.stockmsanewsfeed.web.controller;
 
 
+import com.example.stockmsanewsfeed.common.error.exception.CertificationFailException;
 import com.example.stockmsanewsfeed.service.newsFeedService.NewsFeedService;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedByTypesRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
-import com.example.stockmsanewsfeed.web.dto.response.ResponseDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.CreateNewsFeedResponseDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedByTypeResponseDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedResponseDto;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static com.example.stockmsanewsfeed.config.jwt.JwtProperties.HEADER_STRING;
-import static com.example.stockmsanewsfeed.config.jwt.JwtUtil.getTokenFromHeader;
-import static com.example.stockmsanewsfeed.config.jwt.JwtUtil.getUserIdFromToken;
+import static com.example.stockmsanewsfeed.common.jwt.JwtProperties.HEADER_STRING;
+import static com.example.stockmsanewsfeed.common.jwt.JwtUtil.getTokenFromHeader;
+import static com.example.stockmsanewsfeed.common.jwt.JwtUtil.getUserIdFromToken;
 
 @Slf4j
 @RestController
@@ -36,7 +36,8 @@ public class NewsFeedController {
         String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
         Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getUserId();
-        if(loginId!=userId) return ResponseDto.certificationFail();
+        if(loginId!=userId) throw new CertificationFailException("인증 오류");
+
         ResponseEntity<? super GetMyNewsFeedResponseDto> response = newsFeedService.getMyNewsFeeds(requestBody);
         return response;
     }
@@ -49,6 +50,8 @@ public class NewsFeedController {
         String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
         Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getUserId();
+        if(loginId!=userId) throw new CertificationFailException("인증 오류");
+
         ResponseEntity<? super GetMyNewsFeedByTypeResponseDto> response = newsFeedService.getMyNewsFeedsByType(requestBody);
         return response;
     }
@@ -61,6 +64,4 @@ public class NewsFeedController {
         ResponseEntity<? super CreateNewsFeedResponseDto> response = newsFeedService.createNewsFeed(requestBody);
         return response;
     }
-
-
 }

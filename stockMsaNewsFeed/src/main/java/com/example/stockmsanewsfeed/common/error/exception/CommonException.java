@@ -1,17 +1,16 @@
 package com.example.stockmsanewsfeed.common.error.exception;
 
 import com.example.stockmsanewsfeed.common.error.ErrorCode;
+import lombok.Getter;
 
+@Getter
 public class CommonException extends RuntimeException{
-    private ErrorCode errorCode;
-    private String message;
+    private String responseCode;
+    private String responseMessage;
 
-    public CommonException(ErrorCode errorCode, String message) {
+    public CommonException(String responseCode,String responseMessage, String message) {
         super(message);
-        this.errorCode = errorCode;
-    }
-
-    public ErrorCode getErrorCode() {
-        return errorCode;
+        this.responseCode = responseCode;
+        this.responseMessage = responseMessage;
     }
 }
