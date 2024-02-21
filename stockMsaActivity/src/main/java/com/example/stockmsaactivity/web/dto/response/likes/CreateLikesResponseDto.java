@@ -17,13 +17,4 @@ public class CreateLikesResponseDto extends ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 
-    public static ResponseEntity<ResponseDto> databaseError() {
-        ResponseEntity<ResponseDto> response = ResponseDto.databaseError();
-        return response;
-    }
-
-    public static ResponseEntity<ResponseDto> certificationFail() {
-        ResponseEntity<ResponseDto> response = ResponseDto.certificationFail();
-        return response;
-    }
 }

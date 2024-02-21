@@ -1,5 +1,6 @@
 package com.example.stockmsaactivity.web.controller;
 
+import com.example.stockmsaactivity.common.error.exception.CertificationFailException;
 import com.example.stockmsaactivity.service.likesService.LikesService;
 import com.example.stockmsaactivity.web.dto.request.likes.CreateLikesRequestDto;
 import com.example.stockmsaactivity.web.dto.response.ResponseDto;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static com.example.stockmsaactivity.config.jwt.JwtProperties.HEADER_STRING;
-import static com.example.stockmsaactivity.config.jwt.JwtUtil.getTokenFromHeader;
-import static com.example.stockmsaactivity.config.jwt.JwtUtil.getUserIdFromToken;
+import static com.example.stockmsaactivity.common.jwt.JwtProperties.HEADER_STRING;
+import static com.example.stockmsaactivity.common.jwt.JwtUtil.getTokenFromHeader;
+import static com.example.stockmsaactivity.common.jwt.JwtUtil.getUserIdFromToken;
 
 @RestController
 @RequestMapping("/api/activity")
@@ -31,12 +32,9 @@ public class LikesController {
             HttpServletRequest request
     ){
         String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
-        System.out.println(jwtToken);
         Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getUserId();
-        System.out.println(loginId+" "+userId);
-
-        if(loginId!=userId) return ResponseDto.certificationFail();
+        if(loginId!=userId) throw new CertificationFailException("인증 실패");
 
         ResponseEntity<? super CreateLikesResponseDto> response = likesService.createLikes(requestBody);
         return response;

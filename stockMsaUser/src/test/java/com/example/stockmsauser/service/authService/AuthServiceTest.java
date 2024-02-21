@@ -1,7 +1,7 @@
 package com.example.stockmsauser.service.authService;
 
-import com.example.stockmsauser.common.ResponseCode;
-import com.example.stockmsauser.common.ResponseMessage;
+import com.example.stockmsauser.common.error.ResponseCode;
+import com.example.stockmsauser.common.error.ResponseMessage;
 import com.example.stockmsauser.config.TestRedisConfig;
 import com.example.stockmsauser.config.jwt.JwtUtil;
 import com.example.stockmsauser.domain.certification.Certification;
@@ -17,7 +17,6 @@ import com.example.stockmsauser.web.dto.response.auth.CheckCertificationResponse
 import com.example.stockmsauser.web.dto.response.auth.EmailCertificationResponseDto;
 import com.example.stockmsauser.web.dto.response.auth.EmailCheckResponseDto;
 import com.example.stockmsauser.web.dto.response.auth.SignUpResponseDto;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
@@ -26,18 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.TestPropertySource;
-import redis.embedded.RedisServer;
-import redis.embedded.exceptions.EmbeddedRedisException;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Map;
 
 import static com.example.stockmsauser.service.authService.AuthServiceImpl.REDIS_BLACKLIST_KEY;
 import static com.example.stockmsauser.service.authService.AuthServiceImpl.TimeValid;

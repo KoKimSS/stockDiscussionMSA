@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-import static com.example.stockmsaactivity.common.ValidationMessage.NOT_NULL_USER;
+import static com.example.stockmsaactivity.common.error.ValidationMessage.NOT_NULL_USER;
 
 
 @Getter

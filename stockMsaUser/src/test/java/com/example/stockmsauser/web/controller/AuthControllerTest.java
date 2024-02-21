@@ -1,7 +1,7 @@
 package com.example.stockmsauser.web.controller;
 
-import com.example.stockmsauser.common.ResponseCode;
-import com.example.stockmsauser.common.ResponseMessage;
+import com.example.stockmsauser.common.error.ResponseCode;
+import com.example.stockmsauser.common.error.ResponseMessage;
 import com.example.stockmsauser.restdocs.AbstractRestDocsTests;
 import com.example.stockmsauser.service.authService.AuthService;
 import com.example.stockmsauser.web.dto.request.auth.*;
@@ -22,9 +22,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-import static com.example.stockmsauser.common.ResponseCode.VALIDATION_FAIL;
-import static com.example.stockmsauser.common.ResponseMessage.SUCCESS;
-import static com.example.stockmsauser.common.ValidationMessage.*;
+import static com.example.stockmsauser.common.error.ResponseCode.VALIDATION_FAIL;
+import static com.example.stockmsauser.common.error.ResponseMessage.SUCCESS;
+import static com.example.stockmsauser.common.error.ValidationMessage.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;

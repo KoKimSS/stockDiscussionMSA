@@ -1,15 +1,13 @@
 package com.example.stockmsauser.service.authService;
 
 
-import com.example.stockmsauser.common.ResponseCode;
-import com.example.stockmsauser.common.ResponseMessage;
+import com.example.stockmsauser.common.error.ResponseCode;
+import com.example.stockmsauser.common.error.ResponseMessage;
 import com.example.stockmsauser.config.jwt.JwtUtil;
 import com.example.stockmsauser.domain.certification.Certification;
-import com.example.stockmsauser.domain.jwtBlackList.JwtBlackList;
 import com.example.stockmsauser.domain.user.User;
 import com.example.stockmsauser.provider.EmailProvider;
 import com.example.stockmsauser.repository.certificationRepository.CertificationJpaRepository;
-import com.example.stockmsauser.repository.jwtBlackListRepository.JwtBlackListJpaRepository;
 import com.example.stockmsauser.repository.userRepository.UserJpaRepository;
 import com.example.stockmsauser.web.dto.request.auth.CheckCertificationRequestDto;
 import com.example.stockmsauser.web.dto.request.auth.EmailCertificationRequestDto;

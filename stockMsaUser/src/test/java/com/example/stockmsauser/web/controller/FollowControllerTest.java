@@ -1,7 +1,7 @@
 package com.example.stockmsauser.web.controller;
 
-import com.example.stockmsauser.common.ResponseMessage;
-import com.example.stockmsauser.common.ValidationMessage;
+import com.example.stockmsauser.common.error.ResponseMessage;
+import com.example.stockmsauser.common.error.ValidationMessage;
 import com.example.stockmsauser.config.jwt.JwtUtil;
 import com.example.stockmsauser.domain.user.User;
 import com.example.stockmsauser.restdocs.AbstractRestDocsTests;
@@ -22,7 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithUserDetails;
 
-import static com.example.stockmsauser.common.ResponseCode.*;
+import static com.example.stockmsauser.common.error.ResponseCode.*;
 import static com.example.stockmsauser.config.jwt.JwtProperties.HEADER_STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;

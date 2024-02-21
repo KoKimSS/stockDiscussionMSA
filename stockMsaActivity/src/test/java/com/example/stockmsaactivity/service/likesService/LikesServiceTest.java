@@ -1,8 +1,8 @@
 package com.example.stockmsaactivity.service.likesService;
 
 
-import com.example.stockmsaactivity.common.ResponseCode;
-import com.example.stockmsaactivity.common.ResponseMessage;
+import com.example.stockmsaactivity.common.error.ResponseCode;
+import com.example.stockmsaactivity.common.error.ResponseMessage;
 import com.example.stockmsaactivity.config.TestRedisConfig;
 import com.example.stockmsaactivity.domain.like.LikeType;
 import com.example.stockmsaactivity.domain.poster.Poster;
@@ -10,15 +10,13 @@ import com.example.stockmsaactivity.domain.reply.Reply;
 import com.example.stockmsaactivity.repository.likeRepository.LikesJpaRepository;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
 import com.example.stockmsaactivity.repository.replyRepository.ReplyJpaRepository;
-import com.example.stockmsaactivity.web.api.newsFeed.NewsFeedApi;
+import com.example.stockmsaactivity.client.newsFeed.NewsFeedApi;
 import com.example.stockmsaactivity.web.dto.request.likes.CreateLikesRequestDto;
 import com.example.stockmsaactivity.web.dto.response.likes.CreateLikesResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

@@ -1,6 +1,5 @@
 package com.example.stockmsanewsfeed.common.error.exception;
 
-import com.example.stockmsanewsfeed.common.error.ErrorCode;
 import lombok.Getter;
 
 @Getter

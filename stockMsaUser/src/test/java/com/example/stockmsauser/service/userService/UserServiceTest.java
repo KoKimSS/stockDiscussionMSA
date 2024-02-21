@@ -1,7 +1,7 @@
 package com.example.stockmsauser.service.userService;
 
-import com.example.stockmsauser.common.ResponseCode;
-import com.example.stockmsauser.common.ResponseMessage;
+import com.example.stockmsauser.common.error.ResponseCode;
+import com.example.stockmsauser.common.error.ResponseMessage;
 import com.example.stockmsauser.domain.user.User;
 import com.example.stockmsauser.repository.userRepository.UserJpaRepository;
 import com.example.stockmsauser.web.dto.request.user.GetUserRequestDto;
@@ -18,10 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import javax.transaction.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest

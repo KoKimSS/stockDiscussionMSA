@@ -1,7 +1,7 @@
 package com.example.stockmsaactivity.web.dto.response.reply;
 
-import com.example.stockmsaactivity.common.ResponseCode;
-import com.example.stockmsaactivity.common.ResponseMessage;
+import com.example.stockmsaactivity.common.error.ResponseCode;
+import com.example.stockmsaactivity.common.error.ResponseMessage;
 import com.example.stockmsaactivity.web.dto.response.ResponseDto;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -21,8 +21,4 @@ public class GetRepliesByPosterIdResponseDto extends ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 
-    public static ResponseEntity<ResponseDto> certificationFail() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.CERTIFICATION_FAIL, ResponseMessage.CERTIFICATION_FAIL);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
-    }
 }

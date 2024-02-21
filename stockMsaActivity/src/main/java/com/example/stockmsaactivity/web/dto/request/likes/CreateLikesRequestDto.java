@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-import static com.example.stockmsaactivity.common.ValidationMessage.*;
+import static com.example.stockmsaactivity.common.error.ValidationMessage.*;
 
 
 @Data

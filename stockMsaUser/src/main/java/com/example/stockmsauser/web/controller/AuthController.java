@@ -1,5 +1,6 @@
 package com.example.stockmsauser.web.controller;
 
+import com.example.stockmsauser.common.error.exception.CertificationFailException;
 import com.example.stockmsauser.config.jwt.JwtProperties;
 import com.example.stockmsauser.service.authService.AuthService;
 import com.example.stockmsauser.web.dto.request.auth.*;
@@ -59,7 +60,7 @@ public class AuthController {
         String tokenHeader = request.getHeader(JwtProperties.HEADER_STRING);
         // 헤더 값이 없을 경우에 대한 처리
         if (tokenHeader == null || tokenHeader.isEmpty()) {
-            return ResponseDto.certificationFail();
+            throw new CertificationFailException("인증 실패");
         }
         String token = tokenHeader.replace(JwtProperties.TOKEN_PREFIX, "");
 

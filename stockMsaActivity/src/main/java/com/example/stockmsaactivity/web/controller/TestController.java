@@ -1,8 +1,7 @@
 package com.example.stockmsaactivity.web.controller;
 
-import com.example.stockmsaactivity.web.api.dto.CreateNewsFeedRequestDto;
-import com.example.stockmsaactivity.web.api.dto.response.ApiResponseDto;
-import com.example.stockmsaactivity.web.api.newsFeed.NewsFeedApi;
+import com.example.stockmsaactivity.client.dto.CreateNewsFeedRequestDto;
+import com.example.stockmsaactivity.client.newsFeed.NewsFeedApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

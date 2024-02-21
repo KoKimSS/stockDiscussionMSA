@@ -1,6 +1,6 @@
 package com.example.stockmsauser.web.dto.request.auth;
 
-import com.example.stockmsauser.common.ValidationMessage;
+import com.example.stockmsauser.common.error.ValidationMessage;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

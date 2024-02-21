@@ -1,7 +1,6 @@
 package com.example.stockmsauser.web.controller;
 
-import com.example.stockmsauser.common.ResponseCode;
-import com.example.stockmsauser.common.ResponseMessage;
+import com.example.stockmsauser.common.error.ResponseCode;
 import com.example.stockmsauser.config.jwt.JwtUtil;
 import com.example.stockmsauser.domain.user.User;
 import com.example.stockmsauser.restdocs.AbstractRestDocsTests;
@@ -22,13 +21,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import static com.example.stockmsauser.common.ResponseMessage.SUCCESS;
+import static com.example.stockmsauser.common.error.ResponseMessage.SUCCESS;
 import static com.example.stockmsauser.config.jwt.JwtProperties.HEADER_STRING;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;

@@ -1,7 +1,7 @@
 package com.example.stockmsauser.service.followService;
 
-import com.example.stockmsauser.common.ResponseCode;
-import com.example.stockmsauser.common.ResponseMessage;
+import com.example.stockmsauser.common.error.ResponseCode;
+import com.example.stockmsauser.common.error.ResponseMessage;
 import com.example.stockmsauser.domain.follow.Follow;
 import com.example.stockmsauser.domain.user.User;
 import com.example.stockmsauser.repository.followRepository.FollowJpaRepository;
@@ -17,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 
 import javax.transaction.Transactional;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

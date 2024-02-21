@@ -1,9 +1,9 @@
 package com.example.stockmsaactivity.web.controller;
 
-import com.example.stockmsaactivity.common.ResponseCode;
-import com.example.stockmsaactivity.common.ResponseMessage;
-import com.example.stockmsaactivity.common.ValidationMessage;
-import com.example.stockmsaactivity.config.jwt.JwtUtil;
+import com.example.stockmsaactivity.common.error.ResponseCode;
+import com.example.stockmsaactivity.common.error.ResponseMessage;
+import com.example.stockmsaactivity.common.error.ValidationMessage;
+import com.example.stockmsaactivity.common.jwt.JwtUtil;
 import com.example.stockmsaactivity.restdocs.AbstractRestDocsTests;
 import com.example.stockmsaactivity.service.posterService.PosterService;
 import com.example.stockmsaactivity.web.dto.request.poster.CreatePosterRequestDto;
@@ -21,10 +21,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-import static com.example.stockmsaactivity.common.ResponseCode.VALIDATION_FAIL;
-import static com.example.stockmsaactivity.common.ResponseMessage.SUCCESS;
-import static com.example.stockmsaactivity.config.jwt.JwtProperties.HEADER_STRING;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.example.stockmsaactivity.common.error.ResponseCode.VALIDATION_FAIL;
+import static com.example.stockmsaactivity.common.error.ResponseMessage.SUCCESS;
+import static com.example.stockmsaactivity.common.jwt.JwtProperties.HEADER_STRING;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;

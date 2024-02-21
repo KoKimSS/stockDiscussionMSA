@@ -1,10 +1,10 @@
 package com.example.stockmsaactivity.service.posterService;
 
-import com.example.stockmsaactivity.common.ResponseCode;
-import com.example.stockmsaactivity.common.ResponseMessage;
+import com.example.stockmsaactivity.common.error.ResponseCode;
+import com.example.stockmsaactivity.common.error.ResponseMessage;
 import com.example.stockmsaactivity.domain.poster.Poster;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
-import com.example.stockmsaactivity.web.api.newsFeed.NewsFeedApi;
+import com.example.stockmsaactivity.client.newsFeed.NewsFeedApi;
 import com.example.stockmsaactivity.web.dto.request.poster.CreatePosterRequestDto;
 import com.example.stockmsaactivity.web.dto.request.poster.GetMyPosterRequestDto;
 import com.example.stockmsaactivity.web.dto.request.poster.GetPosterRequestDto;
@@ -19,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class PosterServiceTest {
 

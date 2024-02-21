@@ -1,6 +1,6 @@
 package com.example.stockmsastock.repository.redis;
 
-import com.example.stockmsastock.domain.stock.StockPrice;
+import com.example.stockmsastock.domain.stockPrice.StockPrice;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

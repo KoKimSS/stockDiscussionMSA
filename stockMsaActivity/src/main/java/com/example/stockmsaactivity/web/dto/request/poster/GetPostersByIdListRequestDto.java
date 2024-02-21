@@ -1,8 +1,6 @@
 package com.example.stockmsaactivity.web.dto.request.poster;
 
 
-import com.example.stockmsaactivity.common.Enum;
-import com.example.stockmsaactivity.domain.like.LikeType;
 import com.example.stockmsaactivity.web.dto.request.RequestDto;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
-import static com.example.stockmsaactivity.common.ValidationMessage.*;
+import static com.example.stockmsaactivity.common.error.ValidationMessage.*;
 
 
 @Data

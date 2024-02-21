@@ -1,7 +1,7 @@
 package com.example.stockmsaactivity.service.replyService;
 
-import com.example.stockmsaactivity.common.ResponseCode;
-import com.example.stockmsaactivity.common.ResponseMessage;
+import com.example.stockmsaactivity.common.error.ResponseCode;
+import com.example.stockmsaactivity.common.error.ResponseMessage;
 import com.example.stockmsaactivity.domain.poster.Poster;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
 import com.example.stockmsaactivity.web.dto.request.reply.CreateReplyRequestDto;

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import static com.example.stockmsauser.common.ValidationMessage.*;
+import static com.example.stockmsauser.common.error.ValidationMessage.*;
 
 
 @Data

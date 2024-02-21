@@ -1,6 +1,6 @@
 package com.example.stockmsauser.handler;
 
-import com.example.stockmsauser.common.ResponseCode;
+import com.example.stockmsauser.common.error.ResponseCode;
 import com.example.stockmsauser.web.dto.response.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

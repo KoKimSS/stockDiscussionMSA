@@ -1,5 +1,6 @@
 package com.example.stockmsauser.web.controller;
 
+import com.example.stockmsauser.common.error.exception.CertificationFailException;
 import com.example.stockmsauser.config.auth.PrincipalDetails;
 import com.example.stockmsauser.service.userService.UserService;
 import com.example.stockmsauser.web.dto.request.user.GetUserRequestDto;
@@ -35,7 +36,7 @@ public class UserController {
         Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getUserId();
         System.out.println(loginId+" "+userId);
-        if (loginId != userId) return UpdatePasswordResponseDto.certificationFail();
+        if (loginId != userId) throw new CertificationFailException("인증 실패");
 
         ResponseEntity<? super UpdatePasswordResponseDto> response = userService.updatePassword(requestBody);
         return response;
@@ -49,6 +50,7 @@ public class UserController {
         String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
         Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getUserId();
+        if (loginId != userId) throw new CertificationFailException("인증 실패");
 
         ResponseEntity<? super UpdateProfileResponseDto> response = userService.updateProfile(requestBody);
         return response;

@@ -1,7 +1,7 @@
 package com.example.stockmsauser.web.dto.response.auth;
 
-import com.example.stockmsauser.common.ResponseCode;
-import com.example.stockmsauser.common.ResponseMessage;
+import com.example.stockmsauser.common.error.ResponseCode;
+import com.example.stockmsauser.common.error.ResponseMessage;
 import com.example.stockmsauser.web.dto.response.ResponseDto;
 import lombok.Data;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,6 @@
 package com.example.stockmsauser.web.controller;
 
+import com.example.stockmsauser.common.error.exception.CertificationFailException;
 import com.example.stockmsauser.config.auth.PrincipalDetails;
 import com.example.stockmsauser.service.followService.FollowService;
 import com.example.stockmsauser.web.dto.request.follow.GetMyFollowersRequestDto;
@@ -36,7 +37,7 @@ public class FollowController {
         String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
         Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getFollowerId();
-        if (loginId != userId) return StartFollowResponseDto.certificationFail();
+        if (loginId != userId) throw new CertificationFailException("인증 실패");
 
         ResponseEntity<? super StartFollowResponseDto> response = followService.follow(requestBody);
         return response;
@@ -49,6 +50,9 @@ public class FollowController {
     ){
         String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
         Long loginId = getUserIdFromToken(jwtToken);
+        Long userId = requestBody.getUserId();
+        if (loginId != userId) throw new CertificationFailException("인증 실패");
+
         ResponseEntity<? super GetMyFollowersResponseDto> response = followService.getMyFollower(requestBody);
         return response;
     }

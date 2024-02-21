@@ -1,6 +1,6 @@
 package com.example.stockmsaactivity.web.dto.request.reply;
 
-import com.example.stockmsaactivity.common.ValidationMessage;
+import com.example.stockmsaactivity.common.error.ValidationMessage;
 import com.example.stockmsaactivity.web.dto.request.RequestDto;
 import lombok.Builder;
 import lombok.Getter;

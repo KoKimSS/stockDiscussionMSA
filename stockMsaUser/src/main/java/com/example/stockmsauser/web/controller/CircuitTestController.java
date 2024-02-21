@@ -21,7 +21,6 @@ public class CircuitTestController {
         if (new Random().nextInt(100) < 20) {
             return ResponseEntity.status(500).body("Internal Server Error");
         }
-
         return ResponseEntity.ok("Normal response");
     }
 

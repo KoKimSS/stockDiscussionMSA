@@ -3,8 +3,8 @@ package com.example.stockmsauser.service.followService;
 
 import com.example.stockmsauser.domain.follow.Follow;
 import com.example.stockmsauser.domain.user.User;
-import com.example.stockmsauser.web.api.newsFeed.NewsFeedApi;
-import com.example.stockmsauser.web.api.newsFeed.request.newsFeed.CreateNewsFeedRequestDto;
+import com.example.stockmsauser.client.api.newsFeed.NewsFeedApi;
+import com.example.stockmsauser.client.api.newsFeed.request.newsFeed.CreateNewsFeedRequestDto;
 import com.example.stockmsauser.repository.followRepository.FollowJpaRepository;
 import com.example.stockmsauser.repository.userRepository.UserJpaRepository;
 import com.example.stockmsauser.web.dto.request.follow.GetMyFollowersRequestDto;
