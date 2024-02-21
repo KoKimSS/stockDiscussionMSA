@@ -1,5 +1,8 @@
 package com.example.stockmsastock.web.dto;
 
+import lombok.Data;
+
+@Data
 public class StockInfoDTO {
     private String basDt;
     private String srtnCd;

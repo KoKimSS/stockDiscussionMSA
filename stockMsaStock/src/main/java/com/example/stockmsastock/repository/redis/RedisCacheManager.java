@@ -17,7 +17,7 @@ public class RedisCacheManager {
 
     public StockPrice getStockPriceFromCache(String itemCode) throws JsonProcessingException {
         String json = redisTemplate.opsForValue().get(itemCode);
-        if(json!=null) return mapJsonToStockPrice(json);
+        if (json != null) return mapJsonToStockPrice(json);
         return null;
     }
 

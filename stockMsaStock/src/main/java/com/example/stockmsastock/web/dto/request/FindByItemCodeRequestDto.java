@@ -6,7 +6,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class FindByItemCodeRequestDto {
-
     private String itemCode;
-
 }

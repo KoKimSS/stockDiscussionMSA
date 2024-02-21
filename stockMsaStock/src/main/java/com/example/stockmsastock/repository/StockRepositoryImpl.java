@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.oxm.ValidationFailureException;
 
 import static com.example.stockmsastock.domain.stock.QStock.stock;
 
@@ -27,12 +28,6 @@ public class StockRepositoryImpl implements StockRepositoryCustom {
         return applyPagination(pageable, expression, orderSpecifier);
     }
 
-    private OrderSpecifier<Comparable<?>> getOrderSpecifier(String sortBy, String sortOrder) {
-        Order order = "desc".equalsIgnoreCase(sortOrder) ? Order.DESC : Order.ASC;
-        Path<?> field = getPath(sortBy);
-        return new OrderSpecifier<>(order, (Path<Comparable<?>>) field);
-    }
-
     private static Path<?> getPath(String sortBy) {
         Path<?> field = null;
         if ("name".equalsIgnoreCase(sortBy)) {
@@ -45,8 +40,17 @@ public class StockRepositoryImpl implements StockRepositoryCustom {
             field = stock.accumulatedTradingVolume;
         } else if ("accumulatedTradingValue".equalsIgnoreCase(sortBy)) {
             field = stock.accumulatedTradingValue;
+        } else {
+            throw new ValidationFailureException("잘못된 sortBy");
         }
         return field;
+    }
+
+    private OrderSpecifier<Comparable<?>> getOrderSpecifier(String sortBy, String sortOrder) {
+        if (sortOrder != "desc" && sortOrder != "asc") throw new ValidationFailureException("잘못된 sortOrder");
+        Order order = "desc".equalsIgnoreCase(sortOrder) ? Order.DESC : Order.ASC;
+        Path<?> field = getPath(sortBy);
+        return new OrderSpecifier<>(order, (Path<Comparable<?>>) field);
     }
 
     private Page<Stock> applyPagination(Pageable pageable, BooleanExpression expression, OrderSpecifier<?>... orders) {

@@ -5,6 +5,7 @@ import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedReque
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.CreateNewsFeedResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +24,8 @@ public class InternalNewsFeedController {
     ResponseEntity<? super CreateNewsFeedResponseDto> createNewsFeed(
             @RequestBody CreateNewsFeedRequestDto requestBody
     ){
-        ResponseEntity<? super CreateNewsFeedResponseDto> response = newsFeedService.createNewsFeed(requestBody);
-        return response;
+        CreateNewsFeedResponseDto responseDto = newsFeedService.createNewsFeed(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(responseDto);
     }
-
 }

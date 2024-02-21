@@ -1,11 +1,5 @@
 package com.example.stockmsanewsfeed.service.newsFeedService;
 
-import com.example.stockmsanewsfeed.common.error.ResponseCode;
-import com.example.stockmsanewsfeed.common.error.ResponseMessage;
-import com.example.stockmsanewsfeed.domain.newsFeed.ActivityType;
-import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeed;
-import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
-import com.example.stockmsanewsfeed.repository.newsFeedRepository.NewsFeedJpaRepository;
 import com.example.stockmsanewsfeed.client.activity.ActivityApi;
 import com.example.stockmsanewsfeed.client.dto.request.user.GetMyFollowersRequestDto;
 import com.example.stockmsanewsfeed.client.dto.request.user.GetUserRequestDto;
@@ -14,6 +8,12 @@ import com.example.stockmsanewsfeed.client.dto.response.user.GetMyFollowersRespo
 import com.example.stockmsanewsfeed.client.dto.response.user.GetUserResponseDto;
 import com.example.stockmsanewsfeed.client.dto.response.user.UserDto;
 import com.example.stockmsanewsfeed.client.user.UserApi;
+import com.example.stockmsanewsfeed.common.error.ResponseCode;
+import com.example.stockmsanewsfeed.common.error.ResponseMessage;
+import com.example.stockmsanewsfeed.domain.newsFeed.ActivityType;
+import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeed;
+import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
+import com.example.stockmsanewsfeed.repository.newsFeedRepository.NewsFeedJpaRepository;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedResponseDto;
@@ -31,7 +31,8 @@ import java.util.List;
 import static com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.given;
 
 
 @SpringBootTest
@@ -46,11 +47,33 @@ class NewsFeedServiceTest {
     private UserApi userApi;
     @MockBean
     private ActivityApi activityApi;
-    private Long userId = 1L;
-    private Long follower1Id = 2L;
-    private Long follower2Id = 3L;
-    private Long posterOwnerId = 4L;
-    private Long posterId = 1L;
+    private final Long userId = 1L;
+    private final Long follower1Id = 2L;
+    private final Long follower2Id = 3L;
+    private final Long posterOwnerId = 4L;
+    private final Long posterId = 1L;
+
+    private static GetMyNewsFeedRequestDto getRequestDto(Long followerId, int page, int size) {
+        return GetMyNewsFeedRequestDto.builder()
+                .page(page)
+                .size(size)
+                .userId(followerId).build();
+    }
+
+    private static NewsFeed getNewsFeed(Long userId, NewsFeedType newsFeedType, Long activityUserId) {
+        return NewsFeed.builder().userId(userId)
+                .newsFeedType(newsFeedType)
+                .activityUserId(activityUserId).build();
+    }
+
+    private static CreateNewsFeedRequestDto getCreateNewsFeedRequestDto(Long userId, ActivityType activityType, Long relatedUserId, Long relatedPosterId) {
+        return CreateNewsFeedRequestDto.builder()
+                .userId(userId)
+                .activityType(activityType)
+                .relatedUserId(relatedUserId)
+                .relatedPosterId(relatedPosterId)
+                .build();
+    }
 
     @BeforeEach
     void setUp() {
@@ -67,8 +90,8 @@ class NewsFeedServiceTest {
         given(userApi.getMyFollower(any(GetMyFollowersRequestDto.class)))
                 .willReturn(
                         GetMyFollowersResponseDto.builder()
-                                .followerList(List.of(follower1,follower2))
-                        .build());
+                                .followerList(List.of(follower1, follower2))
+                                .build());
 
         given(userApi.getUserById(GetUserRequestDto.builder()
                 .userId(1L)
@@ -78,8 +101,8 @@ class NewsFeedServiceTest {
                                 .id(1L)
                                 .name("user")
                                 .build())
-                                .build()
-                        );
+                        .build()
+                );
         given(userApi.getUserById(GetUserRequestDto.builder()
                 .userId(2L)
                 .build()))
@@ -109,10 +132,10 @@ class NewsFeedServiceTest {
         Long userId = 1L;
         Long activityUserId = 2L;
 
-        NewsFeed newsFeed1 = getNewsFeed(userId, FOLLOWING_POST ,activityUserId);
-        NewsFeed newsFeed2 = getNewsFeed(userId, FOLLOWING_LIKE ,activityUserId);
-        NewsFeed newsFeed3 = getNewsFeed(userId, FOLLOWING_REPLY ,activityUserId);
-        NewsFeed newsFeed4 = getNewsFeed(userId, FOLLOWING_FOLLOW ,activityUserId);
+        NewsFeed newsFeed1 = getNewsFeed(userId, FOLLOWING_POST, activityUserId);
+        NewsFeed newsFeed2 = getNewsFeed(userId, FOLLOWING_LIKE, activityUserId);
+        NewsFeed newsFeed3 = getNewsFeed(userId, FOLLOWING_REPLY, activityUserId);
+        NewsFeed newsFeed4 = getNewsFeed(userId, FOLLOWING_FOLLOW, activityUserId);
 
         newsFeedJpaRepository.saveAll(List.of(newsFeed1, newsFeed2, newsFeed3, newsFeed4));
 
@@ -121,8 +144,8 @@ class NewsFeedServiceTest {
         GetMyNewsFeedRequestDto requestDto1 = getRequestDto(userId, 1, pageSize);
 
         //when
-        GetMyNewsFeedResponseDto page0Response = (GetMyNewsFeedResponseDto) newsFeedService.getMyNewsFeeds(requestDto0).getBody();
-        GetMyNewsFeedResponseDto page1Response = (GetMyNewsFeedResponseDto) newsFeedService.getMyNewsFeeds(requestDto1).getBody();
+        GetMyNewsFeedResponseDto page0Response = newsFeedService.getMyNewsFeeds(requestDto0);
+        GetMyNewsFeedResponseDto page1Response = newsFeedService.getMyNewsFeeds(requestDto1);
 
         //then
         Assertions.assertThat(page0Response)
@@ -143,19 +166,6 @@ class NewsFeedServiceTest {
                 );
     }
 
-    private static GetMyNewsFeedRequestDto getRequestDto(Long followerId, int page, int size) {
-        return GetMyNewsFeedRequestDto.builder()
-                .page(page)
-                .size(size)
-                .userId(followerId).build();
-    }
-
-    private static NewsFeed getNewsFeed(Long userId, NewsFeedType newsFeedType , Long activityUserId) {
-        return NewsFeed.builder().userId(userId)
-                .newsFeedType(newsFeedType)
-                .activityUserId(activityUserId).build();
-    }
-
     @DisplayName("게시글을 작성시 유저의 팔로워들의 뉴스피드 생성")
     @Test
     public void createNewsFeedWithPOST() throws Exception {
@@ -163,7 +173,7 @@ class NewsFeedServiceTest {
         ActivityType activityType = ActivityType.POST;
 
 
-        CreateNewsFeedRequestDto createNewsFeedRequestDto = getCreateNewsFeedRequestDto(userId, activityType, null,posterId);
+        CreateNewsFeedRequestDto createNewsFeedRequestDto = getCreateNewsFeedRequestDto(userId, activityType, null, posterId);
         //when
         newsFeedService.createNewsFeed(createNewsFeedRequestDto);
         List<NewsFeed> follower1NewsFeed = newsFeedJpaRepository.findAllByUserId(follower1Id);
@@ -195,7 +205,7 @@ class NewsFeedServiceTest {
         List<NewsFeed> all = newsFeedJpaRepository.findAll();
 
         System.out.println("프린트");
-        all.forEach(a-> System.out.println(a.getUserId()));
+        all.forEach(a -> System.out.println(a.getUserId()));
 
         //then
         assertThat(all.size()).isEqualTo(3);
@@ -216,7 +226,7 @@ class NewsFeedServiceTest {
         //given
         ActivityType activityType = ActivityType.FOLLOW;
 
-        CreateNewsFeedRequestDto createNewsFeedRequestDto = getCreateNewsFeedRequestDto(userId, activityType, posterOwnerId , null);
+        CreateNewsFeedRequestDto createNewsFeedRequestDto = getCreateNewsFeedRequestDto(userId, activityType, posterOwnerId, null);
         //when
         newsFeedService.createNewsFeed(createNewsFeedRequestDto);
         List<NewsFeed> follower1NewsFeed = newsFeedJpaRepository.findAllByUserId(follower1Id);
@@ -243,7 +253,7 @@ class NewsFeedServiceTest {
         //given
         ActivityType activityType = ActivityType.LIKE;
 
-        CreateNewsFeedRequestDto createNewsFeedRequestDto = getCreateNewsFeedRequestDto(userId, activityType, posterOwnerId , posterId);
+        CreateNewsFeedRequestDto createNewsFeedRequestDto = getCreateNewsFeedRequestDto(userId, activityType, posterOwnerId, posterId);
 
         //when
         newsFeedService.createNewsFeed(createNewsFeedRequestDto);
@@ -263,15 +273,5 @@ class NewsFeedServiceTest {
         assertThat(posterOwnerNewsFeed)
                 .extracting("newsFeedType", "activityUserId")
                 .containsExactlyInAnyOrder(tuple(MY_LIKE, userId));
-    }
-
-
-    private static CreateNewsFeedRequestDto getCreateNewsFeedRequestDto(Long userId, ActivityType activityType , Long relatedUserId, Long relatedPosterId) {
-        return CreateNewsFeedRequestDto.builder()
-                .userId(userId)
-                .activityType(activityType)
-                .relatedUserId(relatedUserId)
-                .relatedPosterId(relatedPosterId)
-                .build();
     }
 }

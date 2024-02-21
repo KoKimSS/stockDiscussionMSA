@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -41,27 +40,8 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     private final NewsFeedJpaRepository newsFeedJpaRepository;
     private final UserApi userApi;
 
-    private static boolean isValidRequestDto(ActivityType activityType, Long relatedUserId, Long posterId) {
-        return (activityType != ActivityType.POST && relatedUserId == null)
-                || (activityType != ActivityType.FOLLOW && posterId == null);
-    }
-
-    private static List<NewsFeed> createFollowersNewsFeedList(Long userId, NewsFeedType newsFeedType, List<FollowerDto> followList, Long posterId, Long relatedUserId) {
-        return followList.stream()
-                .map(followerDto -> {
-                    return NewsFeed.builder()
-                            .newsFeedType(newsFeedType)
-                            .userId(followerDto.getFollowerId())
-                            .activityUserId(userId)
-                            .relatedPosterId(posterId)
-                            .relatedUserId(relatedUserId)
-                            .build();
-                })
-                .collect(Collectors.toList());
-    }
-
     @Override
-    public ResponseEntity<? super GetMyNewsFeedResponseDto> getMyNewsFeeds(GetMyNewsFeedRequestDto dto) {
+    public GetMyNewsFeedResponseDto getMyNewsFeeds(GetMyNewsFeedRequestDto dto) {
         Long userId = dto.getUserId();
         int page = dto.getPage();
         int size = dto.getSize();
@@ -71,11 +51,12 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         if (newsFeedPage == null) throw new DatabaseErrorException("db에러");
 
         Page<NewsFeedDto> newsFeedDtoPage = newsFeedPage.map(newsFeedMapper::toGetMyNewsFeedDto);
-        return GetMyNewsFeedResponseDto.success(newsFeedDtoPage);
+        return GetMyNewsFeedResponseDto.builder()
+                .newsFeedPage(newsFeedDtoPage).build();
     }
 
     @Override
-    public ResponseEntity<? super GetMyNewsFeedByTypeResponseDto> getMyNewsFeedsByType(GetMyNewsFeedByTypesRequestDto dto) {
+    public GetMyNewsFeedByTypeResponseDto getMyNewsFeedsByType(GetMyNewsFeedByTypesRequestDto dto) {
         Long userId = dto.getUserId();
         int page = dto.getPage();
         int size = dto.getSize();
@@ -86,11 +67,12 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         if (newsFeedPage == null) throw new DatabaseErrorException("db에러");
 
         Page<NewsFeedDto> newsFeedDtoPage = newsFeedPage.map(newsFeedMapper::toGetMyNewsFeedDto);
-        return GetMyNewsFeedByTypeResponseDto.success(newsFeedDtoPage);
+        return GetMyNewsFeedByTypeResponseDto.builder()
+                .newsFeedPage(newsFeedDtoPage).build();
     }
 
     @Override
-    public ResponseEntity<? super CreateNewsFeedResponseDto> createNewsFeed(
+    public CreateNewsFeedResponseDto createNewsFeed(
             CreateNewsFeedRequestDto dto) {
         //나를 팔로우 하는 사람들의 뉴스피드 리스트 생성
         ActivityType activityType = dto.getActivityType();
@@ -99,7 +81,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         Long relatedUserId = dto.getRelatedUserId();
         Long relatedPosterId = dto.getRelatedPosterId();
 
-        if (isValidRequestDto(activityType, relatedUserId, relatedPosterId)) {
+        if (isValidNewsFeedRequestDto(activityType, relatedUserId, relatedPosterId)) {
             throw new ValidationFailException("newsFeed request valid fail");
         }
 
@@ -131,7 +113,26 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             exception.printStackTrace();
             throw new DatabaseErrorException("뉴스피드 생성 db 에러");
         }
-        return CreateNewsFeedResponseDto.success();
+        return new CreateNewsFeedResponseDto();
+    }
+
+    private static boolean isValidNewsFeedRequestDto(ActivityType activityType, Long relatedUserId, Long posterId) {
+        return (activityType != ActivityType.POST && relatedUserId == null)
+                || (activityType != ActivityType.FOLLOW && posterId == null);
+    }
+
+    private static List<NewsFeed> createFollowersNewsFeedList(Long userId, NewsFeedType newsFeedType, List<FollowerDto> followList, Long posterId, Long relatedUserId) {
+        return followList.stream()
+                .map(followerDto -> {
+                    return NewsFeed.builder()
+                            .newsFeedType(newsFeedType)
+                            .userId(followerDto.getFollowerId())
+                            .activityUserId(userId)
+                            .relatedPosterId(posterId)
+                            .relatedUserId(relatedUserId)
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
     private NewsFeedType followersTypeBy(ActivityType activityType) {

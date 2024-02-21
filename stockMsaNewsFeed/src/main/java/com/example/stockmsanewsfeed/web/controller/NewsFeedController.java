@@ -11,6 +11,7 @@ import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedByTyp
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +39,9 @@ public class NewsFeedController {
         Long userId = requestBody.getUserId();
         if(loginId!=userId) throw new CertificationFailException("인증 오류");
 
-        ResponseEntity<? super GetMyNewsFeedResponseDto> response = newsFeedService.getMyNewsFeeds(requestBody);
-        return response;
+        GetMyNewsFeedResponseDto responseDto = newsFeedService.getMyNewsFeeds(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(responseDto);
     }
 
     @PostMapping("/get-myNewsFeed-by-types")
@@ -52,8 +54,9 @@ public class NewsFeedController {
         Long userId = requestBody.getUserId();
         if(loginId!=userId) throw new CertificationFailException("인증 오류");
 
-        ResponseEntity<? super GetMyNewsFeedByTypeResponseDto> response = newsFeedService.getMyNewsFeedsByType(requestBody);
-        return response;
+        GetMyNewsFeedByTypeResponseDto responseDto = newsFeedService.getMyNewsFeedsByType(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(responseDto);
     }
 
     @PostMapping("create-newsFeed")
@@ -61,7 +64,8 @@ public class NewsFeedController {
             @RequestBody CreateNewsFeedRequestDto requestBody
     ){
         log.info("뉴스피드 메시지 도착");
-        ResponseEntity<? super CreateNewsFeedResponseDto> response = newsFeedService.createNewsFeed(requestBody);
-        return response;
+        CreateNewsFeedResponseDto responseDto = newsFeedService.createNewsFeed(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(responseDto);
     }
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class GetStockPageOrderByRequestDto {
 
+
     private int page;
     private int size;
     private String sortBy;
