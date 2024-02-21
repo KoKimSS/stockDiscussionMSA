@@ -2,6 +2,7 @@ package com.example.stockmsanewsfeed.web.controller.internal;
 
 import com.example.stockmsanewsfeed.service.newsFeedService.NewsFeedService;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedRequestDto;
+import com.example.stockmsanewsfeed.web.dto.response.ResponseDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.CreateNewsFeedResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +25,8 @@ public class InternalNewsFeedController {
     ResponseEntity<? super CreateNewsFeedResponseDto> createNewsFeed(
             @RequestBody CreateNewsFeedRequestDto requestBody
     ){
-        CreateNewsFeedResponseDto responseDto = newsFeedService.createNewsFeed(requestBody);
+        newsFeedService.createNewsFeed(requestBody);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(responseDto);
+                .body(ResponseDto.ofSuccess(null));
     }
 }

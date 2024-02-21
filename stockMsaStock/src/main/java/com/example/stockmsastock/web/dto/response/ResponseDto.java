@@ -1,10 +1,11 @@
-package com.example.stockmsaactivity.web.dto.response;
+package com.example.stockmsastock.web.dto.response;
 
-import com.example.stockmsaactivity.common.error.ResponseCode;
-import com.example.stockmsaactivity.common.error.ResponseMessage;
-import lombok.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.stockmsastock.common.error.ResponseCode;
+import com.example.stockmsastock.common.error.ResponseMessage;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @RequiredArgsConstructor(staticName = "of")

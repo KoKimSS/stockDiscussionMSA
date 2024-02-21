@@ -14,9 +14,6 @@ import com.example.stockmsanewsfeed.repository.newsFeedRepository.NewsFeedJpaRep
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedByTypesRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
-import com.example.stockmsanewsfeed.web.dto.response.newsFeed.CreateNewsFeedResponseDto;
-import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedByTypeResponseDto;
-import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedResponseDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -41,7 +38,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     private final UserApi userApi;
 
     @Override
-    public GetMyNewsFeedResponseDto getMyNewsFeeds(GetMyNewsFeedRequestDto dto) {
+    public Page<NewsFeedDto> getMyNewsFeeds(GetMyNewsFeedRequestDto dto) {
         Long userId = dto.getUserId();
         int page = dto.getPage();
         int size = dto.getSize();
@@ -51,12 +48,11 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         if (newsFeedPage == null) throw new DatabaseErrorException("db에러");
 
         Page<NewsFeedDto> newsFeedDtoPage = newsFeedPage.map(newsFeedMapper::toGetMyNewsFeedDto);
-        return GetMyNewsFeedResponseDto.builder()
-                .newsFeedPage(newsFeedDtoPage).build();
+        return newsFeedDtoPage;
     }
 
     @Override
-    public GetMyNewsFeedByTypeResponseDto getMyNewsFeedsByType(GetMyNewsFeedByTypesRequestDto dto) {
+    public Page<NewsFeedDto> getMyNewsFeedsByType(GetMyNewsFeedByTypesRequestDto dto) {
         Long userId = dto.getUserId();
         int page = dto.getPage();
         int size = dto.getSize();
@@ -67,12 +63,11 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         if (newsFeedPage == null) throw new DatabaseErrorException("db에러");
 
         Page<NewsFeedDto> newsFeedDtoPage = newsFeedPage.map(newsFeedMapper::toGetMyNewsFeedDto);
-        return GetMyNewsFeedByTypeResponseDto.builder()
-                .newsFeedPage(newsFeedDtoPage).build();
+        return newsFeedDtoPage;
     }
 
     @Override
-    public CreateNewsFeedResponseDto createNewsFeed(
+    public void createNewsFeed(
             CreateNewsFeedRequestDto dto) {
         //나를 팔로우 하는 사람들의 뉴스피드 리스트 생성
         ActivityType activityType = dto.getActivityType();
@@ -113,7 +108,6 @@ public class NewsFeedServiceImpl implements NewsFeedService {
             exception.printStackTrace();
             throw new DatabaseErrorException("뉴스피드 생성 db 에러");
         }
-        return new CreateNewsFeedResponseDto();
     }
 
     private static boolean isValidNewsFeedRequestDto(ActivityType activityType, Long relatedUserId, Long posterId) {

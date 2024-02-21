@@ -2,24 +2,24 @@ package com.example.stockmsanewsfeed.web.dto.response;
 
 import com.example.stockmsanewsfeed.common.error.ResponseCode;
 import com.example.stockmsanewsfeed.common.error.ResponseMessage;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.*;
+
 
 @Getter
-public class ResponseDto {
-    private String code;
-    private String message;
-
-    public ResponseDto() {
-        this.code = ResponseCode.SUCCESS;
-        this.message = ResponseMessage.SUCCESS;
-    }
+@RequiredArgsConstructor(staticName = "of")
+@AllArgsConstructor
+public class ResponseDto<D> {
+    private final String code;
+    private final String message;
+    private final D data;
 
     public ResponseDto(String code, String message) {
         this.code = code;
         this.message = message;
+        this.data = null;
+    }
+
+    public static <D> ResponseDto<D> ofSuccess(D data) {
+        return new ResponseDto<>(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, data);
     }
 }

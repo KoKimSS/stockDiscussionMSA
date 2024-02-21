@@ -5,6 +5,7 @@ import com.example.stockmsastock.service.StockService;
 import com.example.stockmsastock.web.dto.request.FindByItemCodeRequestDto;
 import com.example.stockmsastock.web.dto.request.FindByNameRequestDto;
 import com.example.stockmsastock.web.dto.request.GetStockPageOrderByRequestDto;
+import com.example.stockmsastock.web.dto.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,31 +30,33 @@ public class StockController {
 
     @PostMapping
     @RequestMapping("find-by-name")
-    ResponseEntity<List<Stock>> findByName(
+    ResponseEntity<ResponseDto<List<Stock>>> findByName(
             @RequestBody FindByNameRequestDto requestDto
     ){
         List<Stock> stocks = stockService.findByName(requestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(stocks);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(stocks));
     }
 
     @PostMapping
     @RequestMapping("find-by-itemCode")
-    ResponseEntity<Stock> findByItemCode(
+    ResponseEntity<ResponseDto<Stock>> findByItemCode(
             @RequestBody FindByItemCodeRequestDto requestDto
     ){
         Stock stock = stockService.findByItemCode(requestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(stock);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(stock));
     }
 
 
     @PostMapping
     @RequestMapping("find-page-orderBy")
-    ResponseEntity<Page<Stock>> getPageOrderBy(
+    ResponseEntity<ResponseDto<Page<Stock>>> getPageOrderBy(
             @RequestBody GetStockPageOrderByRequestDto requestDto
     ) {
         Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getSize());
         Page<Stock> pageOrderBy = stockService.getPageOrderBy(requestDto.getSortBy(), requestDto.getSortOrder(), pageable);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(pageOrderBy);
+                .body(ResponseDto.ofSuccess(pageOrderBy));
     }
 }
