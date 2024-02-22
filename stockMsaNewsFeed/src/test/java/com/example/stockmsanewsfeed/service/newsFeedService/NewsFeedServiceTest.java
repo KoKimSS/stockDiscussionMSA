@@ -13,6 +13,7 @@ import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeed;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
 import com.example.stockmsanewsfeed.repository.newsFeedRepository.NewsFeedJpaRepository;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedRequestDto;
+import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedByTypesRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPageDto;
@@ -157,6 +158,39 @@ class NewsFeedServiceTest {
                 .extracting("newsFeedType", "activityUserId")
                 .containsExactly(
                         tuple(FOLLOWING_REPLY, activityUserId), tuple(FOLLOWING_FOLLOW, activityUserId)
+                );
+    }
+
+    @DisplayName("타입으로 나의 뉴스피드 가져오기")
+    @Test
+    public void getMyNewsFeedsByTypes() throws Exception {
+        //given
+        Long userId = 1L;
+        Long activityUserId = 2L;
+
+        NewsFeed newsFeed1 = getNewsFeed(userId, FOLLOWING_POST, activityUserId);
+        NewsFeed newsFeed2 = getNewsFeed(userId, FOLLOWING_LIKE, activityUserId);
+        NewsFeed newsFeed3 = getNewsFeed(userId, FOLLOWING_REPLY, activityUserId);
+        NewsFeed newsFeed4 = getNewsFeed(userId, FOLLOWING_FOLLOW, activityUserId);
+
+        newsFeedJpaRepository.saveAll(List.of(newsFeed1, newsFeed2, newsFeed3, newsFeed4));
+
+        GetMyNewsFeedByTypesRequestDto requestDto0
+                = GetMyNewsFeedByTypesRequestDto.builder()
+                .userId(userId)
+                .size(2)
+                .page(0)
+                .newsFeedTypeList(List.of(FOLLOWING_POST,FOLLOWING_LIKE))
+                .build();
+
+        //when
+        NewsFeedPageDto newsFeedPageDto = newsFeedService.getMyNewsFeedsByType(requestDto0);
+
+        //then
+        Assertions.assertThat(newsFeedPageDto.getContents())
+                .extracting("newsFeedType", "activityUserId")
+                .containsExactly(
+                        tuple(FOLLOWING_POST, activityUserId), tuple(FOLLOWING_LIKE, activityUserId)
                 );
     }
 
