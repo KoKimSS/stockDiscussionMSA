@@ -8,15 +8,14 @@ import com.example.stockmsanewsfeed.client.dto.response.user.GetMyFollowersRespo
 import com.example.stockmsanewsfeed.client.dto.response.user.GetUserResponseDto;
 import com.example.stockmsanewsfeed.client.dto.response.user.UserDto;
 import com.example.stockmsanewsfeed.client.user.UserApi;
-import com.example.stockmsanewsfeed.common.error.ResponseCode;
-import com.example.stockmsanewsfeed.common.error.ResponseMessage;
 import com.example.stockmsanewsfeed.domain.newsFeed.ActivityType;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeed;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
 import com.example.stockmsanewsfeed.repository.newsFeedRepository.NewsFeedJpaRepository;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
-import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedResponseDto;
+import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
+import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPageDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -144,22 +144,16 @@ class NewsFeedServiceTest {
         GetMyNewsFeedRequestDto requestDto1 = getRequestDto(userId, 1, pageSize);
 
         //when
-        GetMyNewsFeedResponseDto page0Response = newsFeedService.getMyNewsFeeds(requestDto0);
-        GetMyNewsFeedResponseDto page1Response = newsFeedService.getMyNewsFeeds(requestDto1);
+        NewsFeedPageDto page0Response = newsFeedService.getMyNewsFeeds(requestDto0);
+        NewsFeedPageDto page1Response = newsFeedService.getMyNewsFeeds(requestDto1);
 
         //then
-        Assertions.assertThat(page0Response)
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        Assertions.assertThat(page1Response)
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        Assertions.assertThat(page0Response.getNewsFeedPage().getContent())
+        Assertions.assertThat(page0Response.getContents())
                 .extracting("newsFeedType", "activityUserId")
                 .containsExactly(
                         tuple(FOLLOWING_POST, activityUserId), tuple(FOLLOWING_LIKE, activityUserId)
                 );
-        Assertions.assertThat(page1Response.getNewsFeedPage().getContent())
+        Assertions.assertThat(page1Response.getContents())
                 .extracting("newsFeedType", "activityUserId")
                 .containsExactly(
                         tuple(FOLLOWING_REPLY, activityUserId), tuple(FOLLOWING_FOLLOW, activityUserId)
@@ -171,9 +165,8 @@ class NewsFeedServiceTest {
     public void createNewsFeedWithPOST() throws Exception {
         //given
         ActivityType activityType = ActivityType.POST;
-
-
         CreateNewsFeedRequestDto createNewsFeedRequestDto = getCreateNewsFeedRequestDto(userId, activityType, null, posterId);
+
         //when
         newsFeedService.createNewsFeed(createNewsFeedRequestDto);
         List<NewsFeed> follower1NewsFeed = newsFeedJpaRepository.findAllByUserId(follower1Id);

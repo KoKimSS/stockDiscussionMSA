@@ -5,12 +5,13 @@ import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedReque
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedByTypesRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
+import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPageDto;
 import org.springframework.data.domain.Page;
 
 public interface NewsFeedService {
     void createNewsFeed(CreateNewsFeedRequestDto dto);
 
-    Page<NewsFeedDto> getMyNewsFeeds(GetMyNewsFeedRequestDto dto);
+    NewsFeedPageDto getMyNewsFeeds(GetMyNewsFeedRequestDto dto);
 
-    Page<NewsFeedDto> getMyNewsFeedsByType(GetMyNewsFeedByTypesRequestDto dto);
+    NewsFeedPageDto getMyNewsFeedsByType(GetMyNewsFeedByTypesRequestDto dto);
 }

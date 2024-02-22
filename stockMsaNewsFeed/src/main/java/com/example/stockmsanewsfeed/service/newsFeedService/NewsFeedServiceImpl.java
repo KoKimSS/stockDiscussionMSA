@@ -15,6 +15,7 @@ import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedReque
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedByTypesRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
+import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType.*;
+import static com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPageDto.pageToPageDto;
 
 
 @Service
@@ -38,7 +40,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
     private final UserApi userApi;
 
     @Override
-    public Page<NewsFeedDto> getMyNewsFeeds(GetMyNewsFeedRequestDto dto) {
+    public NewsFeedPageDto getMyNewsFeeds(GetMyNewsFeedRequestDto dto) {
         Long userId = dto.getUserId();
         int page = dto.getPage();
         int size = dto.getSize();
@@ -48,11 +50,12 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         if (newsFeedPage == null) throw new DatabaseErrorException("db에러");
 
         Page<NewsFeedDto> newsFeedDtoPage = newsFeedPage.map(newsFeedMapper::toGetMyNewsFeedDto);
-        return newsFeedDtoPage;
+        NewsFeedPageDto newsFeedPageDto = pageToPageDto(newsFeedDtoPage);
+        return newsFeedPageDto;
     }
 
     @Override
-    public Page<NewsFeedDto> getMyNewsFeedsByType(GetMyNewsFeedByTypesRequestDto dto) {
+    public NewsFeedPageDto getMyNewsFeedsByType(GetMyNewsFeedByTypesRequestDto dto) {
         Long userId = dto.getUserId();
         int page = dto.getPage();
         int size = dto.getSize();
@@ -63,8 +66,11 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         if (newsFeedPage == null) throw new DatabaseErrorException("db에러");
 
         Page<NewsFeedDto> newsFeedDtoPage = newsFeedPage.map(newsFeedMapper::toGetMyNewsFeedDto);
-        return newsFeedDtoPage;
+        NewsFeedPageDto newsFeedPageDto = pageToPageDto(newsFeedDtoPage);
+        return newsFeedPageDto;
     }
+
+
 
     @Override
     public void createNewsFeed(

@@ -25,7 +25,6 @@ class NewsFeedJpaRepositoryTest {
 
     @Autowired
     NewsFeedJpaRepository newsFeedJpaRepository;
-
     @AfterEach
     void afterEach() {
         newsFeedJpaRepository.deleteAllInBatch();

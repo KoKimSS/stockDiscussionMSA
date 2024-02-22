@@ -7,7 +7,7 @@ import lombok.*;
 
 @Getter
 @RequiredArgsConstructor(staticName = "of")
-@AllArgsConstructor
+@ToString
 public class ResponseDto<D> {
     private final String code;
     private final String message;

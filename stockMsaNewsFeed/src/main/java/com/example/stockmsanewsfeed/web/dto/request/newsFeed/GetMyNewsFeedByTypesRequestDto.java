@@ -1,5 +1,8 @@
 package com.example.stockmsanewsfeed.web.dto.request.newsFeed;
 
+import com.example.stockmsanewsfeed.common.Enum;
+import com.example.stockmsanewsfeed.common.EnumList;
+import com.example.stockmsanewsfeed.common.error.ValidationMessage;
 import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
 import com.example.stockmsanewsfeed.web.dto.request.RequestDto;
 import lombok.Builder;
@@ -24,7 +27,7 @@ public class GetMyNewsFeedByTypesRequestDto extends RequestDto {
     private int page;
     @Positive(message = PAGE_SIZE_POSITIVE )
     private int size;
-
+//    @EnumList(enumClass = NewsFeedType.class, message = NOT_NEWSFEED_TYPE)
     List<NewsFeedType> newsFeedTypeList;
 
     @Builder

@@ -5,9 +5,11 @@ import com.example.stockmsanewsfeed.domain.newsFeed.NewsFeedType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class NewsFeedDto {
     private Long userId;
     private String userName;

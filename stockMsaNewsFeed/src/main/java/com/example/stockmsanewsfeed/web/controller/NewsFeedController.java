@@ -7,10 +7,8 @@ import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedReque
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedByTypesRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.response.ResponseDto;
-import com.example.stockmsanewsfeed.web.dto.response.newsFeed.CreateNewsFeedResponseDto;
-import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedByTypeResponseDto;
-import com.example.stockmsanewsfeed.web.dto.response.newsFeed.GetMyNewsFeedResponseDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
+import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,7 +31,7 @@ public class NewsFeedController {
     private final NewsFeedService newsFeedService;
 
     @PostMapping("/get-myNewsFeed")
-    ResponseEntity<ResponseDto<Page<NewsFeedDto>>> getMyNewsFeed(
+    ResponseEntity<ResponseDto<NewsFeedPageDto>> getMyNewsFeed(
             @Valid@RequestBody GetMyNewsFeedRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -42,13 +40,13 @@ public class NewsFeedController {
         Long userId = requestBody.getUserId();
         if(loginId!=userId) throw new CertificationFailException("인증 오류");
 
-        Page<NewsFeedDto> myNewsFeeds = newsFeedService.getMyNewsFeeds(requestBody);
+        NewsFeedPageDto myNewsFeeds = newsFeedService.getMyNewsFeeds(requestBody);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.ofSuccess(myNewsFeeds));
     }
 
     @PostMapping("/get-myNewsFeed-by-types")
-    ResponseEntity<ResponseDto<Page<NewsFeedDto>>> getMyNewsFeedByTypes(
+    ResponseEntity<ResponseDto<NewsFeedPageDto>> getMyNewsFeedByTypes(
             @Valid@RequestBody GetMyNewsFeedByTypesRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -57,7 +55,7 @@ public class NewsFeedController {
         Long userId = requestBody.getUserId();
         if(loginId!=userId) throw new CertificationFailException("인증 오류");
 
-        Page<NewsFeedDto> myNewsFeedsByType = newsFeedService.getMyNewsFeedsByType(requestBody);
+        NewsFeedPageDto myNewsFeedsByType = newsFeedService.getMyNewsFeedsByType(requestBody);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.ofSuccess(myNewsFeedsByType));
     }
