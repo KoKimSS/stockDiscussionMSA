@@ -8,4 +8,5 @@ import java.util.List;
 public interface FollowJpaRepository extends JpaRepository<Follow,Long> {
     List<Follow> findByFollowingId(Long followingId);
     List<Follow> findByFollowerId(Long followerId);
+    boolean existsByFollowingIdAndFollowerId(Long followingId, Long followerId);
 }

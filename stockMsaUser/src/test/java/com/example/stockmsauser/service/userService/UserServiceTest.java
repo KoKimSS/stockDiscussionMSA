@@ -1,23 +1,22 @@
 package com.example.stockmsauser.service.userService;
 
-import com.example.stockmsauser.common.error.ResponseCode;
-import com.example.stockmsauser.common.error.ResponseMessage;
+import com.example.stockmsauser.common.error.exception.CertificationFailException;
 import com.example.stockmsauser.domain.user.User;
 import com.example.stockmsauser.repository.userRepository.UserJpaRepository;
 import com.example.stockmsauser.web.dto.request.user.GetUserRequestDto;
 import com.example.stockmsauser.web.dto.request.user.UpdatePasswordRequestDto;
 import com.example.stockmsauser.web.dto.request.user.UpdateProfileRequestDto;
-import com.example.stockmsauser.web.dto.response.user.GetUserResponseDto;
-import com.example.stockmsauser.web.dto.response.user.UpdatePasswordResponseDto;
-import com.example.stockmsauser.web.dto.response.user.UpdateProfileResponseDto;
+import com.example.stockmsauser.web.dto.response.user.UserDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -52,12 +51,10 @@ class UserServiceTest {
                 .build();
 
         //when
-        ResponseEntity<? super UpdatePasswordResponseDto> response = userService.updatePassword(requestDto);
+        Long userId = userService.updatePassword(requestDto);
 
         //then
-        Assertions.assertThat(response.getBody())
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        assertThat(userId).isEqualTo(user.getId());
     }
 
     @DisplayName("기존과 매칭되지 않는 비밀번호를 이용해 새로운 비밀번호를 업데이트를 하여 업데이트 실패 ")
@@ -79,13 +76,8 @@ class UserServiceTest {
                 .newPassword(newPassword)
                 .build();
 
-        //when
-        ResponseEntity<? super UpdatePasswordResponseDto> response = userService.updatePassword(requestDto);
-
-        //then
-        Assertions.assertThat(response.getBody())
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.CERTIFICATION_FAIL, ResponseMessage.CERTIFICATION_FAIL);
+        //when, then
+        assertThrows(CertificationFailException.class,()->userService.updatePassword(requestDto));
     }
 
     @DisplayName("프로필 업데이트 서비스")
@@ -96,9 +88,7 @@ class UserServiceTest {
                 .name("user")
                 .imgPath("imgPath")
                 .introduction("introduction").build();
-        User save = userJpaRepository.save(user);
-        Long userId = save.getId();
-
+        userJpaRepository.save(user);
 
         String updateName = "업데이트이름";
         String updateImgPath = "업데이트이미지";
@@ -112,16 +102,12 @@ class UserServiceTest {
                 .build();
 
         //when
-        ResponseEntity<? super UpdateProfileResponseDto> response = userService.updateProfile(requestDto);
-        User updatedUser = userJpaRepository.findById(userId).get();
+        Long updatedUserId = userService.updateProfile(requestDto);
+        User updatedUser = userJpaRepository.findById(updatedUserId).get();
 
         //then
         Assertions.assertThat(updatedUser).extracting("name", "imgPath", "introduction")
                 .containsExactly(updateName, updateImgPath, updateIntro);
-
-        Assertions.assertThat(response.getBody())
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
     }
 
     @DisplayName("아이디로 유저 찾기")
@@ -138,16 +124,11 @@ class UserServiceTest {
         GetUserRequestDto requestDto = GetUserRequestDto.builder().userId(userId).build();
 
         //when
-        ResponseEntity<? super GetUserResponseDto> response = userService.findById(requestDto);
-        GetUserResponseDto responseDto = (GetUserResponseDto) response.getBody();
+        UserDto userDto = userService.findById(requestDto);
 
         //then
-        Assertions.assertThat(responseDto.getUserDto())
+        Assertions.assertThat(userDto)
                 .extracting("name","imgPath","introduction")
                 .containsExactly("user","imgPath","introduction");
-
-        Assertions.assertThat(response.getBody())
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
     }
 }

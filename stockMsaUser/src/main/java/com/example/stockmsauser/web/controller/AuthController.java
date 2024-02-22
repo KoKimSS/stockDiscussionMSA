@@ -2,14 +2,12 @@ package com.example.stockmsauser.web.controller;
 
 import com.example.stockmsauser.common.error.exception.CertificationFailException;
 import com.example.stockmsauser.config.jwt.JwtProperties;
+import com.example.stockmsauser.config.jwt.JwtUtil;
 import com.example.stockmsauser.service.authService.AuthService;
 import com.example.stockmsauser.web.dto.request.auth.*;
 import com.example.stockmsauser.web.dto.response.ResponseDto;
-import com.example.stockmsauser.web.dto.response.auth.CheckCertificationResponseDto;
-import com.example.stockmsauser.web.dto.response.auth.EmailCertificationResponseDto;
-import com.example.stockmsauser.web.dto.response.auth.EmailCheckResponseDto;
-import com.example.stockmsauser.web.dto.response.auth.SignUpResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,23 +25,25 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/email-check")
-    public ResponseEntity<? super EmailCheckResponseDto> emailCheck(
+    public ResponseEntity<ResponseDto<Boolean>> emailCheck(
             @RequestBody @Valid EmailCheckRequestDto requestBody
     ) {
-        ResponseEntity<? super EmailCheckResponseDto> response = authService.emailCheck(requestBody);
-        return response;
+        boolean emailCheck = authService.emailCheck(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(emailCheck));
     }
 
     @PostMapping("/email-certification")
-    public ResponseEntity<? super EmailCertificationResponseDto> emailCertification(
+    public ResponseEntity<ResponseDto<Boolean>> emailCertification(
             @RequestBody @Valid EmailCertificationRequestDto requestBody
     ) {
-        ResponseEntity<? super EmailCertificationResponseDto> response = authService.emailCertification(requestBody);
-        return response;
+        boolean isSuccess = authService.emailCertification(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(isSuccess));
     }
 
     @PostMapping("/check-certification")
-    public ResponseEntity<? super CheckCertificationResponseDto> checkCertification(
+    public ResponseEntity<ResponseDto<Boolean>> checkCertification(
             @RequestBody @Valid CheckCertificationUserRequestDto requestBody
     ) {
         CheckCertificationRequestDto requestDto = CheckCertificationRequestDto.builder()
@@ -51,28 +51,32 @@ public class AuthController {
                 .certificationNumber(requestBody.getCertificationNumber())
                 .certificateTime(LocalDateTime.now())
                 .build();
-        ResponseEntity<? super CheckCertificationResponseDto> response = authService.checkCertification(requestDto);
-        return response;
+        boolean isSuccess = authService.checkCertification(requestDto);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(isSuccess));
     }
 
     @PostMapping("/log-out")
-    public ResponseEntity<? super ResponseDto> logOut(HttpServletRequest request) {
+    public ResponseEntity<ResponseDto<Boolean>> logOut(HttpServletRequest request) {
         String tokenHeader = request.getHeader(JwtProperties.HEADER_STRING);
         // 헤더 값이 없을 경우에 대한 처리
         if (tokenHeader == null || tokenHeader.isEmpty()) {
             throw new CertificationFailException("인증 실패");
         }
-        String token = tokenHeader.replace(JwtProperties.TOKEN_PREFIX, "");
+        String token = JwtUtil.getTokenFromHeader(tokenHeader);
+        if(token==null) throw new CertificationFailException("인증 실패");
 
-        ResponseEntity<? super ResponseDto> response = authService.logOut(token);
-        return response;
+        boolean isSuccess = authService.logOut(token);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(isSuccess));
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<? super SignUpResponseDto> signUp(
+    public ResponseEntity<ResponseDto<Long>> signUp(
             @RequestBody @Valid SignUpRequestDto requestBody
     ) {
-        ResponseEntity<? super SignUpResponseDto> response = authService.singUp(requestBody);
-        return response;
+        Long userId = authService.singUp(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.ofSuccess(userId));
     }
 }

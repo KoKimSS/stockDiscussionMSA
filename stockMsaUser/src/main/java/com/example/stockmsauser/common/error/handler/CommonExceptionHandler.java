@@ -1,9 +1,7 @@
 package com.example.stockmsauser.common.error.handler;
 
 import com.example.stockmsauser.common.error.ResponseCode;
-import com.example.stockmsauser.common.error.exception.CertificationFailException;
-import com.example.stockmsauser.common.error.exception.DatabaseErrorException;
-import com.example.stockmsauser.common.error.exception.ValidationFailException;
+import com.example.stockmsauser.common.error.exception.*;
 import com.example.stockmsauser.web.dto.response.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +40,27 @@ public class CommonExceptionHandler {
     public ResponseEntity<ResponseDto> certificationFailExceptionHandler(CertificationFailException exception) {
         ResponseDto responseDto = new ResponseDto(exception.getResponseCode(), exception.getResponseMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDto);
+    }
+
+    @ExceptionHandler(MailSendFailException.class)
+    public ResponseEntity<ResponseDto> mailSendFailExceptionHandler(MailSendFailException exception) {
+        ResponseDto responseDto = new ResponseDto(exception.getResponseCode(), exception.getResponseMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDto);
+    }
+    @ExceptionHandler(DuplicateMailException.class)
+    public ResponseEntity<ResponseDto> duplicateMailExceptionExceptionHandler(DuplicateMailException exception) {
+        ResponseDto responseDto = new ResponseDto(exception.getResponseCode(), exception.getResponseMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
+    }
+    @ExceptionHandler(CertificationExpiredException.class)
+    public ResponseEntity<ResponseDto> certificationExpiredExceptionHandler(CertificationExpiredException exception) {
+        ResponseDto responseDto = new ResponseDto(exception.getResponseCode(), exception.getResponseMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDto);
+    }
+    @ExceptionHandler(DuplicateFollowException.class)
+    public ResponseEntity<ResponseDto> duplicateFollowExceptionHandler(DuplicateFollowException exception) {
+        ResponseDto responseDto = new ResponseDto(exception.getResponseCode(), exception.getResponseMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
     }
 
     private String getValidationErrorMessage(BindingResult bindingResult) {

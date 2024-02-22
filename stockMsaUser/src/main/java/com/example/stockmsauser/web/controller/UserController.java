@@ -1,17 +1,14 @@
 package com.example.stockmsauser.web.controller;
 
 import com.example.stockmsauser.common.error.exception.CertificationFailException;
-import com.example.stockmsauser.config.auth.PrincipalDetails;
 import com.example.stockmsauser.service.userService.UserService;
 import com.example.stockmsauser.web.dto.request.user.GetUserRequestDto;
 import com.example.stockmsauser.web.dto.request.user.UpdatePasswordRequestDto;
 import com.example.stockmsauser.web.dto.request.user.UpdateProfileRequestDto;
-import com.example.stockmsauser.web.dto.response.user.GetUserResponseDto;
-import com.example.stockmsauser.web.dto.response.user.UpdatePasswordResponseDto;
-import com.example.stockmsauser.web.dto.response.user.UpdateProfileResponseDto;
+import com.example.stockmsauser.web.dto.response.user.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,22 +25,22 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/update-password")
-    ResponseEntity<? super UpdatePasswordResponseDto> updatePassword(
+    ResponseEntity<Long> updatePassword(
             @RequestBody@Valid UpdatePasswordRequestDto requestBody,
             HttpServletRequest request
     ){
         String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
         Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getUserId();
-        System.out.println(loginId+" "+userId);
         if (loginId != userId) throw new CertificationFailException("인증 실패");
 
-        ResponseEntity<? super UpdatePasswordResponseDto> response = userService.updatePassword(requestBody);
-        return response;
+        Long updatedUserId = userService.updatePassword(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(updatedUserId);
     }
 
     @PostMapping("/update-profile")
-    ResponseEntity<? super UpdateProfileResponseDto> updateProfile(
+    ResponseEntity<Long> updateProfile(
             @RequestBody@Valid UpdateProfileRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -52,15 +49,17 @@ public class UserController {
         Long userId = requestBody.getUserId();
         if (loginId != userId) throw new CertificationFailException("인증 실패");
 
-        ResponseEntity<? super UpdateProfileResponseDto> response = userService.updateProfile(requestBody);
-        return response;
+        Long updatedUserId = userService.updateProfile(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(updatedUserId);
     }
 
     @PostMapping("/find-by-id")
-    ResponseEntity<? super GetUserResponseDto> findById(
+    ResponseEntity<UserDto> findById(
             @RequestBody@Valid GetUserRequestDto requestBody
     ){
-        ResponseEntity<? super GetUserResponseDto> response = userService.findById(requestBody);
-        return response;
+        UserDto userDto = userService.findById(requestBody);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userDto);
     }
 }

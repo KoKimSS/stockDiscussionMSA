@@ -7,8 +7,6 @@ import com.example.stockmsauser.restdocs.AbstractRestDocsTests;
 import com.example.stockmsauser.service.userService.UserService;
 import com.example.stockmsauser.web.dto.request.user.UpdatePasswordRequestDto;
 import com.example.stockmsauser.web.dto.request.user.UpdateProfileRequestDto;
-import com.example.stockmsauser.web.dto.response.user.UpdatePasswordResponseDto;
-import com.example.stockmsauser.web.dto.response.user.UpdateProfileResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +69,7 @@ public class UserControllerTest extends AbstractRestDocsTests {
                 .newPassword("newPass123")
                 .build();
 
-        BDDMockito.doReturn(UpdatePasswordResponseDto.success())
+        BDDMockito.doReturn(1L)
                 .when(userService)
                 .updatePassword(any(UpdatePasswordRequestDto.class));
 
@@ -117,7 +115,7 @@ public class UserControllerTest extends AbstractRestDocsTests {
                 .introduction("introduction")
                 .build();
 
-        BDDMockito.doReturn(UpdateProfileResponseDto.success())
+        BDDMockito.doReturn(1L)
                 .when(userService)
                 .updateProfile(any(UpdateProfileRequestDto.class));
 

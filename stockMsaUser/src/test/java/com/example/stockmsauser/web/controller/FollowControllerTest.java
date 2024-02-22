@@ -7,7 +7,6 @@ import com.example.stockmsauser.domain.user.User;
 import com.example.stockmsauser.restdocs.AbstractRestDocsTests;
 import com.example.stockmsauser.service.followService.FollowService;
 import com.example.stockmsauser.web.dto.request.follow.StartFollowRequestDto;
-import com.example.stockmsauser.web.dto.response.follow.StartFollowResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +68,7 @@ class FollowControllerTest extends AbstractRestDocsTests {
                 .followingId(123L)
                 .build();
 
-        BDDMockito.doReturn(StartFollowResponseDto.success())
+        BDDMockito.doReturn(true)
                 .when(followService)
                 .follow(any(StartFollowRequestDto.class));
 
@@ -82,6 +81,7 @@ class FollowControllerTest extends AbstractRestDocsTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(SUCCESS))
                 .andExpect(jsonPath("$.message").value(ResponseMessage.SUCCESS))
+                .andExpect(jsonPath("$.data").value(true))
                 .andDo(document("start-follow",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -95,7 +95,9 @@ class FollowControllerTest extends AbstractRestDocsTests {
                                 fieldWithPath("code").type(JsonFieldType.STRING)
                                         .description(SUCCESS),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS)
+                                        .description(SUCCESS),
+                                fieldWithPath("data").type(JsonFieldType.BOOLEAN)
+                                        .description(true)
                         )
                 ));
     }

@@ -6,10 +6,6 @@ import com.example.stockmsauser.restdocs.AbstractRestDocsTests;
 import com.example.stockmsauser.service.authService.AuthService;
 import com.example.stockmsauser.web.dto.request.auth.*;
 import com.example.stockmsauser.web.dto.response.ResponseDto;
-import com.example.stockmsauser.web.dto.response.auth.CheckCertificationResponseDto;
-import com.example.stockmsauser.web.dto.response.auth.EmailCertificationResponseDto;
-import com.example.stockmsauser.web.dto.response.auth.EmailCheckResponseDto;
-import com.example.stockmsauser.web.dto.response.auth.SignUpResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +56,7 @@ class AuthControllerTest extends AbstractRestDocsTests {
                 .email("seungsu@gmail.com")
                 .build();
 
-        BDDMockito.doReturn(EmailCheckResponseDto.success()).when(authService)
+        BDDMockito.doReturn(true).when(authService)
                 .emailCheck(any(EmailCheckRequestDto.class));
 
         // when
@@ -73,6 +69,7 @@ class AuthControllerTest extends AbstractRestDocsTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
+                .andExpect(jsonPath("$.data").value(true))
                 .andDo(document("email-check",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -84,7 +81,9 @@ class AuthControllerTest extends AbstractRestDocsTests {
                                 fieldWithPath("code").type(JsonFieldType.STRING)
                                         .description(ResponseCode.SUCCESS),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS)
+                                        .description(SUCCESS),
+                                fieldWithPath("data").type(JsonFieldType.BOOLEAN)
+                                        .description(true)
                         )
                 ));
     }
@@ -137,7 +136,7 @@ class AuthControllerTest extends AbstractRestDocsTests {
                 .email("seungsu@gmail.com")
                 .build();
 
-        BDDMockito.doReturn(EmailCertificationResponseDto.success()).when(authService)
+        BDDMockito.doReturn(true).when(authService)
                 .emailCertification(any(EmailCertificationRequestDto.class));
 
         // when
@@ -158,6 +157,8 @@ class AuthControllerTest extends AbstractRestDocsTests {
                                         .description("이메일")
                         ),
                         responseFields(
+                                fieldWithPath("data").type(JsonFieldType.BOOLEAN)
+                                        .description(true),
                                 fieldWithPath("code").type(JsonFieldType.STRING)
                                         .description(ResponseCode.SUCCESS),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
@@ -215,7 +216,7 @@ class AuthControllerTest extends AbstractRestDocsTests {
                 .email("seungsu@gmail.com")
                 .build();
 
-        BDDMockito.doReturn(CheckCertificationResponseDto.success()).when(authService)
+        BDDMockito.doReturn(true).when(authService)
                 .checkCertification(any(CheckCertificationRequestDto.class));
 
         // when
@@ -228,6 +229,7 @@ class AuthControllerTest extends AbstractRestDocsTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
+                .andExpect(jsonPath("$.data").value(true))
                 .andDo(document("check-certification",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -241,7 +243,9 @@ class AuthControllerTest extends AbstractRestDocsTests {
                                 fieldWithPath("code").type(JsonFieldType.STRING)
                                         .description(ResponseCode.SUCCESS),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS)
+                                        .description(SUCCESS),
+                                fieldWithPath("data").type(JsonFieldType.BOOLEAN)
+                                        .description(true)
                         )
                 ));
     }
@@ -314,10 +318,7 @@ class AuthControllerTest extends AbstractRestDocsTests {
     public void Logout() throws Exception {
         //given
         String validToken = "your-valid-token";
-        BDDMockito.doReturn(
-                        ResponseEntity.status(HttpStatus.OK)
-                                .body(new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS))
-                )
+        BDDMockito.doReturn(true)
                 .when(authService)
                 .logOut(any(String.class));
 
@@ -328,10 +329,13 @@ class AuthControllerTest extends AbstractRestDocsTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
+                .andExpect(jsonPath("$.data").value(true))
                 .andDo(document("logout",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         responseFields(
+                                fieldWithPath("data").type(JsonFieldType.BOOLEAN)
+                                        .description(true),
                                 fieldWithPath("code").type(JsonFieldType.STRING)
                                         .description(ResponseCode.SUCCESS),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
@@ -344,13 +348,27 @@ class AuthControllerTest extends AbstractRestDocsTests {
     @Test
     public void LogoutWithBlankToken() throws Exception {
         //given
-        String validToken = "your-valid-token";
+        String headerToken = "";
 
         //when,then
         mockMvc.perform(post("/api/user/log-out")
-                        .header("Authorization", "")
+                        .header("Authorization", headerToken)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(ResponseCode.CERTIFICATION_FAIL))
+                .andExpect(jsonPath("$.message").value(ResponseMessage.CERTIFICATION_FAIL))
+                .andDo(document("logout",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.STRING)
+                                        .description(ResponseCode.CERTIFICATION_FAIL),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description(ResponseMessage.CERTIFICATION_FAIL),
+                                fieldWithPath("data").type(JsonFieldType.NULL)
+                                        .description("null")
+                        )
+                ));
     }
 
     @DisplayName("회원가입 수행.")
@@ -364,7 +382,7 @@ class AuthControllerTest extends AbstractRestDocsTests {
                 "imgPath",
                 "1234",
                 "email@email.com");
-        BDDMockito.doReturn(SignUpResponseDto.success()).when(authService)
+        BDDMockito.doReturn(1L).when(authService)
                 .singUp(any(SignUpRequestDto.class));
 
         //when,then
@@ -374,6 +392,7 @@ class AuthControllerTest extends AbstractRestDocsTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
+                .andExpect(jsonPath("$.data").value(1L))
                 .andDo(document("sign-up",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -392,6 +411,8 @@ class AuthControllerTest extends AbstractRestDocsTests {
                                         .description("인증번호 4자리")
                         ),
                         responseFields(
+                                fieldWithPath("data").type(JsonFieldType.NUMBER)
+                                        .description(1L),
                                 fieldWithPath("code").type(JsonFieldType.STRING)
                                         .description(ResponseCode.SUCCESS),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
