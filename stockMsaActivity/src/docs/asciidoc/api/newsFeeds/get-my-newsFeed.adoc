@@ -1,0 +1,10 @@
+[[get-my-newsFeed]]
+=== 나의 뉴스피드 가져오기
+
+==== HTTP Request
+include::{snippets}/get-my-newsFeed/http-request.adoc[]
+include::{snippets}/get-my-newsFeed/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/get-my-newsFeed/http-response.adoc[]
+include::{snippets}/get-my-newsFeed/response-fields.adoc[]

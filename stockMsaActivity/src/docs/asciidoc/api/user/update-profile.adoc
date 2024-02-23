@@ -1,0 +1,10 @@
+[[update-profile]]
+=== 프로필 업데이트
+
+==== HTTP Request
+include::{snippets}/update-profile/http-request.adoc[]
+include::{snippets}/update-profile/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/update-profile/http-response.adoc[]
+include::{snippets}/update-profile/response-fields.adoc[]

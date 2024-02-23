@@ -79,11 +79,11 @@ class AuthControllerTest extends AbstractRestDocsTests {
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.SUCCESS),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS),
+                                        .description("응답 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN)
-                                        .description(true)
+                                        .description("성공 여부")
                         )
                 ));
     }
@@ -158,11 +158,11 @@ class AuthControllerTest extends AbstractRestDocsTests {
                         ),
                         responseFields(
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN)
-                                        .description(true),
+                                        .description("성공 여부"),
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.SUCCESS),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS)
+                                        .description("응답 메시지")
                         )
                 ));
     }
@@ -241,11 +241,11 @@ class AuthControllerTest extends AbstractRestDocsTests {
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.SUCCESS),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS),
+                                        .description("응답 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN)
-                                        .description(true)
+                                        .description("성공 여부")
                         )
                 ));
     }
@@ -335,11 +335,11 @@ class AuthControllerTest extends AbstractRestDocsTests {
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN)
-                                        .description(true),
+                                        .description("성공 여부"),
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.SUCCESS),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(ResponseMessage.SUCCESS)
+                                        .description("응답 메시지")
                         )
                 ));
     }
@@ -362,9 +362,9 @@ class AuthControllerTest extends AbstractRestDocsTests {
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.CERTIFICATION_FAIL),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(ResponseMessage.CERTIFICATION_FAIL),
+                                        .description("응답 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.NULL)
                                         .description("null")
                         )
@@ -412,11 +412,11 @@ class AuthControllerTest extends AbstractRestDocsTests {
                         ),
                         responseFields(
                                 fieldWithPath("data").type(JsonFieldType.NUMBER)
-                                        .description(1L),
+                                        .description("유저 id"),
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.SUCCESS),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(ResponseMessage.SUCCESS)
+                                        .description("응답 메시지")
                         )
                 ));
     }

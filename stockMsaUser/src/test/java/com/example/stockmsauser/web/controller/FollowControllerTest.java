@@ -93,11 +93,11 @@ class FollowControllerTest extends AbstractRestDocsTests {
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(SUCCESS),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS),
+                                        .description("응답 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.BOOLEAN)
-                                        .description(true)
+                                        .description("성공 여부")
                         )
                 ));
     }

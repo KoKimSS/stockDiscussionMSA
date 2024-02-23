@@ -88,7 +88,7 @@ class StockControllerTest extends AbstractRestDocsTests {
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
                 .andExpect(jsonPath("$.data").isArray())
-                .andDo(document("create-likes",
+                .andDo(document("find-stock-by-name",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -153,7 +153,7 @@ class StockControllerTest extends AbstractRestDocsTests {
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
                 .andExpect(jsonPath("$.data").value(SamSung))
-                .andDo(document("create-likes",
+                .andDo(document("find-stock-by-code",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -240,7 +240,7 @@ class StockControllerTest extends AbstractRestDocsTests {
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
                 .andExpect(jsonPath("$.data").isNotEmpty())
-                .andDo(document("create-likes",
+                .andDo(document("get-stock-by-order",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(

@@ -98,11 +98,11 @@ public class UserControllerTest extends AbstractRestDocsTests {
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.SUCCESS),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS),
+                                        .description("응답 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.NUMBER)
-                                        .description(loginUserId)
+                                        .description("유저 아이디")
                         )
                 ));
     }
@@ -149,11 +149,11 @@ public class UserControllerTest extends AbstractRestDocsTests {
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.SUCCESS),
+                                        .description("응답 코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS),
+                                        .description("응답 메시지"),
                                 fieldWithPath("data").type(JsonFieldType.NUMBER)
-                                        .description(loginUserId)
+                                        .description("유저 아이디")
                         )
                 ));
     }

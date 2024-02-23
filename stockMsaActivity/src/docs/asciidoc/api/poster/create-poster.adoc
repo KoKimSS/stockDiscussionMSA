@@ -1,0 +1,10 @@
+[[create-poster]]
+=== 포스터 만들기
+
+==== HTTP Request
+include::{snippets}/create-poster/http-request.adoc[]
+include::{snippets}/create-poster/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/create-poster/http-response.adoc[]
+include::{snippets}/create-poster/response-fields.adoc[]

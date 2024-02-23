@@ -1,4 +1,11 @@
 spring:
+  application:
+    name : stock
+
+  profiles:
+    active: main
+  config:
+    import: optional:configserver:http://admin:1234@localhost:9000
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,14 +24,19 @@ spring:
       idle-timeout: 600000 #연결위한 최대 유후 시간
       max-lifetime: 1800000 #반납된 커넥션의 최대 수명
 
-#  logging:
-#    level:
-#      org.hibernate.SQL: debug
-
   data:
     redis:
       host: localhost
       port: 6379
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone : http://admin:1234@localhost:8761/eureka/
+  instance:
+    hostname: localhost
 
 logging:
   level:
@@ -33,3 +45,6 @@ logging:
 #        jdbc:
 #          core: DEBUG
     root: DEBUG
+
+server:
+  port: ${server.port}

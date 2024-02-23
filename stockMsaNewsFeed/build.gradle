@@ -33,7 +33,7 @@ dependencies {
 	// 클라우드
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.3'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
 	//circuitBreaker
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
