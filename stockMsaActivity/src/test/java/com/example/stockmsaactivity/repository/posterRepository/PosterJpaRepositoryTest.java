@@ -55,7 +55,7 @@ class PosterJpaRepositoryTest {
 
         posterJpaRepository.saveAll(List.of(poster1, poster2, poster3));
         //when
-        List<Poster> byUserId = posterJpaRepository.findAllByUserId(1L);
+        List<Poster> byUserId = posterJpaRepository.findAllByUserId(poster1.getId());
 
         //then
         Assertions.assertThat(byUserId).extracting("title")
@@ -74,7 +74,7 @@ class PosterJpaRepositoryTest {
                 .title("포스터3").build();
         posterJpaRepository.saveAll(List.of(poster1, poster2, poster3));
         //when
-        List<Poster> allByIdIn = posterJpaRepository.findAllByIdIn(List.of(1L, 2L));
+        List<Poster> allByIdIn = posterJpaRepository.findAllByIdIn(List.of(poster1.getId(), poster2.getId()));
 
         //then
         Assertions.assertThat(allByIdIn).extracting("title")

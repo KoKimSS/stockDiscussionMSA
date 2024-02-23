@@ -6,7 +6,6 @@ import com.example.stockmsaactivity.web.dto.request.poster.*;
 import com.example.stockmsaactivity.web.dto.response.ResponseDto;
 import com.example.stockmsaactivity.web.dto.response.poster.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,7 @@ public class PosterController {
     private final PosterService posterService;
 
     @PostMapping("/create-poster")
-    ResponseEntity createPoster(
+    ResponseEntity<ResponseDto<Long>> createPoster(
             @Valid@RequestBody CreatePosterRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -43,7 +42,7 @@ public class PosterController {
     }
 
     @GetMapping("/get-my-poster")
-    ResponseEntity getMyPoster(
+    ResponseEntity<ResponseDto<List<PosterDto>>> getMyPoster(
         @RequestBody GetMyPosterRequestDto requestBody,
         HttpServletRequest request
     ){
@@ -58,7 +57,7 @@ public class PosterController {
     }
 
     @PostMapping("/get-poster-by-id")
-    ResponseEntity getPosterById(
+    ResponseEntity<ResponseDto<PosterDto>> getPosterById(
             @RequestBody GetPosterRequestDto requestBody
     ) {
         PosterDto poster = posterService.getPoster(requestBody);
@@ -67,7 +66,7 @@ public class PosterController {
     }
 
     @PostMapping("/get-posters-by-id-list")
-    ResponseEntity getPostersByIdList(
+    ResponseEntity<ResponseDto<List<PosterDto>>> getPostersByIdList(
             @RequestBody GetPostersByIdListRequestDto requestBody
     ) {
         List<PosterDto> posterByIdList = posterService.getPosterByIdList(requestBody);
@@ -76,10 +75,10 @@ public class PosterController {
     }
 
     @PostMapping("/get-posters-by-stockCode")
-    ResponseEntity getPostersByIdList(
+    ResponseEntity<ResponseDto<PosterPageDto>> getPosterPageByStockCode(
             @RequestBody GetPostersByStockCodeRequest requestBody
     ) {
-        Page<PosterDto> posterByStockCode = posterService.getPosterByStockCode(requestBody);
+        PosterPageDto posterByStockCode = posterService.getPosterByStockCode(requestBody);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.ofSuccess(posterByStockCode));
     }

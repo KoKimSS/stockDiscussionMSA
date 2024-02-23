@@ -12,7 +12,8 @@ public class GetMyFollowersResponseDto extends ApiResponseDto {
     List<FollowerDto> followerList;
 
     @Builder
-    private GetMyFollowersResponseDto(List<FollowerDto> followerList) {
+    private GetMyFollowersResponseDto(String code, String message, List<FollowerDto> followerList) {
+        super(code, message);
         this.followerList = followerList;
     }
 }

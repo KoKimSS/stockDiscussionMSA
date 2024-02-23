@@ -8,5 +8,10 @@ import java.util.List;
 @Getter
 public class GetMyFollowersResponseDto extends ApiResponseDto {
     List<FollowerDto> followerList;
+
+    public GetMyFollowersResponseDto(String code, String message,List<FollowerDto> followerList) {
+        super(code, message);
+        this.followerList = followerList;
+    }
 }
 

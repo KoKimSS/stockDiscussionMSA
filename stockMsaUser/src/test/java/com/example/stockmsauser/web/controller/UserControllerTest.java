@@ -69,7 +69,7 @@ public class UserControllerTest extends AbstractRestDocsTests {
                 .newPassword("newPass123")
                 .build();
 
-        BDDMockito.doReturn(1L)
+        BDDMockito.doReturn(loginUserId)
                 .when(userService)
                 .updatePassword(any(UpdatePasswordRequestDto.class));
 
@@ -84,6 +84,7 @@ public class UserControllerTest extends AbstractRestDocsTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
+                .andExpect(jsonPath("$.data").value(loginUserId))
                 .andDo(document("update-password",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -99,7 +100,9 @@ public class UserControllerTest extends AbstractRestDocsTests {
                                 fieldWithPath("code").type(JsonFieldType.STRING)
                                         .description(ResponseCode.SUCCESS),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS)
+                                        .description(SUCCESS),
+                                fieldWithPath("data").type(JsonFieldType.NUMBER)
+                                        .description(loginUserId)
                         )
                 ));
     }
@@ -115,7 +118,7 @@ public class UserControllerTest extends AbstractRestDocsTests {
                 .introduction("introduction")
                 .build();
 
-        BDDMockito.doReturn(1L)
+        BDDMockito.doReturn(loginUserId)
                 .when(userService)
                 .updateProfile(any(UpdateProfileRequestDto.class));
 
@@ -130,6 +133,7 @@ public class UserControllerTest extends AbstractRestDocsTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
+                .andExpect(jsonPath("$.data").value(loginUserId))
                 .andDo(document("update-profile",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -147,7 +151,9 @@ public class UserControllerTest extends AbstractRestDocsTests {
                                 fieldWithPath("code").type(JsonFieldType.STRING)
                                         .description(ResponseCode.SUCCESS),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS)
+                                        .description(SUCCESS),
+                                fieldWithPath("data").type(JsonFieldType.NUMBER)
+                                        .description(loginUserId)
                         )
                 ));
     }

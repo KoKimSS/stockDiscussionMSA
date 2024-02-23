@@ -5,6 +5,7 @@ import com.example.stockmsauser.service.userService.UserService;
 import com.example.stockmsauser.web.dto.request.user.GetUserRequestDto;
 import com.example.stockmsauser.web.dto.request.user.UpdatePasswordRequestDto;
 import com.example.stockmsauser.web.dto.request.user.UpdateProfileRequestDto;
+import com.example.stockmsauser.web.dto.response.ResponseDto;
 import com.example.stockmsauser.web.dto.response.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/update-password")
-    ResponseEntity<Long> updatePassword(
+    ResponseEntity<ResponseDto<Long>> updatePassword(
             @RequestBody@Valid UpdatePasswordRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -36,11 +37,11 @@ public class UserController {
 
         Long updatedUserId = userService.updatePassword(requestBody);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(updatedUserId);
+                .body(ResponseDto.ofSuccess(updatedUserId));
     }
 
     @PostMapping("/update-profile")
-    ResponseEntity<Long> updateProfile(
+    ResponseEntity<ResponseDto<Long>> updateProfile(
             @RequestBody@Valid UpdateProfileRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -51,7 +52,7 @@ public class UserController {
 
         Long updatedUserId = userService.updateProfile(requestBody);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(updatedUserId);
+                .body(ResponseDto.ofSuccess(updatedUserId));
     }
 
     @PostMapping("/find-by-id")

@@ -4,7 +4,6 @@ import com.example.stockmsaactivity.common.error.exception.CertificationFailExce
 import com.example.stockmsaactivity.service.likesService.LikesService;
 import com.example.stockmsaactivity.web.dto.request.likes.CreateLikesRequestDto;
 import com.example.stockmsaactivity.web.dto.response.ResponseDto;
-import com.example.stockmsaactivity.web.dto.response.likes.CreateLikesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class LikesController {
     private final LikesService likesService;
 
     @PostMapping("/create-likes")
-    ResponseEntity createLikes(
+    ResponseEntity<ResponseDto<Long>> createLikes(
             @Valid @RequestBody CreateLikesRequestDto requestBody,
             HttpServletRequest request
     ){
@@ -38,9 +37,8 @@ public class LikesController {
         if(loginId!=userId) throw new CertificationFailException("인증 실패");
 
         Long likeId = likesService.createLikes(requestBody);
-        ResponseDto<Long> responseBody = ResponseDto.ofSuccess(likeId);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(responseBody);
+                .body(ResponseDto.ofSuccess(likeId));
     }
 
 }

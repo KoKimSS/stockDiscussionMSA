@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 
 @Getter
 @RequiredArgsConstructor(staticName = "of")
-@AllArgsConstructor
 public class ResponseDto<D> {
     private final String code;
     private final String message;
@@ -19,6 +18,8 @@ public class ResponseDto<D> {
         this.message = message;
         this.data = null;
     }
+
+
 
     public static <D> ResponseDto<D> ofSuccess(D data) {
         return new ResponseDto<>(ResponseCode.SUCCESS, ResponseMessage.SUCCESS, data);

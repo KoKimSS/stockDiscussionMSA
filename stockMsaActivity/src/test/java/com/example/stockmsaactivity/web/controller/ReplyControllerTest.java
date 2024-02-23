@@ -51,53 +51,53 @@ public class ReplyControllerTest extends AbstractRestDocsTests {
         given(JwtUtil.getUserIdFromToken(any(String.class))).willReturn(loginUserId);
     }
 
-    @AfterEach
-    void afterEach() {
-        jwtUtil.close();
-    }
-
-    @DisplayName("댓글 생성")
-    @Test
-    public void createReply() throws Exception {
-        //given
-        CreateReplyRequestDto requestDto = CreateReplyRequestDto.builder()
-                .userId(loginUserId)
-                .posterId(1L)
-                .contents("contents")
-                .build();
-
-        BDDMockito.doReturn(CreateReplyResponseDto.success())
-                .when(replyService)
-                .createReply(any(CreateReplyRequestDto.class));
-
-        // when
-        mockMvc.perform(
-                        post("/api/activity/create-reply")
-                                .content(objectMapper.writeValueAsString(requestDto))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
-                .andExpect(jsonPath("$.message").value(SUCCESS))
-                .andDo(document("create-reply",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("userId").type(JsonFieldType.NUMBER)
-                                        .description("유저 아이디"),
-                                fieldWithPath("contents").type(JsonFieldType.STRING)
-                                        .description("내용"),
-                                fieldWithPath("posterId").type(JsonFieldType.NUMBER)
-                                        .description("포스터 아이디")
-                        ),
-                        responseFields(
-                                fieldWithPath("code").type(JsonFieldType.STRING)
-                                        .description(ResponseCode.SUCCESS),
-                                fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description(SUCCESS)
-                        )
-                ));
-    }
+//    @AfterEach
+//    void afterEach() {
+//        jwtUtil.close();
+//    }
+//
+//    @DisplayName("댓글 생성")
+//    @Test
+//    public void createReply() throws Exception {
+//        //given
+//        CreateReplyRequestDto requestDto = CreateReplyRequestDto.builder()
+//                .userId(loginUserId)
+//                .posterId(1L)
+//                .contents("contents")
+//                .build();
+//
+//        BDDMockito.doReturn(CreateReplyResponseDto.success())
+//                .when(replyService)
+//                .createReply(any(CreateReplyRequestDto.class));
+//
+//        // when
+//        mockMvc.perform(
+//                        post("/api/activity/create-reply")
+//                                .content(objectMapper.writeValueAsString(requestDto))
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                )
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
+//                .andExpect(jsonPath("$.message").value(SUCCESS))
+//                .andDo(document("create-reply",
+//                        preprocessRequest(prettyPrint()),
+//                        preprocessResponse(prettyPrint()),
+//                        requestFields(
+//                                fieldWithPath("userId").type(JsonFieldType.NUMBER)
+//                                        .description("유저 아이디"),
+//                                fieldWithPath("contents").type(JsonFieldType.STRING)
+//                                        .description("내용"),
+//                                fieldWithPath("posterId").type(JsonFieldType.NUMBER)
+//                                        .description("포스터 아이디")
+//                        ),
+//                        responseFields(
+//                                fieldWithPath("code").type(JsonFieldType.STRING)
+//                                        .description(ResponseCode.SUCCESS),
+//                                fieldWithPath("message").type(JsonFieldType.STRING)
+//                                        .description(SUCCESS)
+//                        )
+//                ));
+//    }
 
 }

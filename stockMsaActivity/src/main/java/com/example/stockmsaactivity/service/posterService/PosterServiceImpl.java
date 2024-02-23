@@ -100,7 +100,7 @@ public class PosterServiceImpl implements PosterService {
 
     @Override
     @Transactional
-    public Page<PosterDto> getPosterByStockCode(GetPostersByStockCodeRequest dto) {
+    public PosterPageDto getPosterByStockCode(GetPostersByStockCodeRequest dto) {
         Pageable pageable = PageRequest.of(dto.getPage(), dto.getSize());
         Page<Poster> posterByStockCode = posterJpaRepository.findPosterByStockCode(dto.getStockCode(), pageable);
         Page<PosterDto> posterDtoByStockCode = posterByStockCode.map(poster -> PosterDto.builder()
@@ -112,6 +112,6 @@ public class PosterServiceImpl implements PosterService {
                 .ownerId(poster.getUserId()).build()
         );
 
-        return posterDtoByStockCode;
+        return PosterPageDto.pageToPageDto(posterDtoByStockCode);
     }
 }

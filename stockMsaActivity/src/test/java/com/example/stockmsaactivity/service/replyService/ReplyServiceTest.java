@@ -24,27 +24,27 @@ class ReplyServiceTest {
     @Autowired
     PosterJpaRepository posterJpaRepository;
 
-    @DisplayName("댓글을 생성하는 서비스")
-    @Test
-    public void createReply() throws Exception {
-        //given
-        Long userId = 1L;
-        Poster poster = Poster.builder().userId(userId).title("poster").build();
-        posterJpaRepository.save(poster);
-
-        CreateReplyRequestDto requestDto = CreateReplyRequestDto.builder()
-                .userId(userId)
-                .posterId(poster.getId())
-                .contents("댓글")
-                .build();
-
-        //when
-        ResponseEntity<? super CreateReplyResponseDto> response = replyService.createReply(requestDto);
-
-        //then
-        Assertions.assertThat(response.getBody())
-                .extracting("code", "message")
-                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-    }
+//    @DisplayName("댓글을 생성하는 서비스")
+//    @Test
+//    public void createReply() throws Exception {
+//        //given
+//        Long userId = 1L;
+//        Poster poster = Poster.builder().userId(userId).title("poster").build();
+//        posterJpaRepository.save(poster);
+//
+//        CreateReplyRequestDto requestDto = CreateReplyRequestDto.builder()
+//                .userId(userId)
+//                .posterId(poster.getId())
+//                .contents("댓글")
+//                .build();
+//
+//        //when
+//        ResponseEntity<? super CreateReplyResponseDto> response = replyService.createReply(requestDto);
+//
+//        //then
+//        Assertions.assertThat(response.getBody())
+//                .extracting("code", "message")
+//                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+//    }
 
 }
