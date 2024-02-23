@@ -266,7 +266,7 @@ class NewsFeedControllerTest extends AbstractRestDocsTests {
                 .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
                 .andExpect(jsonPath("$.message").value(SUCCESS))
                 .andExpect(jsonPath("$.data").isNotEmpty())
-                .andDo(document("get-my-newsFeed",
+                .andDo(document("get-my-newsFeed-by-Types",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(

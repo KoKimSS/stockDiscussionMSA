@@ -1,0 +1,10 @@
+[[get-my-newsFeed]]
+=== 타입으로 나의 뉴스피드 가져오기
+
+==== HTTP Request
+include::{snippets}/get-my-newsFeed-by-Types/http-request.adoc[]
+include::{snippets}/get-my-newsFeed-by-Types/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/get-my-newsFeed-by-Types/http-response.adoc[]
+include::{snippets}/get-my-newsFeed-by-Types/response-fields.adoc[]

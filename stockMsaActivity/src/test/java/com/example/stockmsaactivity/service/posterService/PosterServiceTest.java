@@ -10,6 +10,7 @@ import com.example.stockmsaactivity.web.dto.request.poster.GetMyPosterRequestDto
 import com.example.stockmsaactivity.web.dto.request.poster.GetPosterRequestDto;
 import com.example.stockmsaactivity.web.dto.response.poster.PosterDto;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,12 @@ class PosterServiceTest {
     private PosterService posterService;
     @MockBean
     private NewsFeedApi newsFeedApi;
+
+    @AfterEach
+    void afterEach() {
+        posterJpaRepository.deleteAllInBatch();
+
+    }
 
     @DisplayName("포스터를 생성하는 서비스 이다")
     @Test
@@ -71,8 +78,8 @@ class PosterServiceTest {
         Assertions.assertThat(posterDtoList)
                 .extracting("ownerId","title")
                 .containsExactly(
-                        tuple(1L,"title1"),
-                        tuple(1L,"title2")
+                        tuple(poster1.getUserId(),poster1.getTitle()),
+                        tuple(poster2.getUserId(),poster2.getTitle())
                 );
     }
 

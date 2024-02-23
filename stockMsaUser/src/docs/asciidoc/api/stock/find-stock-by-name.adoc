@@ -1,0 +1,10 @@
+[[create-reply]]
+=== 주식 이름으로 주식 검색하기
+
+==== HTTP Request
+include::{snippets}/find-stock-by-name/http-request.adoc[]
+include::{snippets}/find-stock-by-name/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/find-stock-by-name/http-response.adoc[]
+include::{snippets}/find-stock-by-name/response-fields.adoc[]

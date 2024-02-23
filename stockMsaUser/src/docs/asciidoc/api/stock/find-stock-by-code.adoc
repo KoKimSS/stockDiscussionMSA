@@ -1,0 +1,10 @@
+[[create-reply]]
+=== 코드로 주식 가져오기
+
+==== HTTP Request
+include::{snippets}/find-stock-by-code/http-request.adoc[]
+include::{snippets}/find-stock-by-code/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/find-stock-by-code/http-response.adoc[]
+include::{snippets}/find-stock-by-code/response-fields.adoc[]

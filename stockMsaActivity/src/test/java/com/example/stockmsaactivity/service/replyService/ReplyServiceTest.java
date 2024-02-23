@@ -5,8 +5,10 @@ import com.example.stockmsaactivity.common.error.ResponseCode;
 import com.example.stockmsaactivity.common.error.ResponseMessage;
 import com.example.stockmsaactivity.domain.poster.Poster;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
+import com.example.stockmsaactivity.repository.replyRepository.ReplyJpaRepository;
 import com.example.stockmsaactivity.web.dto.request.reply.CreateReplyRequestDto;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,16 @@ class ReplyServiceTest {
     @Autowired
     PosterJpaRepository posterJpaRepository;
 
+    @Autowired
+    ReplyJpaRepository replyJpaRepository;
     @MockBean
     NewsFeedApi newsFeedApi;
 
+    @AfterEach
+    void afterEach() {
+        replyJpaRepository.deleteAllInBatch();
+        posterJpaRepository.deleteAllInBatch();
+    }
     @DisplayName("댓글을 생성하는 서비스")
     @Test
     public void createReply() throws Exception {

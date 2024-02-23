@@ -29,14 +29,23 @@ include::api/likes/create-likes.adoc[]
 [[NEWSFEEDS-API]]
 == NEWSFEEDS API
 include::api/newsFeeds/get-my-newsFeed.adoc[]
+include::api/newsFeeds/get-my-newsFeed-by-types.adoc[]
 
 [[POSTER-API]]
 == POSTER API
 include::api/poster/create-poster.adoc[]
+include::api/poster/get-poster-by-id.adoc[]
+include::api/poster/get-posters-by-stockCode.adoc[]
 
 [[REPLY-API]]
 == REPLY API
 include::api/reply/create-reply.adoc[]
+
+[[STOCK-API]]
+== STOCK API
+include::api/stock/find-stock-by-code.adoc[]
+include::api/stock/find-stock-by-name.adoc[]
+include::api/stock/get-stock-by-order.adoc[]
 
 [[USER-API]]
 == USER API

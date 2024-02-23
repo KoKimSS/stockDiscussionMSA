@@ -1,0 +1,10 @@
+[[create-reply]]
+=== 조건으로 주식 페이지 가져오기
+
+==== HTTP Request
+include::{snippets}/get-stock-by-order/http-request.adoc[]
+include::{snippets}/get-stock-by-order/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/get-stock-by-order/http-response.adoc[]
+include::{snippets}/get-stock-by-order/response-fields.adoc[]

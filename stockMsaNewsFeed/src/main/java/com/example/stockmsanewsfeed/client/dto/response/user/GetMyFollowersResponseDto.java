@@ -7,7 +7,6 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-@Builder
 public class GetMyFollowersResponseDto extends ApiResponseDto {
     List<FollowerDto> followerList;
 

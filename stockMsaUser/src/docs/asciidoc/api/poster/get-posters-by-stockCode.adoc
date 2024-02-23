@@ -1,0 +1,10 @@
+[[create-poster]]
+=== 주식코드로 포스터 가져오기
+
+==== HTTP Request
+include::{snippets}/get-posters-by-stockCode/http-request.adoc[]
+include::{snippets}/get-posters-by-stockCode/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/get-posters-by-stockCode/http-response.adoc[]
+include::{snippets}/get-posters-by-stockCode/response-fields.adoc[]

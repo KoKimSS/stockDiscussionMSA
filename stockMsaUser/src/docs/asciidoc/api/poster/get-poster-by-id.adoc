@@ -1,0 +1,10 @@
+[[create-poster]]
+=== 아이디로 포스터 가져오기
+
+==== HTTP Request
+include::{snippets}/get-poster-by-id/http-request.adoc[]
+include::{snippets}/get-poster-by-id/request-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/get-poster-by-id/http-response.adoc[]
+include::{snippets}/get-poster-by-id/response-fields.adoc[]

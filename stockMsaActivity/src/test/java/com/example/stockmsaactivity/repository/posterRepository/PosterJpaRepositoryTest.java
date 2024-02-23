@@ -55,7 +55,7 @@ class PosterJpaRepositoryTest {
 
         posterJpaRepository.saveAll(List.of(poster1, poster2, poster3));
         //when
-        List<Poster> byUserId = posterJpaRepository.findAllByUserId(poster1.getId());
+        List<Poster> byUserId = posterJpaRepository.findAllByUserId(poster1.getUserId());
 
         //then
         Assertions.assertThat(byUserId).extracting("title")
