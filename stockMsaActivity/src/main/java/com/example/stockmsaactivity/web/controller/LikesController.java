@@ -34,6 +34,7 @@ public class LikesController {
         String jwtToken = getTokenFromHeader(request.getHeader(HEADER_STRING));
         Long loginId = getUserIdFromToken(jwtToken);
         Long userId = requestBody.getUserId();
+        System.out.println(loginId +" "+ userId);
         if(loginId!=userId) throw new CertificationFailException("인증 실패");
 
         Long likeId = likesService.createLikes(requestBody);

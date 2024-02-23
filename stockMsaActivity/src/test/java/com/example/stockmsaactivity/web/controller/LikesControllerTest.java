@@ -40,10 +40,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class LikesControllerTest extends AbstractRestDocsTests {
     @Autowired
     private ObjectMapper objectMapper;
-
     @MockBean
     private LikesService likesService;
-
     private MockedStatic<JwtUtil> jwtUtil;
     private final Long loginUserId = 1L;
     private final String token = "token";
@@ -60,54 +58,58 @@ class LikesControllerTest extends AbstractRestDocsTests {
         jwtUtil.close();
     }
 
-//    @DisplayName("좋아요 생성")
-//    @Test
-//    public void createLikes() throws Exception {
-//        //given
-//        CreateLikesRequestDto requestDto = CreateLikesRequestDto.builder()
-//                .likeType(LikeType.POSTER)
-//                .posterId(1234L)
-//                .userId(loginUserId)
-//                .replyId(1234L)
-//                .build();
-//
-//        BDDMockito.doReturn(CreateLikesResponseDto.builder().likeId(1L).build())
-//                .when(likesService)
-//                .createLikes(any(CreateLikesRequestDto.class));
-//
-//        // when
-//        mockMvc.perform(
-//                        post("/api/activity/create-likes")
-//                                .content(objectMapper.writeValueAsString(requestDto))
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                )
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
-//                .andExpect(jsonPath("$.message").value(SUCCESS))
-//                .andExpect(jsonPath("$.likeId").value(1))
-//                .andDo(document("create-likes",
-//                        preprocessRequest(prettyPrint()),
-//                        preprocessResponse(prettyPrint()),
-//                        requestFields(
-//                                fieldWithPath("userId").type(JsonFieldType.NUMBER)
-//                                        .description("유저 아이디"),
-//                                fieldWithPath("posterId").type(JsonFieldType.NUMBER)
-//                                        .description("포스터 아이디"),
-//                                fieldWithPath("likeType").type(JsonFieldType.STRING)
-//                                        .description("라이크 타입"),
-//                                fieldWithPath("replyId").type(JsonFieldType.NUMBER)
-//                                        .optional()
-//                                        .description("댓글 아이디")
-//                        ),
-//                        responseFields(
-//                                fieldWithPath("code").type(JsonFieldType.STRING)
-//                                        .description(ResponseCode.SUCCESS),
-//                                fieldWithPath("message").type(JsonFieldType.STRING)
-//                                        .description(SUCCESS)
-//                        )
-//                ));
-//    }
+    @DisplayName("좋아요 생성")
+    @Test
+    public void createLikes() throws Exception {
+        //given
+        CreateLikesRequestDto requestDto = CreateLikesRequestDto.builder()
+                .likeType(LikeType.POSTER)
+                .posterId(1234L)
+                .userId(loginUserId)
+                .replyId(1234L)
+                .build();
+
+        Long likeId = 1L;
+        BDDMockito.doReturn(likeId)
+                .when(likesService)
+                .createLikes(any(CreateLikesRequestDto.class));
+
+        // when
+        mockMvc.perform(
+                        post("/api/activity/create-likes")
+                                .header(HEADER_STRING, token)
+                                .content(objectMapper.writeValueAsString(requestDto))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(ResponseCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value(SUCCESS))
+                .andExpect(jsonPath("$.data").value(likeId))
+                .andDo(document("create-likes",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("userId").type(JsonFieldType.NUMBER)
+                                        .description("유저 아이디"),
+                                fieldWithPath("posterId").type(JsonFieldType.NUMBER)
+                                        .description("포스터 아이디"),
+                                fieldWithPath("likeType").type(JsonFieldType.STRING)
+                                        .description("라이크 타입"),
+                                fieldWithPath("replyId").type(JsonFieldType.NUMBER)
+                                        .optional()
+                                        .description("댓글 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.STRING)
+                                        .description(ResponseCode.SUCCESS),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description(SUCCESS),
+                                fieldWithPath("data").type(JsonFieldType.NUMBER)
+                                        .description("라이크 아이디")
+                        )
+                ));
+    }
 
     @DisplayName("좋아요 생성시 로그인되어 있는 아이디와 요청 아이디가 같아야 합니다.")
     @Test

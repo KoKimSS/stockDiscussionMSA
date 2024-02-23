@@ -51,47 +51,45 @@ class LikesServiceTest {
         posterJpaRepository.deleteAllInBatch();
     }
 
-//    @DisplayName("라이크 종류가 포스터인 경우")
-//    @Test
-//    public void createLikesWithTypePoster() throws Exception {
-//        //given
-//        Long userId = 1L;
-//        Poster poster = createPoster("포스터");
-//        posterJpaRepository.save(poster);
-//        Reply reply = createReply("리플", userId, poster);
-//        replyJpaRepository.save(reply);
-//        LikeType type = LikeType.POSTER;
-//        CreateLikesRequestDto requestDto = getCreateLikesRequestDtoBuilder(type, userId, null, poster.getId());
-//
-//        //when
-//        ResponseEntity<? super CreateLikesResponseDto> response = likesService.createLikes(requestDto);
-//
-//        //then
-//        Assertions.assertThat(response.getBody())
-//                .extracting("code", "message")
-//                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-//    }
-//
-//    @DisplayName("라이크 종류가 댓글인 경우")
-//    @Test
-//    public void createLikesWithTypeReply() throws Exception {
-//        //given
-//        Long userId = 1L;
-//        Poster poster = createPoster("포스터");
-//        posterJpaRepository.save(poster);
-//        Reply reply = createReply("리플", userId, poster);
-//        replyJpaRepository.save(reply);
-//        LikeType type = LikeType.REPLY;
-//        CreateLikesRequestDto requestDto = getCreateLikesRequestDtoBuilder(type, userId, reply.getId(), poster.getId());
-//
-//        //when
-//        ResponseEntity<? super CreateLikesResponseDto> response = likesService.createLikes(requestDto);
-//
-//        //then
-//        Assertions.assertThat(response.getBody())
-//                .extracting("code", "message")
-//                .containsExactly(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-//    }
+    @DisplayName("라이크 종류가 포스터인 경우")
+    @Test
+    public void createLikesWithTypePoster() throws Exception {
+        //given
+        Long userId = 1L;
+        Poster poster = createPoster("포스터");
+        posterJpaRepository.save(poster);
+        Reply reply = createReply("리플", userId, poster);
+        replyJpaRepository.save(reply);
+        LikeType type = LikeType.POSTER;
+        CreateLikesRequestDto requestDto = getCreateLikesRequestDtoBuilder(type, userId, null, poster.getId());
+
+        //when
+        Long likeId = likesService.createLikes(requestDto);
+
+        //then
+        Assertions.assertThat(likeId)
+                .isNotNull();
+    }
+
+    @DisplayName("라이크 종류가 댓글인 경우")
+    @Test
+    public void createLikesWithTypeReply() throws Exception {
+        //given
+        Long userId = 1L;
+        Poster poster = createPoster("포스터");
+        posterJpaRepository.save(poster);
+        Reply reply = createReply("리플", userId, poster);
+        replyJpaRepository.save(reply);
+        LikeType type = LikeType.REPLY;
+        CreateLikesRequestDto requestDto = getCreateLikesRequestDtoBuilder(type, userId, reply.getId(), poster.getId());
+
+        //when
+        Long likeId = likesService.createLikes(requestDto);
+
+        //then
+        Assertions.assertThat(likeId)
+                .isNotNull();
+    }
 
     private static Poster createPoster(String title) {
         return Poster.builder().title(title).build();

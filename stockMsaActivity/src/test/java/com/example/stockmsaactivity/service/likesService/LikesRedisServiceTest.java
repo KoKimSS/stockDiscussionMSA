@@ -1,6 +1,8 @@
 package com.example.stockmsaactivity.service.likesService;
 
 
+import com.example.stockmsaactivity.client.dto.CreateNewsFeedRequestDto;
+import com.example.stockmsaactivity.client.newsFeed.NewsFeedApi;
 import com.example.stockmsaactivity.config.TestRedisConfig;
 import com.example.stockmsaactivity.domain.like.LikeType;
 import com.example.stockmsaactivity.domain.poster.Poster;
@@ -9,8 +11,10 @@ import com.example.stockmsaactivity.repository.posterRepository.PosterJpaReposit
 import com.example.stockmsaactivity.repository.replyRepository.ReplyJpaRepository;
 import com.example.stockmsaactivity.web.dto.request.likes.CreateLikesRequestDto;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.TaskScheduler;
@@ -22,6 +26,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.stockmsaactivity.service.likesService.LikesServiceTest.getCreateLikesRequestDtoBuilder;
+import static org.mockito.ArgumentMatchers.any;
 
 
 @SpringBootTest
@@ -39,10 +44,15 @@ public class LikesRedisServiceTest {
     private EntityManager em;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+    @MockBean
+    private NewsFeedApi newsFeedApi;
 
     @Test
     void testCreateLikes() {
         //given
+        BDDMockito.doNothing()
+                .when(newsFeedApi).createNewsFeed(any(CreateNewsFeedRequestDto.class));
+
         Long userId = 1L;
         Poster poster = Poster.builder().title("title").build();
         posterJpaRepository.save(poster);

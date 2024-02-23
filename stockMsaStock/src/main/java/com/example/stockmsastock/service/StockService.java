@@ -16,16 +16,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StockService {
 
-    private final StockJpaRepository stockJpaRepository;
     private final StockRepository stockRepository;
 
     public List<Stock> findByName(FindByNameRequestDto findByNameRequestDto){
-        List<Stock> stockList = stockJpaRepository.findAllByStockNameContaining(findByNameRequestDto.getName());
+        List<Stock> stockList = stockRepository.findAllByStockNameContaining(findByNameRequestDto.getName());
         return stockList;
     }
 
     public Stock findByItemCode(FindByItemCodeRequestDto findByItemCodeRequestDto){
-        Stock stock = stockJpaRepository.findByItemCode(findByItemCodeRequestDto.getItemCode());
+        Stock stock = stockRepository.findByItemCode(findByItemCodeRequestDto.getItemCode());
         return stock;
     }
 
