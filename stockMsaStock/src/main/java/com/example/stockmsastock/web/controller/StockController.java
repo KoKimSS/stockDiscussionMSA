@@ -1,6 +1,5 @@
 package com.example.stockmsastock.web.controller;
 
-import com.example.stockmsastock.domain.stock.Stock;
 import com.example.stockmsastock.service.StockService;
 import com.example.stockmsastock.web.dto.StockPageDto;
 import com.example.stockmsastock.web.dto.request.FindByItemCodeRequestDto;
@@ -10,7 +9,6 @@ import com.example.stockmsastock.web.dto.response.ResponseDto;
 import com.example.stockmsastock.web.dto.StockDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,7 +25,6 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/api/stock/")
 public class StockController {
-
     private final StockService stockService;
 
     @PostMapping
@@ -50,10 +47,9 @@ public class StockController {
                 .body(ResponseDto.ofSuccess(stock));
     }
 
-
     @PostMapping
     @RequestMapping("find-page-orderBy")
-    ResponseEntity<ResponseDto<StockPageDto>> getPageOrderBy(
+    ResponseEntity<ResponseDto<StockPageDto>> findPageOrderBy(
             @RequestBody GetStockPageOrderByRequestDto requestDto
     ) {
         Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getSize());

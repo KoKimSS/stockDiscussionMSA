@@ -10,10 +10,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 public class StockMsaStockApplication {
-    @Bean
-    JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
-        return new JPAQueryFactory(entityManager);
-    }
     public static void main(String[] args) {
         SpringApplication.run(StockMsaStockApplication.class, args);
     }
