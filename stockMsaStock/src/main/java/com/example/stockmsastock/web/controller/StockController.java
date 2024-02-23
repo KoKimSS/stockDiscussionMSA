@@ -2,10 +2,12 @@ package com.example.stockmsastock.web.controller;
 
 import com.example.stockmsastock.domain.stock.Stock;
 import com.example.stockmsastock.service.StockService;
+import com.example.stockmsastock.web.dto.StockPageDto;
 import com.example.stockmsastock.web.dto.request.FindByItemCodeRequestDto;
 import com.example.stockmsastock.web.dto.request.FindByNameRequestDto;
 import com.example.stockmsastock.web.dto.request.GetStockPageOrderByRequestDto;
 import com.example.stockmsastock.web.dto.response.ResponseDto;
+import com.example.stockmsastock.web.dto.StockDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,20 +32,20 @@ public class StockController {
 
     @PostMapping
     @RequestMapping("find-by-name")
-    ResponseEntity<ResponseDto<List<Stock>>> findByName(
+    ResponseEntity<ResponseDto<List<StockDto>>> findByName(
             @RequestBody FindByNameRequestDto requestDto
     ){
-        List<Stock> stocks = stockService.findByName(requestDto);
+        List<StockDto> stocks = stockService.findByName(requestDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.ofSuccess(stocks));
     }
 
     @PostMapping
     @RequestMapping("find-by-itemCode")
-    ResponseEntity<ResponseDto<Stock>> findByItemCode(
+    ResponseEntity<ResponseDto<StockDto>> findByItemCode(
             @RequestBody FindByItemCodeRequestDto requestDto
     ){
-        Stock stock = stockService.findByItemCode(requestDto);
+        StockDto stock = stockService.findByItemCode(requestDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.ofSuccess(stock));
     }
@@ -51,12 +53,12 @@ public class StockController {
 
     @PostMapping
     @RequestMapping("find-page-orderBy")
-    ResponseEntity<ResponseDto<Page<Stock>>> getPageOrderBy(
+    ResponseEntity<ResponseDto<StockPageDto>> getPageOrderBy(
             @RequestBody GetStockPageOrderByRequestDto requestDto
     ) {
         Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getSize());
-        Page<Stock> pageOrderBy = stockService.getPageOrderBy(requestDto.getSortBy(), requestDto.getSortOrder(), pageable);
+        StockPageDto stockPageDto = stockService.getPageOrderBy(requestDto.getSortBy(), requestDto.getSortOrder(), pageable);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.ofSuccess(pageOrderBy));
+                .body(ResponseDto.ofSuccess(stockPageDto));
     }
 }

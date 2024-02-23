@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.oxm.ValidationFailureException;
 
 import static com.example.stockmsastock.domain.stock.QStock.stock;
+import static com.example.stockmsastock.repository.StockSortOrder.*;
+import static com.example.stockmsastock.repository.StockSortType.*;
 
 @RequiredArgsConstructor
 public class StockRepositoryImpl implements StockRepositoryCustom {
@@ -20,7 +22,7 @@ public class StockRepositoryImpl implements StockRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Stock> getPageOrderBy(String sortBy, String sortOrder, Pageable pageable) {
+    public Page<Stock> getPageOrderBy(StockSortType sortBy, StockSortOrder sortOrder, Pageable pageable) {
         BooleanExpression expression = stock.isNotNull();
 
         OrderSpecifier<Comparable<?>> orderSpecifier = getOrderSpecifier(sortBy, sortOrder);
@@ -28,17 +30,17 @@ public class StockRepositoryImpl implements StockRepositoryCustom {
         return applyPagination(pageable, expression, orderSpecifier);
     }
 
-    private static Path<?> getPath(String sortBy) {
+    private static Path<?> getPath(StockSortType sortBy) {
         Path<?> field = null;
-        if ("name".equalsIgnoreCase(sortBy)) {
+        if (sortBy.equals(NAME)) {
             field = stock.stockName;
-        } else if ("code".equalsIgnoreCase(sortBy)) {
+        } else if (sortBy.equals(CODE)) {
             field = stock.itemCode;
-        } else if ("fluctuationsRatio".equalsIgnoreCase(sortBy)) {
+        } else if (sortBy.equals(FLUNCRATIO)) {
             field = stock.fluctuationsRatio;
-        } else if ("accumulatedTradingVolume".equalsIgnoreCase(sortBy)) {
+        } else if (sortBy.equals(ACCUMULVOLUME)) {
             field = stock.accumulatedTradingVolume;
-        } else if ("accumulatedTradingValue".equalsIgnoreCase(sortBy)) {
+        } else if (sortBy.equals(ACCUMULVALUE)) {
             field = stock.accumulatedTradingValue;
         } else {
             throw new ValidationFailureException("잘못된 sortBy");
@@ -46,9 +48,8 @@ public class StockRepositoryImpl implements StockRepositoryCustom {
         return field;
     }
 
-    private OrderSpecifier<Comparable<?>> getOrderSpecifier(String sortBy, String sortOrder) {
-        if (sortOrder != "desc" && sortOrder != "asc") throw new ValidationFailureException("잘못된 sortOrder");
-        Order order = "desc".equalsIgnoreCase(sortOrder) ? Order.DESC : Order.ASC;
+    private OrderSpecifier<Comparable<?>> getOrderSpecifier(StockSortType sortBy, StockSortOrder sortOrder) {
+        Order order = sortOrder.equals(DESC) ? Order.DESC : Order.ASC;
         Path<?> field = getPath(sortBy);
         return new OrderSpecifier<>(order, (Path<Comparable<?>>) field);
     }

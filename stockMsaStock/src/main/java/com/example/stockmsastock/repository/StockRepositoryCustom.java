@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface StockRepositoryCustom {
-        Page<Stock> getPageOrderBy(String sortBy, String sortOrder, Pageable pageable);
+        Page<Stock> getPageOrderBy(StockSortType sortBy, StockSortOrder sortOrder, Pageable pageable);
 }

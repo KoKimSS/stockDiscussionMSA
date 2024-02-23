@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Getter
 @RequiredArgsConstructor(staticName = "of")
-@AllArgsConstructor
 public class ResponseDto<D> {
     private final String code;
     private final String message;
