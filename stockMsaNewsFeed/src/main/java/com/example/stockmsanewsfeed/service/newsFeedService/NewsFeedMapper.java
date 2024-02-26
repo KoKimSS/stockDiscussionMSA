@@ -12,10 +12,12 @@ import com.example.stockmsanewsfeed.client.user.UserApi;
 import com.example.stockmsanewsfeed.client.activity.ActivityApi;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class NewsFeedMapper {
 
     private final UserApi userApi;
@@ -32,15 +34,17 @@ public class NewsFeedMapper {
         PosterDto posterDto;
 
         try {
-            userDto = userApi.getUserById(GetUserRequestDto.builder().userId(userId).build()).getUserDto();
-            activityUserDto = userApi.getUserById(GetUserRequestDto.builder().userId(activityUserId).build()).getUserDto();
+            userDto = userApi.getUserById(GetUserRequestDto.builder().userId(userId).build());
+            log.debug(userDto.toString());
+            activityUserDto = userApi.getUserById(GetUserRequestDto.builder().userId(activityUserId).build());
             relatedUserDto = null;
             if (relatedUserId != null) {
-                relatedUserDto = userApi.getUserById(GetUserRequestDto.builder().userId(relatedUserId).build()).getUserDto();
+                relatedUserDto = userApi.getUserById(GetUserRequestDto.builder().userId(relatedUserId).build());
             }
             posterDto = null;
             if (relatedPosterId != null) {
                 posterDto = activityApi.getPoster(GetPosterRequestDto.builder().posterId(relatedPosterId).build());
+                log.debug(posterDto.toString());
             }
         } catch (Exception e) {
             throw new InternalServerErrorException(e.getMessage());

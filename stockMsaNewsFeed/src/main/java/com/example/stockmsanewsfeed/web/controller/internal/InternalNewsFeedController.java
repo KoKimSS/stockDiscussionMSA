@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class InternalNewsFeedController {
     private final NewsFeedService newsFeedService;
 
-    @PostMapping("create-newsFeed")
+    @PostMapping("/create-newsFeed")
     ResponseEntity<ResponseDto> createNewsFeed(
             @RequestBody CreateNewsFeedRequestDto requestBody
     ){

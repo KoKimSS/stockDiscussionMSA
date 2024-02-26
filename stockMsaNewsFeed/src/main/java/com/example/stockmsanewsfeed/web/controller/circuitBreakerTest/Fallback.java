@@ -2,10 +2,13 @@ package com.example.stockmsanewsfeed.web.controller.circuitBreakerTest;
 
 import com.example.stockmsanewsfeed.client.dto.request.user.GetMyFollowersRequestDto;
 import com.example.stockmsanewsfeed.client.dto.request.user.GetUserRequestDto;
-import com.example.stockmsanewsfeed.client.dto.response.user.GetMyFollowersResponseDto;
-import com.example.stockmsanewsfeed.client.dto.response.user.GetUserResponseDto;
+import com.example.stockmsanewsfeed.client.dto.response.user.FollowerDto;
+import com.example.stockmsanewsfeed.client.dto.response.user.UserDto;
 import com.example.stockmsanewsfeed.client.user.UserApi;
+import com.example.stockmsanewsfeed.web.dto.response.ResponseDto;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static com.example.stockmsanewsfeed.web.controller.circuitBreakerTest.CircuitBreakerTestController.*;
 
@@ -14,12 +17,12 @@ public class Fallback  implements UserApi {
 
 
     @Override
-    public GetUserResponseDto getUserById(GetUserRequestDto dto) {
+    public UserDto getUserById(GetUserRequestDto dto) {
         return null;
     }
 
     @Override
-    public GetMyFollowersResponseDto getMyFollower(GetMyFollowersRequestDto dto) {
+    public List<FollowerDto> getMyFollower(GetMyFollowersRequestDto dto) {
         return null;
     }
 

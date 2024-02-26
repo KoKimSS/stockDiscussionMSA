@@ -15,6 +15,7 @@ import com.example.stockmsanewsfeed.repository.newsFeedRepository.NewsFeedJpaRep
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.CreateNewsFeedRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedByTypesRequestDto;
 import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedRequestDto;
+import com.example.stockmsanewsfeed.web.dto.response.ResponseDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPageDto;
 import org.assertj.core.api.Assertions;
@@ -89,40 +90,30 @@ class NewsFeedServiceTest {
                 .build();
 
         given(userApi.getMyFollower(any(GetMyFollowersRequestDto.class)))
-                .willReturn(
-                        GetMyFollowersResponseDto.builder()
-                                .followerList(List.of(follower1, follower2))
-                                .build());
+                .willReturn(ResponseDto.ofSuccess(
+                                List.of(follower1, follower2)));
 
         given(userApi.getUserById(GetUserRequestDto.builder()
                 .userId(1L)
                 .build()))
-                .willReturn(GetUserResponseDto.builder()
-                        .userDto(UserDto.builder()
+                .willReturn(UserDto.builder()
                                 .id(1L)
                                 .name("user")
-                                .build())
-                        .build()
-                );
+                                .build());
         given(userApi.getUserById(GetUserRequestDto.builder()
                 .userId(2L)
                 .build()))
-                .willReturn(GetUserResponseDto.builder()
-                        .userDto(UserDto.builder()
+                .willReturn(UserDto.builder()
                                 .id(2L)
                                 .name("follower1")
-                                .build())
-                        .build()
-                );
+                                .build());
         given(userApi.getUserById(GetUserRequestDto.builder()
                 .userId(3L)
                 .build()))
-                .willReturn(GetUserResponseDto.builder()
-                        .userDto(UserDto.builder()
+                .willReturn(UserDto.builder()
                                 .id(3L)
                                 .name("follower2")
-                                .build())
-                        .build()
+                                .build()
                 );
     }
 

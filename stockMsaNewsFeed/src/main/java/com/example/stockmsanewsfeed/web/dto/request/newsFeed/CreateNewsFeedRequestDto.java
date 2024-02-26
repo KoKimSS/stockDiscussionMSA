@@ -8,12 +8,14 @@ import com.example.stockmsanewsfeed.web.dto.request.RequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class CreateNewsFeedRequestDto extends RequestDto {
     @NotNull(message = ValidationMessage.NOT_NULL_USER)
     private Long userId;

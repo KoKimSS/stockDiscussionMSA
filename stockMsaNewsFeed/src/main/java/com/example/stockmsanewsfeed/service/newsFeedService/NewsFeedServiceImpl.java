@@ -17,12 +17,15 @@ import com.example.stockmsanewsfeed.web.dto.request.newsFeed.GetMyNewsFeedReques
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedDto;
 import com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPageDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,7 @@ import static com.example.stockmsanewsfeed.web.dto.response.newsFeed.NewsFeedPag
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class NewsFeedServiceImpl implements NewsFeedService {
 
     private final NewsFeedMapper newsFeedMapper;
@@ -67,6 +71,7 @@ public class NewsFeedServiceImpl implements NewsFeedService {
 
         Page<NewsFeedDto> newsFeedDtoPage = newsFeedPage.map(newsFeedMapper::toGetMyNewsFeedDto);
         NewsFeedPageDto newsFeedPageDto = pageToPageDto(newsFeedDtoPage);
+        System.out.println(newsFeedPageDto);
         return newsFeedPageDto;
     }
 
@@ -89,13 +94,19 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         GetMyFollowersRequestDto getMyFollowersRequestDto = GetMyFollowersRequestDto.builder().userId(userId).build();
         List<FollowerDto> followerList;
         try {
-            followerList = userApi.getMyFollower(getMyFollowersRequestDto).getFollowerList();
+            followerList = userApi.getMyFollower(getMyFollowersRequestDto);
         } catch (Exception e) {
+            log.warn(e.getMessage());
+            log.warn(Arrays.toString(e.getStackTrace()));
             throw new InternalServerErrorException("internal api error");
         }
+        List<NewsFeed> newsFeedList = new ArrayList<>();
 
-        followerList.forEach(followerDto -> System.out.println(followerDto.getFollowerId() + " " + followerDto.getFollowerName()));
-        List<NewsFeed> newsFeedList = createFollowersNewsFeedList(userId, followersNewsFeedType, followerList, relatedPosterId, relatedUserId);
+        System.out.println("팔로워 수 : "+followerList.size());
+
+        if(followerList!=null) {
+            newsFeedList.addAll(createFollowersNewsFeedList(userId, followersNewsFeedType, followerList, relatedPosterId, relatedUserId));
+        }
 
         //내가 한 활동의 관련된 사람 뉴스피드 추가 ( POST 인 경우 관련유저 없음)
         if (activityType != ActivityType.POST) {
