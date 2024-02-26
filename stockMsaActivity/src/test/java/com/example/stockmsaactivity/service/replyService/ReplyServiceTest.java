@@ -4,6 +4,7 @@ import com.example.stockmsaactivity.client.newsFeed.NewsFeedApi;
 import com.example.stockmsaactivity.common.error.ResponseCode;
 import com.example.stockmsaactivity.common.error.ResponseMessage;
 import com.example.stockmsaactivity.domain.poster.Poster;
+import com.example.stockmsaactivity.kafka.KafkaProducer;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
 import com.example.stockmsaactivity.repository.replyRepository.ReplyJpaRepository;
 import com.example.stockmsaactivity.web.dto.request.reply.CreateReplyRequestDto;
@@ -31,8 +32,7 @@ class ReplyServiceTest {
     @Autowired
     ReplyJpaRepository replyJpaRepository;
     @MockBean
-    NewsFeedApi newsFeedApi;
-
+    KafkaProducer kafkaProducer;
     @AfterEach
     void afterEach() {
         replyJpaRepository.deleteAllInBatch();

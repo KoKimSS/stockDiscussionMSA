@@ -10,6 +10,7 @@ import com.example.stockmsaactivity.domain.like.LikeType;
 import com.example.stockmsaactivity.domain.like.Likes;
 import com.example.stockmsaactivity.domain.poster.Poster;
 import com.example.stockmsaactivity.domain.reply.Reply;
+import com.example.stockmsaactivity.kafka.KafkaProducer;
 import com.example.stockmsaactivity.repository.likeRepository.LikesJpaRepository;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
 import com.example.stockmsaactivity.repository.replyRepository.ReplyJpaRepository;
@@ -32,9 +33,8 @@ public class LikesServiceImpl implements LikesService {
     private final LikesJpaRepository likesJpaRepository;
     private final PosterJpaRepository posterJpaRepository;
     private final ReplyJpaRepository replyJpaRepository;
-    private final NewsFeedApi newsFeedApi;
     private final RedisTemplate<String, String> redisTemplate; // Inject RedisTemplate
-
+    private final KafkaProducer kafkaProducer;
 
     @Override
     @Transactional
@@ -52,6 +52,7 @@ public class LikesServiceImpl implements LikesService {
         Likes.LikesBuilder likesBuilder = Likes.builder().likeType(likeType)
                 .userId(userId)
                 .poster(poster);
+
         if (likeType == LikeType.REPLY) {
             Reply reply = replyJpaRepository.findById(replyId)
                     .orElseThrow(() -> new DatabaseErrorException("db 에러"));
@@ -60,20 +61,22 @@ public class LikesServiceImpl implements LikesService {
         }
         if (likeType == LikeType.POSTER) {
             addPosterLikesCntToRedis(posterId);
+            CreateNewsFeedRequestDto createNewsFeedRequestDto = CreateNewsFeedRequestDto.builder()
+                    .userId(userId)
+                    .relatedPosterId(posterId)
+                    .relatedUserId(poster.getUserId())
+                    .activityType("LIKE")
+                    .build();
+            //뉴스피드 생성 서비스 호출 !
+            try {
+                kafkaProducer.createNewsFeed(createNewsFeedRequestDto);
+            } catch (Exception e) {
+                throw new InternalServerErrorException("internal server error");
+            }
         }
 
         Likes newLikes = likesBuilder.build();
         Likes save = likesJpaRepository.save(newLikes);
-
-        //뉴스피드 생성 서비스 호출 !
-        CreateNewsFeedRequestDto createNewsFeedRequestDto = CreateNewsFeedRequestDto.builder()
-                .activityType("활동 타입")
-                .build();
-        try {
-            newsFeedApi.createNewsFeed(createNewsFeedRequestDto);
-        } catch (Exception e) {
-            throw new InternalServerErrorException("internal server error");
-        }
 
         return save.getId();
     }

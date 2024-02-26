@@ -6,6 +6,7 @@ import com.example.stockmsaactivity.client.newsFeed.NewsFeedApi;
 import com.example.stockmsaactivity.common.error.exception.DatabaseErrorException;
 import com.example.stockmsaactivity.common.error.exception.InternalServerErrorException;
 import com.example.stockmsaactivity.domain.poster.Poster;
+import com.example.stockmsaactivity.kafka.KafkaProducer;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
 import com.example.stockmsaactivity.web.dto.request.poster.*;
 import com.example.stockmsaactivity.web.dto.response.poster.*;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 public class PosterServiceImpl implements PosterService {
 
     private final PosterJpaRepository posterJpaRepository;
-    private final NewsFeedApi newsFeedApi;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     @Transactional
@@ -41,11 +42,13 @@ public class PosterServiceImpl implements PosterService {
         //나를 팔로우 하는 사람들의 뉴스피드 업데이트
         //뉴스피드 생성 서비스 호출 !
         CreateNewsFeedRequestDto createNewsFeedRequestDto = CreateNewsFeedRequestDto.builder()
-                .activityType("활동 타입")
+                .activityType("POST")
+                .userId(userId)
+                .relatedPosterId(save.getId())
                 .build();
 
         try {
-            newsFeedApi.createNewsFeed(createNewsFeedRequestDto);
+            kafkaProducer.createNewsFeed(createNewsFeedRequestDto);
         } catch (Exception e) {
             throw new InternalServerErrorException("internal server error");
         }

@@ -5,6 +5,7 @@ import com.example.stockmsaactivity.web.dto.request.poster.GetPosterRequestDto;
 import com.example.stockmsaactivity.web.dto.request.poster.GetPostersByIdListRequestDto;
 import com.example.stockmsaactivity.web.dto.response.ResponseDto;
 import com.example.stockmsaactivity.web.dto.response.poster.PosterDto;
+import feign.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,12 @@ public class InternalPosterController {
     private final PosterService posterService;
 
     @PostMapping("/get-poster-by-id")
-    ResponseEntity getPosterById(
+    ResponseEntity<PosterDto> getPosterById(
             @RequestBody GetPosterRequestDto requestBody
     ) {
         PosterDto poster = posterService.getPoster(requestBody);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.ofSuccess(poster));
+                .body(poster);
     }
 
     @PostMapping("/get-posters-by-id-list")
@@ -37,6 +38,6 @@ public class InternalPosterController {
     ) {
         List<PosterDto> posterByIdList = posterService.getPosterByIdList(requestBody);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.ofSuccess(posterByIdList));
+                .body(posterByIdList);
     }
 }

@@ -7,6 +7,7 @@ import com.example.stockmsaactivity.config.TestRedisConfig;
 import com.example.stockmsaactivity.domain.like.LikeType;
 import com.example.stockmsaactivity.domain.poster.Poster;
 import com.example.stockmsaactivity.domain.reply.Reply;
+import com.example.stockmsaactivity.kafka.KafkaProducer;
 import com.example.stockmsaactivity.repository.likeRepository.LikesJpaRepository;
 import com.example.stockmsaactivity.repository.posterRepository.PosterJpaRepository;
 import com.example.stockmsaactivity.repository.replyRepository.ReplyJpaRepository;
@@ -40,7 +41,7 @@ class LikesServiceTest {
     @Autowired
     private LikesJpaRepository likesJpaRepository;
     @MockBean
-    private NewsFeedApi newsFeedApi;
+    private KafkaProducer kafkaProducer;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
