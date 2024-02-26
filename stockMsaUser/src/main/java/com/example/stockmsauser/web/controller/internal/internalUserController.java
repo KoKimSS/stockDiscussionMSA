@@ -2,6 +2,7 @@ package com.example.stockmsauser.web.controller.internal;
 
 import com.example.stockmsauser.service.userService.UserService;
 import com.example.stockmsauser.web.dto.request.user.GetUserRequestDto;
+import com.example.stockmsauser.web.dto.response.ResponseDto;
 import com.example.stockmsauser.web.dto.response.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

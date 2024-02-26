@@ -6,6 +6,7 @@ import com.example.stockmsauser.common.error.exception.DatabaseErrorException;
 import com.example.stockmsauser.common.error.exception.DuplicateFollowException;
 import com.example.stockmsauser.domain.follow.Follow;
 import com.example.stockmsauser.domain.user.User;
+import com.example.stockmsauser.kafka.KafkaProducer;
 import com.example.stockmsauser.repository.followRepository.FollowJpaRepository;
 import com.example.stockmsauser.repository.userRepository.UserJpaRepository;
 import com.example.stockmsauser.web.dto.request.auth.EmailCheckRequestDto;
@@ -40,7 +41,7 @@ class FollowServiceTest {
     private UserJpaRepository userJpaRepository;
 
     @MockBean
-    private NewsFeedApi newsFeedApi;
+    private KafkaProducer kafkaProducer;
 
     @DisplayName("팔로우시 팔로우 안에 팔로워 팔로잉 유저가 모두 있어야 한다")
     @Test
@@ -50,8 +51,6 @@ class FollowServiceTest {
         User following = createUser("following");
         userJpaRepository.saveAll(List.of(follower, following));
         StartFollowRequestDto requestDto = createStartFollowRequestDto(follower.getId(), following.getId());
-        BDDMockito.doReturn(null).when(newsFeedApi)
-                .createNewsFeed(any(CreateNewsFeedRequestDto.class));
 
         //when
         boolean isSuccess = followService.follow(requestDto);
@@ -77,8 +76,6 @@ class FollowServiceTest {
         User following = createUser("following");
         userJpaRepository.saveAll(List.of(follower, following));
         StartFollowRequestDto requestDto = createStartFollowRequestDto(follower.getId()+11, following.getId());
-        BDDMockito.doReturn(null).when(newsFeedApi)
-                .createNewsFeed(any(CreateNewsFeedRequestDto.class));
 
         //when, then
         assertThrows(DatabaseErrorException.class,()->followService.follow(requestDto));
@@ -91,8 +88,6 @@ class FollowServiceTest {
         User follower = createUser("follower");
         User following = createUser("following");
         userJpaRepository.saveAll(List.of(follower, following));
-        BDDMockito.doReturn(null).when(newsFeedApi)
-                .createNewsFeed(any(CreateNewsFeedRequestDto.class));
         StartFollowRequestDto requestDto = createStartFollowRequestDto(follower.getId(), following.getId());
 
         //when, then

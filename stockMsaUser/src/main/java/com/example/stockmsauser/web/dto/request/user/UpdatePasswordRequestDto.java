@@ -20,7 +20,8 @@ public class UpdatePasswordRequestDto extends RequestDto {
     @NotBlank(message = NOT_BLANK_PASSWORD)
     private String password;
     @NotBlank(message = NOT_BLANK_PASSWORD)
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,13}$",message = NOT_PASSWORD)
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,13}$"
+            ,message = NOT_PASSWORD)
     private String newPassword;
 
     @Builder

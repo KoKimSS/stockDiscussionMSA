@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService {
     public UserDto findById(GetUserRequestDto dto) {
         Long userId = dto.getUserId();
         User user = userJpaRepository.findById(userId).get();
-        System.out.println(user.getName());
         UserDto userDto = UserDto.builder()
                 .id(userId)
                 .email(user.getEmail())

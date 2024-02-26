@@ -2,6 +2,7 @@ package com.example.stockmsauser.web.controller.internal;
 
 import com.example.stockmsauser.service.followService.FollowService;
 import com.example.stockmsauser.web.dto.request.follow.GetMyFollowersRequestDto;
+import com.example.stockmsauser.web.dto.response.ResponseDto;
 import com.example.stockmsauser.web.dto.response.follow.FollowerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
