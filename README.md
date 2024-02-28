@@ -42,9 +42,9 @@ Spring으로 만든 종목토론방 프로젝트입니다.
 <br/>
 
 ## ⚡ 주요 기능 WorkFlow
-- **NewsFeed 데이터 생성**
-- **StockCandle 데이터 생성**
-- **JWT 인증**
+- **NewsFeed 데이터 생성 - kafka 활용**
+- **StockCandle 데이터 생성 - batch 활용**
+- **JWT 인증 - jwt 활용**
 <br/>
 
 ## 💢 Trouble Shooting
