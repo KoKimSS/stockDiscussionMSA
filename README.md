@@ -26,6 +26,10 @@ Spring으로 만든 종목토론방 프로젝트입니다.
 ## 📍 시스템 구성도
 ![MSA시스템구성도 (2)](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/34661f94-7761-413b-8e3c-5f31a80f3d24)
 
+
+## 📍 주요 기능
+- **로그인,회원가입** : 상세 페이지 <a href="https://github.com/chaehyuenwoo/SpringBoot-Project-MEGABOX/wiki/주요-기능-소개(Login)" >상세보기 - WIKI 이동</a>
+
 # **Docker Compose 사용 가이드**
 
 ## **1. 컴포즈 실행**
