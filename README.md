@@ -1,5 +1,5 @@
 # 주식 종목 토론방 
-Spring을 사용한 RestfulAPI 개인 프로젝트
+**Spring을 사용한 RestfulAPI 개인 프로젝트**
 
 <br/>
 
