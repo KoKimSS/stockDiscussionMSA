@@ -56,7 +56,7 @@ Spring으로 만든 종목토론방 프로젝트입니다.
 - **좋아요 count 동시성 문제 ISSUE**
 <br/>  
   
-# **Docker Compose 사용 가이드**
+## **Docker Compose 사용 가이드**
 - **Docker Compose 명령어** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/DockerCompose%EB%AA%85%EB%A0%B9%EC%96%B4" >상세보기 - WIKI 이동</a>
 
 
