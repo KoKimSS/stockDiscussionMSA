@@ -12,7 +12,7 @@ Spring으로 만든 종목토론방 프로젝트입니다.
 
 ## 🕰️ 개발 기간
 * 24.01.24일 ~
-
+<br/>
 
 ## ⚙️ 개발 환경
 - `Java 17`
@@ -22,6 +22,7 @@ Spring으로 만든 종목토론방 프로젝트입니다.
 - **지속적 통합 및 배포(CI/CD)** : Jenkins (2.444)
 - **분산 데이터 처리 및 메시징** : Redis (7.2.4), Kafka (5.5.1), Zookeeper (5.5.1)
 - **컨테이너화 및 가상화** : Docker (25.0.0)
+<br/>
 
 ## 📍 시스템 구성도
 ![MSA시스템구성도 (2)](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/34661f94-7761-413b-8e3c-5f31a80f3d24)
