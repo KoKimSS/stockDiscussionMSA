@@ -26,7 +26,7 @@ Spring으로 만든 종목토론방 프로젝트입니다.
 
 ## 📍 시스템 구성도
 ![MSA시스템구성도 (2)](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/34661f94-7761-413b-8e3c-5f31a80f3d24)
-
+<br/>
 
 ## 📍 MS 별 주요 기능
 - **USER MS**
@@ -38,18 +38,20 @@ Spring으로 만든 종목토론방 프로젝트입니다.
   - **뉴스피드 생성 및 조회** : 상세 페이지 <a href="https://github.com/chaehyuenwoo/SpringBoot-Project-MEGABOX/wiki/주요-기능-소개(Login)" >상세보기 - WIKI 이동</a>
 - **STOCK MS**
   - **STOCK 정보 생성 및 조회** : 상세 페이지 <a href="https://github.com/chaehyuenwoo/SpringBoot-Project-MEGABOX/wiki/주요-기능-소개(Login)" >상세보기 - WIKI 이동</a>
+<br/>
 
 ## ⚡ 주요 기능 WorkFlow
 - **NewsFeed 데이터 생성**
 - **StockCandle 데이터 생성**
 - **JWT 인증**
+<br/>
 
 ## 💢 Trouble Shooting
 - **NewsFeed 데이터 생성 비동기 처리**
 - **StockCandle 데이터 생성 Batch 성능 ISSUE**
 - **StockCandle 데이터 조회 성능 ISSUE**
 - **좋아요 count 동시성 문제 ISSUE**
-  
+<br/>  
   
 # **Docker Compose 사용 가이드**
 
