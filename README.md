@@ -1,5 +1,5 @@
 # 주식 종목 토론방 
-스프링 부트를 사용한 RestfulAPI 개인 프로젝트
+Spring을 사용한 RestfulAPI 개인 프로젝트
 
 
 
