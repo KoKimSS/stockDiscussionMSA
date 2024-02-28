@@ -32,13 +32,15 @@ Spring으로 만든 종목토론방 프로젝트입니다.
 ## 📍 MS 별 주요 기능
 - **USER MS**
   - **로그인, 회원가입** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/LogIn(Out),-Sign-Up" >상세보기 - WIKI 이동</a>
-  - **팔로우** : 상세 페이지 <a href="https://github.com/chaehyuenwoo/SpringBoot-Project-MEGABOX/wiki/주요-기능-소개(Login)" >상세보기 - WIKI 이동</a>
+  - **팔로우** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/Follow" >상세보기 - WIKI 이동</a>
 - **ACTIVITY MS**
-  - **포스터, 댓글, 좋아요 기능** : 상세 페이지 <a href="https://github.com/chaehyuenwoo/SpringBoot-Project-MEGABOX/wiki/주요-기능-소개(Login)" >상세보기 - WIKI 이동</a>
+  - **포스터** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/POSTER" >상세보기 - WIKI 이동</a>
+  - **댓글** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/REPLY" >상세보기 - WIKI 이동</a>
+  - **좋아요** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/LIKE" >상세보기 - WIKI 이동</a>
 - **NEWSFEED MS**
-  - **뉴스피드 생성 및 조회** : 상세 페이지 <a href="https://github.com/chaehyuenwoo/SpringBoot-Project-MEGABOX/wiki/주요-기능-소개(Login)" >상세보기 - WIKI 이동</a>
+  - **뉴스피드** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/NEWSFEED" >상세보기 - WIKI 이동</a>
 - **STOCK MS**
-  - **STOCK 정보 생성 및 조회** : 상세 페이지 <a href="https://github.com/chaehyuenwoo/SpringBoot-Project-MEGABOX/wiki/주요-기능-소개(Login)" >상세보기 - WIKI 이동</a>
+  - **주식** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/Stock" >상세보기 - WIKI 이동</a>
 <br/>
 
 ## ⚡ 주요 기능 WorkFlow
