@@ -26,7 +26,13 @@ Spring 으로 만든 종목토론방 프로젝트입니다.
 <br/>
 
 ## 📍 시스템 구성도
+<details>
+  <summary> 시스템 구성도 열기 </summary>
+  
 ![MSA시스템구성도-페이지-1 drawio](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/6485b467-1ff0-4f9f-b363-f6f83cfd552b)
+
+</details>
+
 <br/>
 
 ## 📍 MS 별 주요 기능
@@ -45,7 +51,13 @@ Spring 으로 만든 종목토론방 프로젝트입니다.
 
 ## ⚡ 주요 기능 WorkFlow
 - **NewsFeed 데이터 생성 - kafka 활용**
-![MSA시스템구성도-페이지-2 drawio](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/af55691f-8e54-4213-97a9-fe74945d16bb)
+  <details>
+    <summary> WorkFlow 열기 </summary>
+  
+  ![MSA시스템구성도-페이지-2 drawio](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/af55691f-8e54-4213-97a9-fe74945d16bb)
+
+  </details>
+
 
 <br/>
 
