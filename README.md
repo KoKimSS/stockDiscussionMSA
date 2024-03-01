@@ -17,12 +17,12 @@ Spring 으로 만든 종목토론방 프로젝트입니다.
 
 ## ⚙️ 개발 환경
 - `Java 17`
-- **통합 개발 환경(IDE)** : IntelliJ 2202.3.3
 - **프레임워크(Framework)** : Springboot(3.x,2.x)
 - **데이터베이스(Database)** : MySQL (8.0.22)
-- **지속적 통합 및 배포(CI/CD)** : Jenkins (2.444)
 - **분산 데이터 처리 및 메시징** : Redis (7.2.4), Kafka (5.5.1), Zookeeper (5.5.1)
+- **지속적 통합 및 배포(CI/CD)** : Jenkins (2.444)
 - **컨테이너화 및 가상화** : Docker (25.0.0)
+- **통합 개발 환경(IDE)** : IntelliJ 2202.3.3
 <br/>
 
 ## 📍 시스템 구성도
