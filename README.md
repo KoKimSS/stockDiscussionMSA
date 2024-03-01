@@ -45,6 +45,8 @@ Spring 으로 만든 종목토론방 프로젝트입니다.
 
 ## ⚡ 주요 기능 WorkFlow
 - **NewsFeed 데이터 생성 - kafka 활용**
+![MSA시스템구성도-페이지-2 drawio](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/a5678f86-ecdc-44a8-9a6e-e0e5571a3dc8)
+<br/>
 - **StockCandle 데이터 생성 - batch 활용**
 - **JWT 인증 - jwt 활용**
 <br/>
