@@ -31,7 +31,7 @@ Spring 으로 만든 종목토론방 프로젝트입니다.
 
 ## 📍 MS 별 주요 기능
 - **USER MS**
-  - **로그인, 회원가입** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/LogIn(Out),-Sign-Up" >상세보기 - WIKI 이동</a>
+  - **유저** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/User" >상세보기 - WIKI 이동</a>
   - **팔로우** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/Follow" >상세보기 - WIKI 이동</a>
 - **ACTIVITY MS**
   - **포스터** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/POSTER" >상세보기 - WIKI 이동</a>
