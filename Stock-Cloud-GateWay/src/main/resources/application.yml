@@ -27,3 +27,7 @@ spring:
             uri: http://localhost:8083
             predicates:
               - Path=/api/newsFeed/**
+          - id: stock
+            uri: http://localhost:8084
+            predicates:
+              - Path=/api/stock/**

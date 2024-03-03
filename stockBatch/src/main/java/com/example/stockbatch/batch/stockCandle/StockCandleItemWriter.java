@@ -1,7 +1,9 @@
 package com.example.stockbatch.batch.stockCandle;
 
 import com.example.stockbatch.domain.StockCandle;
+import com.example.stockbatch.repository.StockCandleJpaRepository;
 import com.example.stockbatch.repository.StockJdbcRepository;
+import com.example.stockbatch.repository.StockJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -19,6 +21,7 @@ import java.util.List;
 public class StockCandleItemWriter implements ItemWriter<List<StockCandle>> {
 
     private final StockJdbcRepository stockJdbcRepository;
+    private final StockCandleJpaRepository stockCandleJpaRepository;
 
     @Override
     public void write(Chunk<? extends List<StockCandle>> chunk) throws Exception {
@@ -27,6 +30,7 @@ public class StockCandleItemWriter implements ItemWriter<List<StockCandle>> {
         List<StockCandle> list = new ArrayList<>();
         items.forEach(i->list.addAll(i));
         log.info("리스트 사이즈={}",list.size());
-        stockJdbcRepository.batchInsertStockCandles(list);
+        stockCandleJpaRepository.saveAll(list);
+//        stockJdbcRepository.batchInsertStockCandles(list);
     }
 }

@@ -20,7 +20,8 @@ import java.util.List;
 public class StockCandleItemReader implements ItemReader<Stock> {
 
     private final StockJpaRepository stockJpaRepository;
-    private final StockCandleJpaRepository stockCandleJpaRepository;
+
+//    private final StockCandleJpaRepository stockCandleJpaRepository;
     private Iterator<Stock> stockIterator;
 
     @BeforeStep

@@ -34,9 +34,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    //mysql
+    //DB
     implementation 'com.mysql:mysql-connector-j'
     runtimeOnly 'com.mysql:mysql-connector-j'
+
 
     //json
     implementation 'com.fasterxml.jackson.core:jackson-databind'
@@ -44,6 +45,7 @@ dependencies {
     //test
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+    testRuntimeOnly "com.h2database:h2"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
 }

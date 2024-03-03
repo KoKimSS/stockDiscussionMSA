@@ -13,12 +13,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  kafka:
-    consumer:
-      bootstrap-servers:
-      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
-      value-deserializer: org.apache.kafka.common.serialization.StringSerializer
-
 logging:
   level:
     org.hibernate.SQL: debug
