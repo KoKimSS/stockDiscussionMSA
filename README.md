@@ -1,106 +1,78 @@
-# **Docker Compose 사용 가이드**
+# 📈 주식 종목 토론방 
+**Spring 을 사용한 RestfulAPI 개인 프로젝트**
 
-## **1. 컴포즈 실행**
+<br/>
 
-### **1.1 기본 실행**
+## 🖥️ 프로젝트 소개
+Spring 으로 만든 종목토론방 프로젝트입니다.
 
-컴포즈 파일이 존재하는 디렉터리에서 실행합니다.
+주요 기능으로는 뉴스피드 기능과 주식종목 데이터 제공 기능이 있습니다.
 
-```bash
-docker-compose up -d
-```
+<br>
 
-### **1.2 특정 파일 사용**
 
-다른 컴포즈 파일을 사용하려면 파일 경로를 지정합니다.
+## 🕰️ 개발 기간
+* 24.01.24일 ~
+<br/>
 
-```bash
-docker-compose -f 컴포즈파일_경로 up
-```
+## ⚙️ 개발 환경
+- `Java 17`
+- **프레임워크(Framework)** : Springboot(3.x,2.x)
+- **데이터베이스(Database)** : MySQL (8.0.22)
+- **분산 데이터 처리 및 메시징** : Redis (7.2.4), Kafka (5.5.1), Zookeeper (5.5.1)
+- **지속적 통합 및 배포(CI/CD)** : Jenkins (2.444)
+- **컨테이너화 및 가상화** : Docker (25.0.0)
+- **통합 개발 환경(IDE)** : IntelliJ 2202.3.3
+<br/>
 
-### **1.3 백그라운드 실행**
+## 📍 시스템 구성도
+<details>
+  <summary> 시스템 구성도 열기 </summary>
+  
+![MSA시스템구성도-페이지-1 drawio](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/6485b467-1ff0-4f9f-b363-f6f83cfd552b)
 
-컴포즈를 백그라운드에서 실행합니다.
+</details>
 
-```bash
-docker-compose up -d
-```
+<br/>
 
-### **1.4 서비스 스케일 조정**
+## 📍 MS 별 주요 기능
+- **USER MS**
+  - **유저** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/User" >상세보기 - WIKI 이동</a>
+  - **팔로우** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/Follow" >상세보기 - WIKI 이동</a>
+- **ACTIVITY MS**
+  - **포스터** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/POSTER" >상세보기 - WIKI 이동</a>
+  - **댓글** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/REPLY" >상세보기 - WIKI 이동</a>
+  - **좋아요** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/LIKE" >상세보기 - WIKI 이동</a>
+- **NEWSFEED MS**
+  - **뉴스피드** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/NEWSFEED" >상세보기 - WIKI 이동</a>
+- **STOCK MS**
+  - **주식** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/Stock" >상세보기 - WIKI 이동</a>
+<br/>
 
-특정 서비스의 컨테이너 개수를 조정합니다.
+## ⚡ 주요 기능 WorkFlow
+- **NewsFeed 데이터 생성 - kafka 활용**
+  <details>
+    <summary> WorkFlow 열기 </summary>
+  
+  ![MSA시스템구성도-페이지-2 drawio](https://github.com/KoKimSS/stockDiscussionMSA/assets/97881804/af55691f-8e54-4213-97a9-fe74945d16bb)
 
-```bash
-docker-compose --scale 서비스_명=서비스수 up
-```
+  </details>
 
-## **2. 컴포즈 종료**
 
-### **2.1 모든 컨테이너 종료 및 삭제**
+<br/>
 
-모든 컴포즈 컨테이너를 종료하고 삭제합니다.
+- **StockCandle 데이터 생성 - batch 활용**
+- **JWT 인증 - jwt 활용**
+<br/>
 
-```bash
-docker-compose down
-```
+## 💢 Trouble Shooting
+- **NewsFeed 데이터 생성 비동기 처리**
+- **StockCandle 데이터 생성 Batch 성능 ISSUE**
+- **StockCandle 데이터 조회 성능 ISSUE**
+- **좋아요 count 동시성 문제 ISSUE**
+<br/>  
+  
+## **Docker Compose 사용 가이드**
+- **Docker Compose 명령어** : 상세 페이지 <a href="https://github.com/KoKimSS/stockDiscussionMSA/wiki/DockerCompose%EB%AA%85%EB%A0%B9%EC%96%B4" >상세보기 - WIKI 이동</a>
 
-## **3. 컴포즈 정지**
 
-### **3.1 모든 컨테이너 정지**
-
-모든 컴포즈 컨테이너를 정지합니다.
-
-```bash
-docker-compose stop
-```
-
-## **4. 컴포즈 컨테이너 확인**
-
-컴포즈로 실행 중인 컨테이너의 상태를 확인합니다.
-
-```bash
-docker-compose ps
-```
-
-## **5. 로그 확인**
-
-### **5.1 특정 서비스의 로그 확인**
-
-특정 서비스의 로그를 확인합니다.
-
-```bash
-docker-compose logs 서비스_이름 -f
-```
-
-### **5.2 실시간 로그 확인**
-
-실시간으로 로그를 확인합니다.
-
-## **6. 컨테이너 조작**
-
-### **6.1 컨테이너 실행**
-
-서비스에 지정된 컨테이너를 실행합니다.
-
-```bash
-docker-compose run 서비스_명
-```
-
-### **6.2 컨테이너 시작 / 정지 / 일시정지 / 재개**
-
-서비스에 지정된 컨테이너를 시작, 정지, 일시정지, 재개합니다.
-
-```bash
-docker-compose start 서비스_명
-docker-compose stop 서비스_명
-docker-compose pause 서비스_명
-docker-compose unpause 서비스_명
-```
-
-## **7. 공개된 포트 표시**
-
-컴포즈로 실행 중인 서비스의 공개된 포트를 표시합니다.
-
-```bash
-docker-compose port
-```
